@@ -2,7 +2,7 @@
 lock '3.4.0'
 
 set :application, 'gpCollect'
-set :repo_url, 'git@github.com:misch/gpCollect'
+set :repo_url, 'git@github.com:panmari/gpCollect'
 
 set :services, [:thin]
 require 'capistrano/service'
