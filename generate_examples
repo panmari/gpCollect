@@ -1,7 +1,0 @@
-rails generate scaffold Run start:datetime duration:time runner:references
-
-rails generate scaffold Category sex:string age:integer
-
-rails generate migration AddCategoryRefToRun category:references
-
-rails generate migration AddAgeMinToCategories age_min:integer AddAgeMaxToCategories age_max:integer RemoveAgeFromCategories
