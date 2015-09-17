@@ -39,7 +39,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('public/assets', 'log')
 # set :keep_releases, 5
 
 ConditionalDeploy.configure(self) do |conditional|
-  conditional.register :skip_migrations, :none_match => ['db/migrate'] do |c|
+  conditional.register :skip_migrations, :none_match => ['db/migrate'], default: true do |c|
     c.skip_task 'deploy:migrate'
   end
 end
