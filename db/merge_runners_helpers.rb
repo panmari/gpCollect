@@ -85,10 +85,9 @@ module MergeRunnersHelpers
       merged_runners = 0
       find_runners_only_differing_in(attr, ["f_unaccent(#{attr}) as unaccented"], ['unaccented']).each_with_index do |entries|
         # The correct entry is the one with more accents (probably?).
-        correct_entry = entries.max_by { |entry| count_accents(entry[attr]) }
-        wrong_entries = entries.reject { |entry| entry == correct_entry }
-        wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
-        merged_runners += wrong_entries.size
+        merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
+          count_accents(runner[attr])
+        end
       end
       puts "Merged #{merged_runners} entries based on accents of #{attr}."
     end
@@ -105,10 +104,9 @@ module MergeRunnersHelpers
         # Reichenbach I. K.
         # Reichenbach i. K.
         # the version at the bottom is preferred.
-        correct_entry = entries.max_by {|c| c[attr].scan(/[[:lower:]]/).size}
-        wrong_entries = entries.reject { |entry| entry == correct_entry }
-        wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
-        merged_runners += wrong_entries.size
+        merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
+          runner[attr].scan(/[[:lower:]]/).size
+        end
       end
       puts "Merged #{merged_runners} entries based on case of #{attr}."
     end
@@ -118,17 +116,10 @@ module MergeRunnersHelpers
     POSSIBLY_WRONGLY_SPACED_ATTRIBUTES.each do |attr|
       merged_runners = 0
       find_runners_only_differing_in(attr, ["replace(#{attr}, '-', ' ') as spaced"], ['spaced']).each do |entries|
-        if entries.size != 2
-          raise "More than two possibilities, dont know what to do for #{entries}"
-        end
         # We take the one with more spaces as he correct one.
-        correct_entry, wrong_entry = if entries.first[attr].scan(/ /).size > entries.second[attr].scan(/ /).size
-                                       [entries.first, entries.second]
-                                     else
-                                       [entries.second, entries.first]
-                                     end
-        merge_runners(correct_entry, wrong_entry)
-        merged_runners += 1
+        merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
+          runner[attr].scan(/ /).size
+        end
       end
       puts "Merged #{merged_runners} entries based on spaces of #{attr}."
     end
@@ -139,14 +130,23 @@ module MergeRunnersHelpers
       merged_runners = 0
       find_runners_only_differing_in(attr, ["replace(replace(replace(lower(#{attr}), 'ae', 'ä'), 'oe', 'ö'), 'ue', 'ü') as with_umlaut"],
                                      ['with_umlaut']).each do |entries|
-        # assume the correct entry is the one with more Umlaute, as there seemed to be no unicode support in earlier data.
-        correct_entry = entries.max_by {|entry| entry[attr].count('äüöÄÜÖ')}
-        wrong_entries = entries.reject { |entry| entry == correct_entry }
-        wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
-        merged_runners += wrong_entries.size
+        # assume the correct entry is the one with more Umlaute,
+        # as there seemed to be no unicode support in earlier data.
+        merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
+          runner[attr].count('äüöÄÜÖ')
+        end
       end
       puts "Merged #{merged_runners} entries based on Umlaute in #{attr}"
     end
+  end
+
+  # Reduces the given entries to only one, chosen by the block passed.
+  # The one that evaluates to the maximum of the block passed will be retained, the others merged with it.
+  def self.reduce_to_one_runner_by_condition(entries, &block)
+    correct_entry = entries.max_by { |entry| yield(entry) }
+    wrong_entries = entries.reject { |entry| entry == correct_entry }
+    wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
+    wrong_entries.size
   end
 
     # TODO: Try to fix club_or_hometown duplicates, e. g.
