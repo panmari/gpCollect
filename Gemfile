@@ -77,6 +77,7 @@ group :development do
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano-conditional', require: false
   gem 'capistrano-rails-tail-log', require: false
+  gem 'capistrano-deploytags', require: false
 end
 
 group :development, :test do
