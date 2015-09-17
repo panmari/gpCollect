@@ -38,8 +38,17 @@ module MergeRunnersHelpers
   POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES = [:first_name, :last_name, :club_or_hometown]
 
   def self.merge_duplicates
+    self.merge_duplicates_based_on_sex
+    self.merge_duplicates_based_on_nationality
+    self.merge_duplicates_based_on_accents
+    self.merge_duplicates_based_on_case
+    self.merge_duplicates_based_on_space
+    self.merge_duplicates_based_on_umlaute
+  end
+
+  # Handle wrong sex, try to find correct sex using name list.
+  def self.merge_duplicates_based_on_sex
     merged_runners = 0
-    # Handle wrong sex, try to find correct sex using name list.
     find_runners_only_differing_in(:sex).each do |entries|
       if entries.size != 2
         raise "More than two possibilities, dont know what to do for #{entries}"
@@ -57,7 +66,9 @@ module MergeRunnersHelpers
       merged_runners += 1
     end
     puts "Merged #{merged_runners} entries based on sex."
+  end
 
+  def self.merge_duplicates_based_on_nationality
     merged_runners = 0
     find_runners_only_differing_in(:nationality).each do |entries|
       # Use most recently known nationality for runner that has a non-blank nationality.
@@ -67,7 +78,9 @@ module MergeRunnersHelpers
       merged_runners += wrong_entries.size
     end
     puts "Merged #{merged_runners} entries based nationality"
+  end
 
+  def self.merge_duplicates_based_on_accents
     POSSIBLY_WRONGLY_ACCENTED_ATTRIBUTES.each do |attr|
       merged_runners = 0
       find_runners_only_differing_in(attr, ["f_unaccent(#{attr}) as unaccented"], ['unaccented']).each_with_index do |entries|
@@ -79,11 +92,12 @@ module MergeRunnersHelpers
       end
       puts "Merged #{merged_runners} entries based on accents of #{attr}."
     end
+  end
 
-
-    # Try to fix case sensitive duplicates in club_or_hometown, e. g. in
-    # Veronique	Plessis	Arc Et Senans
-    # Veronique	Plessis	Arc et Senans
+  # Try to fix case sensitive duplicates in club_or_hometown, e. g. in
+  # Veronique	Plessis	Arc Et Senans
+  # Veronique	Plessis	Arc et Senans
+  def self.merge_duplicates_based_on_case
     POSSIBLY_WRONGLY_CASED_ATTRIBUTES.each do |attr|
       merged_runners = 0
       find_runners_only_differing_in(attr, ["f_unaccent(lower(#{attr})) as low"], ['low']).each do |entries|
@@ -98,7 +112,9 @@ module MergeRunnersHelpers
       end
       puts "Merged #{merged_runners} entries based on case of #{attr}."
     end
+  end
 
+  def self.merge_duplicates_based_on_space
     POSSIBLY_WRONGLY_SPACED_ATTRIBUTES.each do |attr|
       merged_runners = 0
       find_runners_only_differing_in(attr, ["replace(#{attr}, '-', ' ') as spaced"], ['spaced']).each do |entries|
@@ -116,7 +132,9 @@ module MergeRunnersHelpers
       end
       puts "Merged #{merged_runners} entries based on spaces of #{attr}."
     end
+  end
 
+  def self.merge_duplicates_based_on_umlaute
     POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.each do |attr|
       merged_runners = 0
       find_runners_only_differing_in(attr, ["replace(replace(replace(lower(#{attr}), 'ae', 'ä'), 'oe', 'ö'), 'ue', 'ü') as with_umlaut"],
@@ -129,11 +147,11 @@ module MergeRunnersHelpers
       end
       puts "Merged #{merged_runners} entries based on Umlaute in #{attr}"
     end
+  end
 
     # TODO: Try to fix club_or_hometown duplicates, e. g.
     # Achim	Seifermann	LAUFWELT de Lauftreff
     # Achim	Seifermann	Laufwelt.de
     #only_differing_club_or_hometown = Runner.select(identifying_runner_attributes - [:club_or_hometown])
     #                                      .group(identifying_runner_attributes - [:club_or_hometown]).having('count(*) > 1')
-  end
 end

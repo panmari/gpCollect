@@ -50,7 +50,8 @@ class RuntimeChart < LazyHighCharts::HighChart
                    month: '%H:%M:%S',
                    year: '%H:%M:%S'
                },
-               shared: true)
+               title: { text: 'Time'}
+    )
     self.tooltip(
         useHTML: true,
         #shared: true,
