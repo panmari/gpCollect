@@ -100,11 +100,13 @@ namespace :db do
     end
   end
 
+  desc "Try to merge runners that are most probably the same person"
   task merge_runners: :environment do
     require_relative '../../db/merge_runners_helpers'
     MergeRunnersHelpers::merge_duplicates
   end
 
+  desc "Create aggregates to keep some often queried attributes cached."
   task create_run_aggregates: :environment do
     RunDayCategoryAggregate.delete_all
     ActiveRecord::Base.connection.reset_pk_sequence!(RunDayCategoryAggregate.table_name)
