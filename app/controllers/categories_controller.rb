@@ -4,9 +4,9 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    all_categories = Category.includes(run_day_category_aggregates: :run_day).load
-    @chart = CompareCategoriesChart.new(all_categories)
-    @participant_chart = ParticipantsChart.new(all_categories)
+    @categories = Category.includes(run_day_category_aggregates: :run_day).load
+    @chart = CompareCategoriesChart.new(@categories)
+    @participant_chart = ParticipantsChart.new(@categories)
     render 'show'
   end
 
