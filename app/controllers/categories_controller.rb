@@ -11,6 +11,7 @@ class CategoriesController < ApplicationController
   # GET /categories/1.json
   def show
     @chart = CompareCategoriesChart.new([@category])
+    @participant_chart = ParticipantsChart.new([@category])
   end
 
   private
