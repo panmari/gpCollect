@@ -3,21 +3,3 @@
 
 <div id="participant_chart" style="width:100%; height:500px;"></div>
 <%= high_chart("participant_chart", @participant_chart) %>
-
-<p>
-  <strong>Sex:</strong>
-  <%= @category.sex %>
-</p>
-
-<p>
-  <strong>Min age:</strong>
-  <%= @category.age_min %>
-</p>
-
-<p>
-  <strong>Max age:</strong>
-  <%= @category.age_max %>
-</p>
-
-<%= link_to 'Edit', edit_category_path(@category) %> |
-<%= link_to 'Back', categories_path %>

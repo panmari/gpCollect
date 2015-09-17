@@ -24,7 +24,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
 
     ## Fill with data
     categories.each do |category|
-      data = category.run_day_category_aggregates.includes(:run_day).map do |agg|
+      data = category.run_day_category_aggregates.map do |agg|
         count = agg.runs_count
         [LazyHighCharts::OptionsKeyFilter.date_to_js_code(agg.run_day.date), count]
       end

@@ -4,7 +4,10 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.all
+    all_categories = Category.includes(run_day_category_aggregates: :run_day).load
+    @chart = CompareCategoriesChart.new(all_categories)
+    @participant_chart = ParticipantsChart.new(all_categories)
+    render 'show'
   end
 
   # GET /categories/1
@@ -17,11 +20,6 @@ class CategoriesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_category
-      @category = Category.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def category_params
-      params.require(:category).permit(:sex, :min_age, :max_age)
+      @category = Category.includes(run_day_category_aggregates: :run_day).find(params[:id])
     end
 end
