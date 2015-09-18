@@ -4,6 +4,7 @@ $ ->
     processing: true,
     serverSide: true,
     ajax: source,
+    responsive: true,
     columns: [
       null,
       null,
