@@ -1,6 +1,6 @@
 <div id="runs_chart" style="width:100%; height:300px;"></div>
 <%= high_chart("runs_chart", @chart)  %>
-<table class="table table-striped">
+<table class="table table-striped" id="compare-runners-datatable">
   <thead>
   <tr>
     <th><%= Runner.human_attribute_name(:name) %></th>
@@ -8,6 +8,7 @@
     <th><%= Runner.human_attribute_name(:nationality) %></th>
     <th><%= Runner.human_attribute_name(:runs_count) %></th>
     <th><%= Runner.human_attribute_name(:mean_run_duration) %></th>
+    <th><%= Runner.human_attribute_name(:fastest_run) %></th>
   </tr>
   </thead>
   <tbody>
@@ -18,6 +19,7 @@
         <td><%= runner.nationality %></td>
         <td><%= runner.runs_count %></td>
         <td><%= runner.mean_run_duration %></td>
+        <td><%= runner.fastest_run_duration %></td>
       </tr>
   <% end %>
   </tbody>
