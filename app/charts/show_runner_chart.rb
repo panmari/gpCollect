@@ -22,6 +22,5 @@ class ShowRunnerChart < RuntimeChart
       run.run_day_category_aggregate.mean_duration
     end
     self.series(name: 'Mean category', data: data, type: 'line')
-
   end
 end
