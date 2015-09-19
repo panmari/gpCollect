@@ -5,7 +5,8 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     @categories = Category.includes(run_day_category_aggregates: :run_day).load
-    @chart = CompareCategoriesChart.new(@categories)
+    @chart = CompareCategoriesChart.new(@categories, 'mean')
+    @min_duration_chart = CompareCategoriesChart.new(@categories, 'min')
     @participant_chart = ParticipantsChart.new(@categories)
     render 'show'
   end
@@ -13,7 +14,8 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
-    @chart = CompareCategoriesChart.new([@category])
+    @chart = CompareCategoriesChart.new([@category], 'mean')
+    @min_duration_chart = CompareCategoriesChart.new([@category], 'min')
     @participant_chart = ParticipantsChart.new([@category])
   end
 
