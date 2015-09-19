@@ -1,6 +1,7 @@
 class CompareCategoriesChart < RuntimeChart
   def initialize(categories)
     super()
+    title(text: 'Average time per category')
 
     ## Fill with data
     categories.each do |category|

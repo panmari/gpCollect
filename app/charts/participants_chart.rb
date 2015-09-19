@@ -1,11 +1,11 @@
 class ParticipantsChart < LazyHighCharts::HighChart
   def initialize(categories)
     super('graph')
+    self.title(text: 'Number of participants per category')
     self.chart(type: 'column')
     self.plot_options(column: {
                           stacking: 'normal'
                       })
-    self.title(text: nil)
     self.legend(layout: 'horizontal')
 
     x_axis_ticks = RunDay.all.map { |run_day| LazyHighCharts::OptionsKeyFilter.date_to_js_code(run_day.date) }
