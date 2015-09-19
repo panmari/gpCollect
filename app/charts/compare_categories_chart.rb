@@ -1,6 +1,7 @@
 class CompareCategoriesChart < RuntimeChart
   def initialize(categories, mode)
     super()
+    categories = Array.wrap(categories)
     title(text: "#{mode.titleize} time per category")
 
     ## Fill with data

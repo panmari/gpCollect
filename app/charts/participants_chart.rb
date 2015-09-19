@@ -1,6 +1,7 @@
 class ParticipantsChart < LazyHighCharts::HighChart
   def initialize(categories)
     super('graph')
+    categories = Array.wrap(categories)
     self.title(text: 'Number of participants per category')
     self.chart(type: 'column')
     self.plot_options(column: {
