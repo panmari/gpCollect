@@ -50,20 +50,18 @@ module MergeRunnersHelpers
   def self.merge_duplicates_based_on_sex
     merged_runners = 0
     find_runners_only_differing_in(:sex).each do |entries|
-      if entries.size != 2
-        raise "More than two possibilities, dont know what to do for #{entries}"
-      end
       first_name = entries.first.first_name
-      correct_entry, wrong_entry = if MALE_FIRST_NAMES.include?(first_name)
-                                     # M comes first, so ordering by sex will return it first.
-                                     entries.sort_by(&:sex)
-                                   elsif FEMALE_FIRST_NAMES.include?(first_name)
-                                     entries.sort_by(&:sex).reverse
-                                   else
-                                     raise "Could not match gender to #{entries}, please extend names list."
-                                   end
-      merge_runners(correct_entry, wrong_entry)
-      merged_runners += 1
+      correct_sex = if MALE_FIRST_NAMES.include?(first_name)
+                      'M'
+                    elsif FEMALE_FIRST_NAMES.include?(first_name)
+                      'W'
+                    else
+                      raise "Could not match gender to #{entries}, please extend names list."
+                    end
+      merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
+        # TODO: Specify which one to pick if there are multiple runners with the correct sex.
+        runner.sex == correct_sex ? 1 : 0
+      end
     end
     puts "Merged #{merged_runners} entries based on sex."
   end
@@ -83,7 +81,7 @@ module MergeRunnersHelpers
   def self.merge_duplicates_based_on_accents
     POSSIBLY_WRONGLY_ACCENTED_ATTRIBUTES.each do |attr|
       merged_runners = 0
-      find_runners_only_differing_in(attr, ["f_unaccent(#{attr}) as unaccented"], ['unaccented']).each_with_index do |entries|
+      find_runners_only_differing_in(attr, ["f_unaccent(#{attr}) as unaccented"], ['unaccented']).each do |entries|
         # The correct entry is the one with more accents (probably?).
         merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
           count_accents(runner[attr])
