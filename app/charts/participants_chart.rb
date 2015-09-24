@@ -3,8 +3,8 @@ class ParticipantsChart < LazyHighCharts::HighChart
     super('graph')
     categories = Array.wrap(categories)
     self.title(text: 'Number of participants per category')
-    self.chart(type: 'column')
-    self.plot_options(column: {
+    self.chart(type: 'area')
+    self.plot_options(area: {
                           stacking: 'normal'
                       })
     self.legend(layout: 'horizontal')

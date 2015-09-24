@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.includes(run_day_category_aggregates: :run_day).load
+    @categories = Category.includes(run_day_category_aggregates: :run_day).sort_by{|c| c.age_min || c.age_max }
     @chart = CompareCategoriesChart.new(@categories, 'mean')
     @min_duration_chart = CompareCategoriesChart.new(@categories, 'min')
     @participant_chart = ParticipantsChart.new(@categories)
