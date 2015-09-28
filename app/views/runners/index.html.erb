@@ -22,9 +22,12 @@
   <div class="col-lg-3">
     <%= panel heading: 'Remembered runners', context: :info, id: 'remembered-runners-panel' do %>
         <div class='panel-body'>
-          <%= link_to t('.show_remembered_runners'), show_remembered_runners_path, class: 'btn btn-primary btn-block' %>
-          <%= link_to t('.forget_remembered_runners'), '#', data: {forget_runners: true}, class: 'btn btn-danger btn-block' %>
-          <%= link_to t('.merge_remembered_runners'), new_merge_runners_request_path, class: 'btn btn-default btn-xs btn-block' %>
+          <%= link_to t('.show_remembered_runners'), url_for(action: 'show_remembered', ids: []),
+                      id: 'remembered-runners-link', class: 'btn btn-primary btn-block' %>
+          <%= link_to t('.forget_remembered_runners'), '#', data: {forget_runners: true},
+                      class: 'btn btn-danger btn-block' %>
+          <%= link_to t('.merge_remembered_runners'), new_merge_runners_request_path,
+                      class: 'btn btn-default btn-xs btn-block' %>
         </div>
     <% end %>
   </div>

@@ -48,6 +48,7 @@ $ ->
     Cookies.set('remembered_runners', runner_hash)
     update_remember_runner_icon(id, runner_hash, $('a[data-remember-runner=' + id + '] i'))
     update_remembered_runner_panel(runner_hash)
+    update_remember_runner_link(runner_hash)
 
 
   update_remember_runner_icon = (id, runner_hash, icon) ->
@@ -76,6 +77,13 @@ $ ->
         toggle_remembered_runner(id, null)
       ).prependTo(panel)
 
+  update_remember_runner_link = (runner_hash) ->
+    runner_ids = []
+    for id, _ of runner_hash
+      runner_ids.push(id)
+    new_link = '/runners/show_remembered?ids=' + runner_ids.join()
+    $('#remembered-runners-link').attr('href', new_link)
+
   # Only search after a minimum of 3 characters were entered
   searchWait = 0
   searchWaitInterval = null
@@ -102,5 +110,7 @@ $ ->
     runner_hash = get_remembered_runners()
     update_remembered_runner_panel(runner_hash)
     update_all_remember_runner_icons()
+    update_remember_runner_link(runner_hash)
   )
   update_remembered_runner_panel(get_remembered_runners())
+  update_remember_runner_link(get_remembered_runners())

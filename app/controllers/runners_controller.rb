@@ -17,12 +17,8 @@ class RunnersController < ApplicationController
   end
 
   def show_remembered
-    if cookies[:remembered_runners]
-      runner_ids = JSON.parse(cookies[:remembered_runners]).keys
-      @runners = RunnersDecorator.decorate(Runner.includes(:runs, :run_days).find(runner_ids))
-    else
-      @runners = []
-    end
+    runner_ids = (params[:ids] || '').split(',')
+    @runners = RunnersDecorator.decorate(Runner.includes(:runs, :run_days).find(runner_ids))
     @chart = CompareRunnersChart.new(@runners)
   end
 
