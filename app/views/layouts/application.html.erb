@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GpCollect</title>
+  <title><%= t('.title')%></title>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -13,18 +13,17 @@
 
       ga('create', 'UA-67613944-1', 'auto');
       ga('send', 'pageview');
-
   </script>
 </head>
 <body>
 <%= navbar do %>
     <%= vertical do %>
-        <%= link_to 'GP collect', root_path %>
+        <%= link_to t('.home'), root_path %>
     <% end %>
     <%= horizontal do %>
         <%= nav class: 'navbar-left' do %>
-            <%= link_to 'Runners', runners_path %>
-            <%= link_to 'Categories', categories_path %>
+            <%= link_to t('.runners'), runners_path %>
+            <%= link_to t('.categories'), categories_path %>
         <% end %>
         <%= nav class: 'navbar-right' do %>
             <% if current_admin %>

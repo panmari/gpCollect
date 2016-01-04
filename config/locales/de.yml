@@ -1,0 +1,25 @@
+de:
+  layouts:
+
+
+  application:
+    runners: "Läufersuche"
+    categories: "Kategorienübersicht"
+    title: "GP Collect - Laufzeiten des GP Bern"
+    home: "GP Collect"
+  first_name: "Vorname"
+  last_name: "Nachname"
+  club_or_hometown: "Club oder Heimatstadt"
+  sex: "Geschlecht"
+  nationality: "Nationalität"
+  participations: "Teilnahmen"
+  best_time: "Bestzeit"
+  runners:
+    index:
+      remembered_renners: "Gemerkte Läufer"
+      show_remembered_runners: "Zeige gemerkte Läufer"
+      forget_remembered_runners: "Entferne gemerkte Läufer"
+      merge_remembered_runners: "Führe gemerkte Läufer zusammen"
+      search_for_runners: "Suche nach Läufern"
+    show:
+      no_runs_available: "Es gibt keine Läufe für diesen Läufer"

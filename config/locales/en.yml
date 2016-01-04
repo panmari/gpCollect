@@ -20,4 +20,24 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  layouts:
+    application:
+      title: "GP Collect - Runtimes of the GP Bern"
+
   hello: "Hello world"
+  first_name: "First name"
+  last_name: "Last name"
+  club_or_hometown: "Club or hometown"
+  sex: "Sex"
+  nationality: "Nationality"
+  participations: "Participations"
+  best_time: "Best time"
+  runners:
+    index:
+      remembered_renners: "Remembered runners"
+      show_remembered_runners: "Show remembered runners"
+      forget_remembered_runners: "Forget remembered runners"
+      merge_remembered_runners: "Merge remembere runners"
+      search_for_runners: "Search for runners"
+    show:
+      no_runs_available: "There are no runs recorded for this runner."
