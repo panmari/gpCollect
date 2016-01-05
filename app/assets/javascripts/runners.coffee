@@ -87,24 +87,26 @@ $ ->
     new_link = '/runners/show_remembered?ids=' + runner_ids.join()
     $('#remembered-runners-link').attr('href', new_link)
 
-  # Only search after a minimum of 3 characters were entered
-  searchWait = 0
-  searchWaitInterval = null
-  $('.dataTables_filter input')
-    .unbind() # Unbind previous
-    .bind('keyup', (e) ->
-      item = $(this)
-      searchWait = 0
-      if !searchWaitInterval
-        searchWaitInterval = setInterval(->
-          if (item.val().length > 3 or item.val() == '') and searchWait >= 3
-            clearInterval(searchWaitInterval)
-            searchWaitInterval = null
-            searchTerm = $(item).val()
-            dt.search(searchTerm).draw()
-            searchWait = 0
-          searchWait++
-        ,200);
+  $('#runners-datatable').on('init.dt', ->
+    # Only search after a minimum of 3 characters were entered
+    searchWait = 0
+    searchWaitInterval = null
+    $('.dataTables_filter input')
+      .unbind() # Unbind previous
+      .bind('input', (e) ->
+        item = $(this)
+        searchWait = 0
+        if !searchWaitInterval
+          searchWaitInterval = setInterval(->
+            if (item.val().length > 3 or item.val() == '') and searchWait >= 3
+              clearInterval(searchWaitInterval)
+              searchWaitInterval = null
+              searchTerm = $(item).val()
+              dt.search(searchTerm).draw()
+              searchWait = 0
+            searchWait++
+          ,200);
+    )
   )
 
   $('a[data-forget-runners]').on('click', (e) ->
