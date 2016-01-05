@@ -1,12 +1,10 @@
 de:
   layouts:
-
-
-  application:
-    runners: "Läufersuche"
-    categories: "Kategorienübersicht"
-    title: "GP Collect - Laufzeiten des GP Bern"
-    home: "GP Collect"
+    application:
+      runners: "Läufersuche"
+      categories: "Kategorienübersicht"
+      title: "GP Collect - Laufzeiten des GP Bern"
+      home: "GP Collect"
   first_name: "Vorname"
   last_name: "Nachname"
   club_or_hometown: "Club oder Heimatstadt"

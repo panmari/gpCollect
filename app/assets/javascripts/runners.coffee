@@ -15,6 +15,9 @@ $ ->
       { orderable: false },
       { orderable: false }
     ]
+    "language": {
+      "url": "datatables.de.lang"
+    }
   })
 
   dt.on('draw', ->
