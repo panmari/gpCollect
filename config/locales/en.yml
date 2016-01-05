@@ -66,3 +66,6 @@ en:
       mean: Average time category %{category}
   runtime_chart:
     time: "Time"
+  runner_datatable:
+    show_hint: "Show runner"
+    remember_runner: "Remember runner for comparison"

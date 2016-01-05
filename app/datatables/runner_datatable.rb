@@ -49,8 +49,10 @@ class RunnerDatatable < AjaxDatatablesRails::Base
           record.nationality,
           record.runs_count,
           record.fastest_run_duration,
-          link_to(fa_icon('eye lg'), runner_path(record), class: 'btn btn-primary') + ' ' +
-              link_to(content_tag(:i, '', class: 'fa fa-lg'), '#',
+          # TODO: only send id and name, then generate links in javascript.
+          link_to(fa_icon('eye lg'), runner_path(record), class: 'btn btn-primary',
+                  title: I18n.t('runner_datatable.show_hint')) + ' ' +
+              link_to(content_tag(:i, '', class: 'fa fa-lg'), '#', title: I18n.t('runner_datatable.remember_runner'),
                       data: {remember_runner: record.id,
                              remember_runner_name: record.name}, class: 'btn btn-warning')
       ]
