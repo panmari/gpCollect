@@ -16,7 +16,7 @@ $ ->
       { orderable: false }
     ]
     "language": {
-      "url": "datatables.de.lang"
+      "url": "datatables." + window.locale + ".lang"
     }
   })
 
