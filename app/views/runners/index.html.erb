@@ -4,13 +4,13 @@
     <table class="table table-hover" id="runners-datatable" data-source="<%= runners_path(format: :json) %>">
       <thead>
       <tr>
-        <th class="all"><%= t('first_name') %> </th>
-        <th class="all"><%= t('last_name') %> </th>
-        <th><%= t('club_or_hometown') %> </th>
-        <th class="desktop"><%= t('sex') %> </th>
-        <th class="desktop"><%= t('nationality') %> </th>
-        <th><%= t('participations') %> </th>
-        <th><%= t('best_time') %> </th>
+        <th class="all"><%= Runner.human_attribute_name :first_name %> </th>
+        <th class="all"><%= Runner.human_attribute_name :last_name %> </th>
+        <th><%= Runner.human_attribute_name :club_or_hometown %> </th>
+        <th class="desktop"><%= Runner.human_attribute_name(:sex).html_safe %> </th>
+        <th class="desktop"><%= Runner.human_attribute_name(:nationality).html_safe %> </th>
+        <th><%= Runner.human_attribute_name(:participations).html_safe %> </th>
+        <th><%= Runner.human_attribute_name(:best_time).html_safe %> </th>
         <th class="all col-sm-2"></th>
       </tr>
       </thead>

@@ -5,13 +5,23 @@ de:
       categories: "Kategorienübersicht"
       title: "GP Collect - Laufzeiten des GP Bern"
       home: "GP Collect"
-  first_name: "Vorname"
-  last_name: "Nachname"
-  club_or_hometown: "Club oder Heimatstadt"
-  sex: "Geschlecht"
-  nationality: "Nationalität"
-  participations: "Teilnahmen"
-  best_time: "Bestzeit"
+  activerecord:
+      models:
+        runner: Läufer
+        run: Lauf
+      attributes:
+        runner:
+          first_name: "Vorname"
+          last_name: "Nachname"
+          club_or_hometown: "Club oder Heimatstadt"
+          sex: "Ge&shy;schlecht"
+          nationality: "Nationali&shy;tät"
+          participations: "Teil&shy;nahmen"
+          best_time: "Best&shy;zeit"
+        run:
+          run_date: Lauftag
+          category: Kategorie
+          duration: Laufzeit
   runners:
     index:
       remembered_renners: "Gemerkte Läufer"

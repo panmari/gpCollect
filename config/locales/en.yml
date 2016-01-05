@@ -23,15 +23,19 @@ en:
   layouts:
     application:
       title: "GP Collect - Runtimes of the GP Bern"
-
-  hello: "Hello world"
-  first_name: "First name"
-  last_name: "Last name"
-  club_or_hometown: "Club or hometown"
-  sex: "Sex"
-  nationality: "Nationality"
-  participations: "Participations"
-  best_time: "Best time"
+  activerecord:
+      models:
+        runner: Runner
+      attributes:
+        runner:
+          first_name: "First name"
+          last_name: "Last name"
+          club_or_hometown: "Club or hometown"
+          sex: "Sex"
+          nationality: "Nationality"
+          participations: "Participations"
+          best_time: "Best time"
+          birth_date: 'Birth date'
   runners:
     index:
       remembered_renners: "Remembered runners"
