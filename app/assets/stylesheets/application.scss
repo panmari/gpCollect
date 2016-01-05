@@ -18,7 +18,9 @@
  */
 
 @import "bootstrap-sprockets";
+@import "bootswatch/cerulean/variables";
 @import "bootstrap";
+@import "bootswatch/cerulean/bootswatch";
 // Fancy progress bar
 @import 'nprogress';
 @import 'nprogress-bootstrap';

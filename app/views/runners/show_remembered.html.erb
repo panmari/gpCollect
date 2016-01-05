@@ -5,10 +5,10 @@
   <tr>
     <th><%= Runner.human_attribute_name(:name) %></th>
     <th><%= Runner.human_attribute_name(:club_or_hometown) %></th>
-    <th><%= Runner.human_attribute_name(:nationality) %></th>
-    <th><%= Runner.human_attribute_name(:runs_count) %></th>
-    <th><%= Runner.human_attribute_name(:mean_run_duration) %></th>
-    <th><%= Runner.human_attribute_name(:fastest_run) %></th>
+    <th><%= Runner.human_attribute_name(:nationality).html_safe %></th>
+    <th><%= Runner.human_attribute_name(:runs_count).html_safe %></th>
+    <th><%= Runner.human_attribute_name(:mean_time) %></th>
+    <th><%= Runner.human_attribute_name(:best_time).html_safe %></th>
   </tr>
   </thead>
   <tbody>

@@ -36,8 +36,9 @@ en:
           club_or_hometown: "Club or hometown"
           sex: "Sex"
           nationality: "Nationality"
-          participations: "Participations"
+          runs_count: "Participations"
           best_time: "Best time"
+          mean_time: 'Mean time'
           birth_date: 'Estimated birth date'
   runners:
     index:

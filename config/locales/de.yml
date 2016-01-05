@@ -16,8 +16,9 @@ de:
           club_or_hometown: "Club oder Heimatstadt"
           sex: "Ge&shy;schlecht"
           nationality: "Nationali&shy;tät"
-          participations: "Teil&shy;nahmen"
+          runs_count: "Teil&shy;nahmen"
           best_time: "Best&shy;zeit"
+          mean_time: 'Durchschnittliche Laufzeit'
           birth_date: 'Geschätzter Geburtstag'
         run:
           run_date: Lauftag

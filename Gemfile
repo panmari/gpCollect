@@ -42,6 +42,7 @@ gem 'bootstrap-sass'
 gem 'bh', '1.3.4'
 # Awesome icons
 gem 'font-awesome-rails'
+gem 'bootswatch-rails'
 
 # For pagination
 gem 'kaminari'
