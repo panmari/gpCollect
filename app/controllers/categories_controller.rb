@@ -9,7 +9,6 @@ class CategoriesController < ApplicationController
     @min_duration_chart = CompareCategoriesChart.new(@categories, 'min')
     @participant_chart = ParticipantsChart.new(@categories)
     gender_only_categories = aggregate_to_gender(@categories)
-    puts gender_only_categories
     @participant_gender_chart = ParticipantsChart.new(gender_only_categories)
     render 'show'
   end
@@ -32,7 +31,7 @@ class CategoriesController < ApplicationController
       run_day_agg = {M: OpenStruct.new(runs_count: 0, run_day: run_day),
                      W: OpenStruct.new(runs_count: 0, run_day: run_day)}
       categories.each do |c|
-        run_day_agg[c.sex.to_sym].runs_count += c.run_day_category_aggregates.find { |a| a.run_day == run_day }.runs_count
+        run_day_agg[c.sex.to_sym].runs_count += c.run_day_category_aggregates.find { |a| a.run_day == run_day }.runs_count rescue 0
       end
       [:M, :W].each { |g| gender_hash[g].run_day_category_aggregates << run_day_agg[g] }
     end

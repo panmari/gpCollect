@@ -3,6 +3,10 @@ require 'test_helper'
 class CategoriesControllerTest < ActionController::TestCase
   setup do
     @category = create(:category)
+    categoryW = create(:category, sex: 'W')
+    create(:run_day_category_aggregate, category: @category)
+    create(:run_day_category_aggregate, category: categoryW)
+
   end
 
   test "should get index" do

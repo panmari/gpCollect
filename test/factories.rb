@@ -24,6 +24,14 @@ FactoryGirl.define do
     date { 1.year.ago }
   end
 
+  factory :run_day_category_aggregate do
+    category
+    run_day
+    mean_duration { Faker::Number.between(4618000, 5366200) }
+    min_duration { Faker::Number.between(2618000, 4366200) }
+    runs_count { Faker::Number.between(100, 200) }
+  end
+
   factory :run do
     duration { Faker::Number.between(4618000, 5366200) }
     interim_times { [Faker::Number.between(1618000, 2366200), Faker::Number.between(2618000, 3366200)]}
