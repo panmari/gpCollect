@@ -2,7 +2,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
   def initialize(categories)
     super('graph')
     categories = Array.wrap(categories)
-    self.title(text: t('participiants_chart.title'))
+    self.title(text: I18n.t('participiants_chart.title'))
     self.chart(type: 'area')
     self.plot_options(area: {
                           stacking: 'normal'
@@ -10,7 +10,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
     self.legend(layout: 'horizontal')
 
     x_axis_ticks = RunDay.all.map { |run_day| LazyHighCharts::OptionsKeyFilter.date_to_js_code(run_day.date) }
-    self.yAxis(title: { text: t('participiants_chart.x_axis_label')})
+    self.yAxis(title: { text: I18n.t('participiants_chart.x_axis_label')})
     self.xAxis(type: "datetime",
                tickPositioner: "function() {
                  var ticks = [#{generate_json_from_array(x_axis_ticks)}];
@@ -29,7 +29,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
         count = agg.runs_count
         [LazyHighCharts::OptionsKeyFilter.date_to_js_code(agg.run_day.date), count]
       end
-      self.series(name: t('participiants_chart.category_label_prefix', category: category.name),
+      self.series(name: I18n.t('participiants_chart.category_label_prefix', category: category.name),
                   data: data)
     end
   end

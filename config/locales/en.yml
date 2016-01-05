@@ -38,7 +38,7 @@ en:
           nationality: "Nationality"
           participations: "Participations"
           best_time: "Best time"
-          birth_date: 'Birth date'
+          birth_date: 'Estimated birth date'
   runners:
     index:
       remembered_renners: "Remembered runners"
@@ -55,4 +55,13 @@ en:
   participiants_chart:
     title: "Number of participants per category"
     x_axis_label: "Number participants"
-    category_label_prefix: "Participants in category {{category}}"
+    category_label_prefix: "Participants category %{category}"
+  compare_categories_chart:
+    title:
+      min: Best time per Kategorie
+      mean: Average time per Kategorie
+    series:
+      min: Best time category %{category}
+      mean: Average time category %{category}
+  runtime_chart:
+    time: "Time"
