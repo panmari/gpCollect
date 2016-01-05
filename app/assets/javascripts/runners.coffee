@@ -18,6 +18,11 @@ $ ->
     "language": {
       "url": "datatables." + window.locale + ".lang"
     }
+    "aoColumnDefs": [
+      # Add special class to buttons column.
+      { "sClass": "buttons-column", "aTargets": [ 7 ] }
+    ]
+
   })
 
   dt.on('draw', ->
