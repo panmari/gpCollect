@@ -45,3 +45,11 @@ en:
       search_for_runners: "Search for runners"
     show:
       no_runs_available: "There are no runs recorded for this runner."
+  show_runner_chart:
+    at_10_km: "At 10 km"
+    at_5_km: "At 5 km"
+    mean_category: "Mean category"
+  participiants_chart:
+    title: "Number of participants per category"
+    x_axis_label: "Number participants"
+    category_label_prefix: "Participants in category"

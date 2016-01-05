@@ -6,21 +6,21 @@ class ShowRunnerChart < RuntimeChart
     data = make_runs_data(runner) do |run|
       run.duration
     end
-    self.series(name: 'Goal', data: data)
+    self.series(name: I18n.t('show_runner_chart.goal'), data: data)
 
     data = make_runs_data(runner) do |run|
       run.interim_times[1]
     end
-    self.series(name: 'At 10 km', data: data)
+    self.series(name: t('show_runner_chart.at_10_km'), data: data)
 
     data = make_runs_data(runner) do |run|
       run.interim_times[0]
     end
-    self.series(name: 'At 5 km', data: data)
+    self.series(name: t('show_runner_chart.at_5_km'), data: data)
 
     data = make_runs_data(runner) do |run|
       run.run_day_category_aggregate.mean_duration
     end
-    self.series(name: 'Mean category', data: data, type: 'line')
+    self.series(name: t('show_runner_chart.mean_category'), data: data, type: 'line')
   end
 end

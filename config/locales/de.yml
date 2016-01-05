@@ -31,3 +31,12 @@ de:
       search_for_runners: "Suche nach Läufern"
     show:
       no_runs_available: "Es gibt keine Läufe für diesen Läufer"
+  show_runner_chart:
+    goal: "Zielzeit"
+    at_10_km: "An 10 km"
+    at_5_km: "An 5 km"
+    mean_category: "Mittel der Kategorie"
+  participiants_chart:
+    title: "Anzahl Teilnehmende pro Jahr pro Kategorie"
+    category_label_prefix: "Teilnehmende in Kategorie"
+    x_axis_label: "Anzahl Teilnehmende"
