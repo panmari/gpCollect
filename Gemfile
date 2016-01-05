@@ -39,7 +39,7 @@ gem 'lazy_high_charts'
 # Twitter bootstrap
 gem 'bootstrap-sass'
 # Helpers for bootstrap
-gem 'bh'
+gem 'bh', '1.3.4'
 # Awesome icons
 gem 'font-awesome-rails'
 
