@@ -29,7 +29,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
         count = agg.runs_count
         [LazyHighCharts::OptionsKeyFilter.date_to_js_code(agg.run_day.date), count]
       end
-      self.series(name: t('participiants_chart.category_label_prefix') + category.name,
+      self.series(name: t('participiants_chart.category_label_prefix', category: category.name),
                   data: data)
     end
   end
