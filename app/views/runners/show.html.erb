@@ -11,7 +11,7 @@
 <h2>Runs</h2>
 
 <% if @runner.runs.empty? %>
-    <%= t('.no_runs_available')
+    <%= t('.no_runs_available') %>
 <% else %>
     <div id="runs_chart" style="width:100%; height:300px;"></div>
     <%= high_chart("runs_chart", @chart)  %>
