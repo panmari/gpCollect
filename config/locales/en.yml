@@ -23,6 +23,9 @@ en:
   layouts:
     application:
       title: "GP Collect - Runtimes of the GP Bern"
+      runners: "Search runners"
+      categories: "Category overview"
+      home: "GP Collect"
   activerecord:
       models:
         runner: Runner
