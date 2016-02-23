@@ -37,7 +37,7 @@ de:
     goal: "Zielzeit"
     at_10_km: "Am 10. km"
     at_5_km: "Am 5. km"
-    mean_category: "Mittel der Kategorie"
+    mean_category: "Mittlere Zielzeit der Kategorie"
   participiants_chart:
     title: "Anzahl Teilnehmende pro Jahr pro Kategorie"
     category_label_prefix: "Teilnehmende Kategorie %{category}"

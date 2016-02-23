@@ -50,9 +50,10 @@ en:
     show:
       no_runs_available: "There are no runs recorded for this runner."
   show_runner_chart:
+    goal: "Goal"
     at_10_km: "At 10 km"
     at_5_km: "At 5 km"
-    mean_category: "Mean category"
+    mean_category: "Mean goal time of category"
   participiants_chart:
     title: "Number of participants per category"
     x_axis_label: "Number participants"
