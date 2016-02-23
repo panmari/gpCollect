@@ -8,7 +8,7 @@ class CategoriesController < ApplicationController
     @chart = CompareCategoriesChart.new(@categories, 'mean')
     @min_duration_chart = CompareCategoriesChart.new(@categories, 'min')
     @participant_chart = ParticipantsChart.new(@categories)
-    gender_only_categories = aggregate_to_gender(@categories)
+    gender_only_categories = aggregate_to(@categories, :sex, [:M, :W])
     @participant_gender_chart = ParticipantsChart.new(gender_only_categories)
     render 'show'
   end
@@ -23,19 +23,19 @@ class CategoriesController < ApplicationController
 
   private
 
-  def aggregate_to_gender(categories)
-    males = OpenStruct.new(run_day_category_aggregates: [], name: 'M')
-    females = OpenStruct.new(run_day_category_aggregates: [], name: 'W')
-    gender_hash = {M: males, W: females}
+  # Creates new 'run_day_category_aggregates' by aggregating existing ones by some grouping mechanism `attribute`
+  # that can take on the values defined by `values`.
+  def aggregate_to(categories, attribute, values)
+    values.map! &:to_sym
+    values_hash = values.each_with_object({}) {|v, h| h[v] = OpenStruct.new(run_day_category_aggregates: [], name: v) }
     RunDay.all.each do |run_day|
-      run_day_agg = {M: OpenStruct.new(runs_count: 0, run_day: run_day),
-                     W: OpenStruct.new(runs_count: 0, run_day: run_day)}
+      run_day_agg = values.each_with_object({}) { |v, h| h[v] = OpenStruct.new(runs_count: 0, run_day: run_day) }
       categories.each do |c|
-        run_day_agg[c.sex.to_sym].runs_count += c.run_day_category_aggregates.find { |a| a.run_day == run_day }.runs_count rescue 0
+        run_day_agg[c.send(attribute).to_sym].runs_count += c.run_day_category_aggregates.find { |a| a.run_day == run_day }.runs_count # rescue 0
       end
-      [:M, :W].each { |g| gender_hash[g].run_day_category_aggregates << run_day_agg[g] }
+      values.each { |v| values_hash[v].run_day_category_aggregates << run_day_agg[v] }
     end
-    gender_hash.values
+    values_hash.values
   end
 
   # Use callbacks to share common setup or constraints between actions.
