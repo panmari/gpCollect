@@ -21,7 +21,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # For cool tables that are updated via ajax
-gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+gem 'jquery-datatables-rails'
 gem 'ajax-datatables-rails'
 # Handling cookies easily in javascript
 gem 'js_cookie_rails'
@@ -83,7 +83,6 @@ group :development do
   gem 'web-console', '~> 2.0'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'rspec-rails'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -94,4 +93,5 @@ group :test do
 
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'rspec-rails'
 end
