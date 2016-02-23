@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.2.1
+  - 2.3.0
 cache: bundler
 bundler_args: --without "production development"
 addons:
@@ -10,5 +10,4 @@ before_script:
   - RAILS_ENV=test rake db:create
   - RAILS_ENV=test rake db:migrate
 script:
-  - bundle exec rake
   - bundle exec rake test
