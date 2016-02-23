@@ -6,7 +6,6 @@ class CategoriesControllerTest < ActionController::TestCase
     categoryW = create(:category, sex: 'W')
     create(:run_day_category_aggregate, category: @category)
     create(:run_day_category_aggregate, category: categoryW)
-
   end
 
   test "should get index" do
@@ -15,6 +14,7 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:categories)
     assert_not_nil assigns(:chart)
     assert_not_nil assigns(:participant_chart)
+    assert_not_nil assigns(:participant_gender_chart)
   end
 
   test "should show category" do

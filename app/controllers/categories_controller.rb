@@ -31,7 +31,7 @@ class CategoriesController < ApplicationController
     RunDay.all.each do |run_day|
       run_day_agg = values.each_with_object({}) { |v, h| h[v] = OpenStruct.new(runs_count: 0, run_day: run_day) }
       categories.each do |c|
-        run_day_agg[c.send(attribute).to_sym].runs_count += c.run_day_category_aggregates.find { |a| a.run_day == run_day }.runs_count # rescue 0
+        run_day_agg[c.send(attribute).to_sym].runs_count += c.run_day_category_aggregates.find { |a| a.run_day == run_day }&.runs_count || 0
       end
       values.each { |v| values_hash[v].run_day_category_aggregates << run_day_agg[v] }
     end
