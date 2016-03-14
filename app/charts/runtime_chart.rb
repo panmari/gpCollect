@@ -19,7 +19,7 @@ class RuntimeChart < LazyHighCharts::HighChart
                  else
                    nil
                  end
-      [LazyHighCharts::OptionsKeyFilter.date_to_js_code(rd.date), duration]
+      [date_to_miliseconds(rd.date), duration]
     end
   end
 
@@ -27,7 +27,7 @@ class RuntimeChart < LazyHighCharts::HighChart
 
   def set_options
     self.title(text: nil)
-    x_axis_ticks = @all_run_days.map { |run_day| LazyHighCharts::OptionsKeyFilter.date_to_js_code(run_day.date) }
+    x_axis_ticks = @all_run_days.map { |run_day| date_to_miliseconds(run_day.date) }
     self.xAxis(type: "datetime",
                tickPositioner: "function() {
                  var ticks = [#{generate_json_from_array(x_axis_ticks)}];
@@ -76,5 +76,9 @@ class RuntimeChart < LazyHighCharts::HighChart
     else
       value.to_json
     end
+  end
+
+  def date_to_miliseconds(date)
+    date.to_time.to_f * 1000
   end
 end

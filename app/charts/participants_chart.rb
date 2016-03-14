@@ -9,7 +9,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
                       })
     self.legend(layout: 'horizontal')
 
-    x_axis_ticks = RunDay.all.map { |run_day| LazyHighCharts::OptionsKeyFilter.date_to_js_code(run_day.date) }
+    x_axis_ticks = RunDay.all.map { |run_day| date_to_miliseconds(run_day.date) }
     self.yAxis(title: { text: I18n.t('participiants_chart.x_axis_label')})
     self.xAxis(type: "datetime",
                tickPositioner: "function() {
@@ -27,7 +27,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
     categories.each do |category|
       data = category.run_day_category_aggregates.map do |agg|
         count = agg.runs_count
-        [LazyHighCharts::OptionsKeyFilter.date_to_js_code(agg.run_day.date), count]
+        [date_to_miliseconds(agg.run_day.date), count]
       end
       self.series(name: I18n.t('participiants_chart.category_label_prefix', category: category.name),
                   data: data)

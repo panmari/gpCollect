@@ -10,7 +10,7 @@ class CompareCategoriesChart < RuntimeChart
     categories.each do |category|
       data = category.run_day_category_aggregates.map do |agg|
         duration = agg.send(:"#{mode}_duration")
-        [LazyHighCharts::OptionsKeyFilter.date_to_js_code(agg.run_day.date), duration]
+        [date_to_miliseconds(agg.run_day.date), duration]
       end
       self.series(name: I18n.t("compare_categories_chart.series.#{mode}", category: category.name),
                   data: data)
