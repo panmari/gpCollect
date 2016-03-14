@@ -81,7 +81,7 @@ $ ->
       .addClass('alert alert-info alert-dismissable')
       .attr('data-runner-id', id)
       .on('close.bs.alert', ->
-        toggle_remembered_runner(id, null)
+        toggle_remembered_runner(parseInt($(this).attr('data-runner-id')), null)
       ).prependTo(panel)
 
   update_remember_runner_link = (runner_hash) ->
