@@ -107,6 +107,7 @@ $ ->
               searchWaitInterval = null
               searchTerm = $(item).val()
               dt.search(searchTerm).draw()
+              # TODO(panmari): Also push order of sorting (move this code to own function for that).
               history.pushState({"search": searchTerm}, '', '?locale=' + locale + '&search=' + searchTerm)
               searchWait = 0
             searchWait++
@@ -126,8 +127,10 @@ $ ->
   update_remember_runner_link(get_remembered_runners())
 
   $(window).bind('popstate', (event) ->
-    searchTerm = event.originalEvent.state["search"]
-    if searchTerm
-      $('.dataTables_filter input').val(searchTerm)
-      $('#runners-datatable').dataTable().api().search(searchTerm).draw()
+    if event.originalEvent.state
+      searchTerm = event.originalEvent.state["search"]
+    searchTerm ?= ''
+    $('.dataTables_filter input').val(searchTerm)
+    $('#runners-datatable').dataTable().api().search(searchTerm).draw()
+
   )

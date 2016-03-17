@@ -11,17 +11,14 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery-ui
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require dataTables/extras/dataTables.responsive
-//= require turbolinks
 //= require js.cookie
 //= require bootstrap-sprockets
 //= require highcharts/highcharts
 //= require nprogress
-//= require nprogress-turbolinks
 //= require nprogress-ajax
 //= require_tree .
