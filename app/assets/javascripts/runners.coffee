@@ -107,7 +107,7 @@ $ ->
               searchWaitInterval = null
               searchTerm = $(item).val()
               dt.search(searchTerm).draw()
-              history.pushState({}, '', '?locale=' + locale + '&search=' + searchTerm)
+              history.pushState({"search": searchTerm}, '', '?locale=' + locale + '&search=' + searchTerm)
               searchWait = 0
             searchWait++
           ,200);
@@ -124,3 +124,10 @@ $ ->
   )
   update_remembered_runner_panel(get_remembered_runners())
   update_remember_runner_link(get_remembered_runners())
+
+  $(window).bind('popstate', (event) ->
+    searchTerm = event.originalEvent.state["search"]
+    if searchTerm
+      $('.dataTables_filter input').val(searchTerm)
+      $('#runners-datatable').dataTable().api().search(searchTerm).draw()
+  )
