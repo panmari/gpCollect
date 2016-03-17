@@ -1,3 +1,12 @@
+GIT
+  remote: git@github.com:panmari/capistrano-conditional.git
+  revision: a96e6b97afac68d720c35b119d8766c0891e2001
+  branch: colorize_fix
+  specs:
+    capistrano-conditional (0.2.3)
+      capistrano (~> 3)
+      git
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -64,9 +73,6 @@ GEM
     capistrano-bundler (1.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-conditional (0.2.3)
-      capistrano (~> 3)
-      git
     capistrano-rails (1.1.6)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -305,7 +311,7 @@ DEPENDENCIES
   bootstrap-sass
   bootswatch-rails
   byebug
-  capistrano-conditional
+  capistrano-conditional!
   capistrano-rails
   capistrano-rails-tail-log
   capistrano-service
