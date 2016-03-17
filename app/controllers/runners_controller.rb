@@ -4,6 +4,7 @@ class RunnersController < ApplicationController
   # GET /runners
   # GET /runners.json
   def index
+    @search_term = params[:search]
     respond_to do |format|
       format.html
       format.json { render json: RunnerDatatable.new(view_context) }

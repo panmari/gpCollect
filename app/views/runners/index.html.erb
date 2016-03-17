@@ -1,4 +1,9 @@
 <h1><%= t '.search_for_runners' %></h1>
+<% if @search_term %>
+    <script>
+      window.initial_search_term = '<%= @search_term %>'
+    </script>
+<% end %>
 <div class="row">
   <div class="col-lg-9">
     <table class="table table-hover dt-responsive" id="runners-datatable" width="100%"

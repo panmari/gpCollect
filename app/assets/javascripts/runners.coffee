@@ -20,8 +20,8 @@ $ ->
     "aoColumnDefs": [
       # Add special class to buttons column.
       { "sClass": "buttons-column", "aTargets": [ 7 ] }
-    ]
-
+    ],
+    "oSearch": {"sSearch": window.initial_search_term }
   })
 
   dt.on('draw', ->
@@ -107,6 +107,7 @@ $ ->
               searchWaitInterval = null
               searchTerm = $(item).val()
               dt.search(searchTerm).draw()
+              history.pushState({}, '', '?locale=' + locale + '&search=' + searchTerm)
               searchWait = 0
             searchWait++
           ,200);
