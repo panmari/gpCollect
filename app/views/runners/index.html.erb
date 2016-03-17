@@ -27,8 +27,10 @@
                       id: 'remembered-runners-link', class: 'btn btn-primary btn-block' %>
           <%= link_to t('.forget_remembered_runners'), '#', data: {forget_runners: true},
                       class: 'btn btn-danger btn-block' %>
-          <%= link_to t('.merge_remembered_runners'), new_merge_runners_request_path,
-                      class: 'btn btn-default btn-xs btn-block' %>
+          <% if admin_signed_in? %>
+              <%= link_to t('.merge_remembered_runners'), new_merge_runners_request_path,
+                          class: 'btn btn-default btn-xs btn-block' %>
+          <% end %>
         </div>
     <% end %>
   </div>

@@ -26,7 +26,9 @@
     <%= horizontal do %>
         <%= nav class: 'navbar-left' do %>
             <%= link_to t('.runners'), runners_path %>
-            <%= link_to t('.categories'), categories_path %>
+            <% if admin_signed_in? %>
+                <%= link_to t('.categories'), categories_path %>
+            <% end %>
         <% end %>
         <%= nav class: 'navbar-right' do %>
             <% if current_admin %>
