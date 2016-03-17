@@ -34,4 +34,10 @@
         </div>
     <% end %>
   </div>
+  <%# Make user aware of search box after some time. %>
+  <script>
+    setTimeout(function () {
+      $('div.dataTables_filter input').effect('highlight', {}, 3000)
+    }, 2000);
+  </script>
 </div>
