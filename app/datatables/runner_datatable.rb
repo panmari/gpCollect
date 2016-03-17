@@ -54,7 +54,7 @@ class RunnerDatatable < AjaxDatatablesRails::Base
                   title: I18n.t('runner_datatable.show_hint')) + ' ' +
               link_to(content_tag(:i, '', class: 'fa fa-lg'), '#', title: I18n.t('runner_datatable.remember_runner'),
                       data: {remember_runner: record.id,
-                             remember_runner_name: record.name}, class: 'btn btn-warning')
+                             remember_runner_name: record.name}, class: 'btn btn-info')
       ]
     end
   end
