@@ -14,7 +14,7 @@
   <tbody>
   <% @runners.each do |runner| %>
       <tr>
-        <td><%= runner.name %></td>
+        <td><%= link_to runner.name, runner %></td>
         <td><%= runner.club_or_hometown %></td>
         <td><%= runner.nationality %></td>
         <td><%= runner.runs_count %></td>

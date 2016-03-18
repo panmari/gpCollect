@@ -5,6 +5,10 @@ class Runner < ActiveRecord::Base
   has_many :run_days, through: :runs
   has_and_belongs_to_many :merge_runners_requests
 
+  def to_param
+    "#{id}-#{first_name.parameterize}-#{last_name.parameterize}"
+  end
+
   def fastest_run
     runs.min_by { |i| i.duration || 0 }
   end
