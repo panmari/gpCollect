@@ -263,6 +263,8 @@ GEM
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
+    sitemap_generator (5.1.0)
+      builder
     spring (1.6.4)
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
@@ -344,6 +346,7 @@ DEPENDENCIES
   rvm1-capistrano3
   sass-rails (~> 5.0)
   simple_form
+  sitemap_generator
   spring
   stackprof
   thin

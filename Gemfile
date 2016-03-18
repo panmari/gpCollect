@@ -64,6 +64,8 @@ gem 'devise-i18n'
 
 gem 'thin'
 
+gem 'sitemap_generator'
+
 # For performance evaluation:
 gem 'rack-mini-profiler'
 gem 'flamegraph'
