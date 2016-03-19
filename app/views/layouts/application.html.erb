@@ -31,6 +31,7 @@
             <% end %>
         <% end %>
         <%= nav class: 'navbar-right' do %>
+            <%= link_to t('.about'), static_pages_about_path %>
             <% if current_admin %>
                 <%= link_to 'Logout', destroy_admin_session_path, method: 'delete' %>
             <% else %>

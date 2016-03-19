@@ -5,6 +5,7 @@ de:
       categories: "Kategorienübersicht"
       title: "GP Collect - Laufzeiten des GP Bern"
       home: "GP Collect"
+      about: "Über"
   activerecord:
       models:
         runner: Läufer

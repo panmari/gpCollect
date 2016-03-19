@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'static_pages/about'
+
   devise_for :admins
   resources :merge_runners_requests do
     member do

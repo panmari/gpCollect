@@ -26,6 +26,7 @@ en:
       runners: "Search runners"
       categories: "Category overview"
       home: "GP Collect"
+      about: "About"
   activerecord:
       models:
         runner: Runner
