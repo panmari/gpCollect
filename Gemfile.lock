@@ -1,7 +1,6 @@
 GIT
-  remote: git@github.com:panmari/capistrano-conditional.git
-  revision: a96e6b97afac68d720c35b119d8766c0891e2001
-  branch: colorize_fix
+  remote: https://github.com/deviantech/capistrano-conditional.git
+  revision: 07eb658082452b8d79a8b13f6196116b09d7c554
   specs:
     capistrano-conditional (0.2.3)
       capistrano (~> 3)

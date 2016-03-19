@@ -79,7 +79,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-service', require: false
   gem 'rvm1-capistrano3', require: false
-  gem 'capistrano-conditional', git: 'git@github.com:panmari/capistrano-conditional.git', branch: 'colorize_fix', require: false
+  gem 'capistrano-conditional', git: 'https://github.com/deviantech/capistrano-conditional.git', require: false
   gem 'capistrano-rails-tail-log', require: false
 
   # Access an IRB console on exception pages or by using <%= console %> in views
