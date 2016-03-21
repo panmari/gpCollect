@@ -27,6 +27,7 @@ en:
       categories: "Category overview"
       home: "GP Collect"
       about: "About"
+      title_with_runner: "GP Collect - %{runner}"
   activerecord:
       models:
         runner: Runner

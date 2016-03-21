@@ -4,6 +4,7 @@ de:
       runners: "Läufersuche"
       categories: "Kategorienübersicht"
       title: "GP Collect - Laufzeiten des GP Bern"
+      title_with_runner: "GP Collect - %{runner}"
       home: "GP Collect"
       about: "Über"
   activerecord:
