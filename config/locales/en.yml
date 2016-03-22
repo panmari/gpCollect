@@ -48,7 +48,8 @@ en:
       show_remembered_runners: "Show remembered runners"
       forget_remembered_runners: "Forget remembered runners"
       merge_remembered_runners: "Merge remembere runners"
-      search_for_runners: "Search for runners"
+      search_for_runners: "Search for runners of the Grand Prix Berne"
+      search_hint: "First name, last name and club/hometown are searchable. Multiple search terms can be entered."
     show:
       no_runs_available: "There are no runs recorded for this runner."
   show_runner_chart:

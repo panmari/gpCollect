@@ -132,5 +132,4 @@ $ ->
     searchTerm ?= ''
     $('.dataTables_filter input').val(searchTerm)
     $('#runners-datatable').dataTable().api().search(searchTerm).draw()
-
   )
