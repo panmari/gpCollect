@@ -52,6 +52,7 @@ en:
       search_hint: "First name, last name and club/hometown are searchable. Multiple search terms can be entered."
     show:
       no_runs_available: "There are no runs recorded for this runner."
+      runs: "Previous results at the GP Berne"
   show_runner_chart:
     goal: "Goal"
     at_10_km: "At 10 km"

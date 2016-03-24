@@ -36,6 +36,7 @@ de:
       search_hint: "Es kann nach Vorname, Nachname oder Club/Heimatstadt gesucht werden. Mehrere Suchbegriffe können mit Leertaste unterteilt werden."
     show:
       no_runs_available: "Es gibt keine Läufe für diesen Läufer"
+      runs: "Bisherige Ergebnisse am GP Bern"
   show_runner_chart:
     goal: "Zielzeit"
     at_10_km: "Am 10. km"

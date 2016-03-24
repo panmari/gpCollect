@@ -9,7 +9,7 @@
   <dd><%= @runner.club_or_hometown %></dd>
 </dl>
 
-<h2>Runs</h2>
+<h2><%= t('.runs') %></h2>
 
 <% if @runner.runs.empty? %>
     <%= t('.no_runs_available') %>
@@ -19,15 +19,17 @@
     <table class="table table-striped">
       <thead>
       <th><%= Run.human_attribute_name :run_date %></th>
-      <th><%= RunDay.human_attribute_name :weather %></th>
       <th><%= Run.human_attribute_name :category %></th>
+      <th><%= t('show_runner_chart.at_5_km') %></th>
+      <th><%= t('show_runner_chart.at_10_km') %></th>
       <th><%= Run.human_attribute_name :duration %></th>
       </thead>
       <% @runner.runs.each do |run| %>
           <tr>
             <td><%= I18n.l run.run_day.date %></td>
-            <td><%= run.run_day.weather %></td>
             <td><%= run.category.name %></td>
+            <td><%= run.interim_time_formatted(0) %></td>
+            <td><%= run.interim_time_formatted(1) %></td>
             <td><%= run.duration_formatted %></td>
           </tr>
       <% end %>
