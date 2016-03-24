@@ -77,8 +77,10 @@ $ ->
     )
     for id in runner_ids_sorted
       name = runner_hash[parseInt(id)]
-      $('<div>' + name + dismiss_button + '</div>')
-      .addClass('alert alert-info alert-dismissable')
+      link = $('<a>', {text: name, href: '/runners/' + id})
+      div = $('<div>', class: 'runner-alert alert alert-info alert-dismissable')
+      .append(link)
+      .append(dismiss_button)
       .attr('data-runner-id', id)
       .on('close.bs.alert', ->
         toggle_remembered_runner(parseInt($(this).attr('data-runner-id')), null)
