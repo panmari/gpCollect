@@ -19,8 +19,6 @@
         <td><%= run.category.name %></td>
         <td><%= run.run_day.date.year %></td>
         <td><%= link_to 'Show', run %></td>
-        <td><%= link_to 'Edit', edit_run_path(run) %></td>
-        <td><%= link_to 'Destroy', run, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
