@@ -26,7 +26,8 @@ set :log_level, :info
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, []).push('.env')
+sitemap_files = ['public/sitemap.xml.gz'] + [1, 2, 3].map {|i| "public/sitemap#{i}.xml.gz"}
+set :linked_files, fetch(:linked_files, []).push('.env', *sitemap_files)
 
 # Default value for linked_dirs is []
 set :linked_dirs, fetch(:linked_dirs, []).push('public/assets', 'log')
