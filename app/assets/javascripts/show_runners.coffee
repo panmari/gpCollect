@@ -2,6 +2,7 @@ $ ->
   $('#show-runners-datatable').DataTable({
     filter: false,
     paging: false
+    info: false,
     responsive: true,
     columnDefs: [
       { type: 'de_date', targets: 0 },
