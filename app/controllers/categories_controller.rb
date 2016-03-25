@@ -13,6 +13,7 @@ class CategoriesController < ApplicationController
       aggregate_to(@categories, :sex, [:M, :W])
     end
     @participant_gender_chart = ParticipantsChart.new(gender_only_categories)
+    @hist = RuntimeHistogram.new()
     render 'show'
   end
 

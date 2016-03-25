@@ -8,6 +8,9 @@
 <div id="participant_chart" style="width:100%; height:500px;"></div>
 <%= high_chart("participant_chart", @participant_chart) %>
 
+<div id="hist" style="width:100%; height:500px;"></div>
+<%= high_chart("hist", @hist) %>
+
 <% if @participant_gender_chart %>
     <div id="participant_gender_chart" style="width:100%; height:500px;"></div>
     <%= high_chart("participant_gender_chart", @participant_gender_chart) %>
