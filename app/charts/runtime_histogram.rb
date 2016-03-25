@@ -1,23 +1,33 @@
 class RuntimeHistogram < LazyHighCharts::HighChart
-  def initialize()
+  def initialize(category=nil)
     super(type: 'column')
-    c = Category.find_by(sex: 'M', age_min: 20)
-    run_day = RunDay.last
-    grouping_factor = 10000
-    @data = Run.where(run_day: run_day).where.not(duration: nil).group("duration / #{grouping_factor}").count
+    @category = category
+    # TODO: Maybe don't aggregate over run days.
+    # run_day = RunDay.last
+    # TODO: Try other grouping factors.
+    grouping_factor = 30000
+    runs = if @category
+             Run.where(category: @category)
+           else
+             Run.all
+           end
+    @data = runs.where.not(duration: nil).group("duration / #{grouping_factor}").count
     # Sort and bring back to correct range.
     @data = @data.sort_by { |k, _| k }.map {|a| [a[0] * grouping_factor, a[1]]}
-    set_options
-    # TODO: Map and multiply by 1000
-    puts @data.sort_by { |k, _| k }
 
+    set_options
     series({data: @data})
   end
 
   private
 
   def set_options
-    self.title(text: nil)
+    title_text = if @category
+                   'Histogram of run times for category ' + @category.name
+                 else
+                   'Histogram of run times over all categories'
+                 end
+    self.title(text: title_text)
     self.chart(type: 'column')
     self.xAxis(type: 'datetime', # y-axis will be in milliseconds
                dateTimeLabelFormats: {
@@ -36,9 +46,8 @@ class RuntimeHistogram < LazyHighCharts::HighChart
         useHTML: true,
         #shared: true,
         formatter: "function() {
-          return '<b>' + this.series.name +'</b><br/>' +
-              Highcharts.dateFormat('%H:%M:%S', new Date(this.x)) + '<br/>' +
-              this.y;
+          return Highcharts.dateFormat('%H:%M:%S', new Date(this.x)) + '<br/>' +
+                 this.y;
         }".js_code
     )
     self.legend(enabled: false)
