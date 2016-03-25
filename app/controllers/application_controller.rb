@@ -17,7 +17,11 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    {locale: I18n.locale}
+    h = {locale: I18n.locale}
+    if Rails.env.production?
+      h.merge!(host: 'gpcollect.duckdns.org')
+    end
+    h
   end
 
   private
