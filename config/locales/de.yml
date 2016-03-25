@@ -37,6 +37,8 @@ de:
     show:
       no_runs_available: "Es gibt keine Läufe für diesen Läufer"
       runs: "Bisherige Ergebnisse am GP Bern"
+    show_remembered:
+      overview_multiple_runners_and_years: "Übersicht über mehrere Läufer und Jahre"
   show_runner_chart:
     goal: "Zielzeit"
     at_10_km: "Am 10. km"

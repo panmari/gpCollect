@@ -1,20 +1,21 @@
 Rails.application.routes.draw do
-  get 'static_pages/about'
+  scope "/:locale" do
+    get 'static_pages/about'
 
-  devise_for :admins
-  resources :merge_runners_requests do
-    member do
-      get 'accept'
+    devise_for :admins
+    resources :merge_runners_requests do
+      member do
+        get 'accept'
+      end
+    end
+    resources :categories
+    resources :runs
+    resources :runners do
+      collection do
+        get 'show_remembered'
+      end
     end
   end
-  resources :categories
-  resources :runs
-  resources :runners do
-    collection do
-      get 'show_remembered'
-    end
-  end
-  get 'welcome/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

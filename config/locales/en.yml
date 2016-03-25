@@ -53,6 +53,8 @@ en:
     show:
       no_runs_available: "There are no runs recorded for this runner."
       runs: "Previous results at the GP Berne"
+    show_remembered:
+      overview_multiple_runners_and_years: "Overview over multiple runners and years"
   show_runner_chart:
     goal: "Goal"
     at_10_km: "At 10 km"

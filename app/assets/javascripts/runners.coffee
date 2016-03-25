@@ -77,7 +77,7 @@ $ ->
     )
     for id in runner_ids_sorted
       name = runner_hash[parseInt(id)]
-      link = $('<a>', {text: name, href: '/runners/' + id})
+      link = $('<a>', {text: name, href: locale + '/runners/' + id})
       div = $('<div>', class: 'runner-alert alert alert-info alert-dismissable')
       .append(link)
       .append(dismiss_button)
@@ -90,7 +90,7 @@ $ ->
     runner_ids = []
     for id, _ of runner_hash
       runner_ids.push(id)
-    new_link = '/runners/show_remembered?ids=' + runner_ids.join()
+    new_link = locale + '/runners/show_remembered?ids=' + runner_ids.join()
     $('#remembered-runners-link').attr('href', new_link)
 
   $('#runners-datatable').on('init.dt', ->
