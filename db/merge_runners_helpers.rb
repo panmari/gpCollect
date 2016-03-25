@@ -44,6 +44,7 @@ module MergeRunnersHelpers
     self.merge_duplicates_based_on_case
     self.merge_duplicates_based_on_space
     self.merge_duplicates_based_on_umlaute
+    self.merge_duplicates_based_on_hometown_prefix
   end
 
   # Handle wrong sex, try to find correct sex using name list.
@@ -136,6 +137,21 @@ module MergeRunnersHelpers
       end
       puts "Merged #{merged_runners} entries based on Umlaute in #{attr}"
     end
+  end
+
+  # A runner might appear with two similar hometowns, e. g. once with 'Muri b. Bern' and once with 'Muri'.
+  def self.merge_duplicates_based_on_hometown_prefix
+    merged_runners = 0
+    prefix_length = 4
+    find_runners_only_differing_in(:club_or_hometown,
+                                   ["substring(club_or_hometown, 0, #{prefix_length}) as prefix_only_attr"],
+                                   ['prefix_only_attr']).each do |entries|
+      # The longer club_or_hometown entry is assumed to be correct/contains more information.
+      merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
+        runner[:club_or_hometown].length
+      end
+    end
+    puts "Merged #{merged_runners} entries based on prefix of club or hometown"
   end
 
   # Reduces the given entries to only one, chosen by the block passed.
