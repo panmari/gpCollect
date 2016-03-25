@@ -2,18 +2,16 @@ class RuntimeHistogram < LazyHighCharts::HighChart
   def initialize(category=nil)
     super(type: 'column')
     @category = category
-    # TODO: Maybe don't aggregate over run days.
-    # run_day = RunDay.last
-    # TODO: Try other grouping factors.
-    grouping_factor = 30000
+    # A groupping factor 30000 will lead to buckets of size 30 seconds.
+    @grouping_factor = 30000
     runs = if @category
              Run.where(category: @category)
            else
              Run.all
            end
-    @data = runs.where.not(duration: nil).group("duration / #{grouping_factor}").count
+    @data = runs.where.not(duration: nil).group("duration / #{@grouping_factor}").count
     # Sort and bring back to correct range.
-    @data = @data.sort_by { |k, _| k }.map {|a| [a[0] * grouping_factor, a[1]]}
+    @data = @data.sort_by { |k, _| k }.map {|a| [a[0] * @grouping_factor, a[1]]}
 
     set_options
     series({data: @data})
@@ -46,7 +44,11 @@ class RuntimeHistogram < LazyHighCharts::HighChart
         useHTML: true,
         #shared: true,
         formatter: "function() {
-          return Highcharts.dateFormat('%H:%M:%S', new Date(this.x)) + '<br/>' +
+          return '<b>#{I18n.t('runtime_chart.time')}: </b>' +
+                 Highcharts.dateFormat('%H:%M:%S', new Date(this.x)) +
+                 ' - ' +
+                 Highcharts.dateFormat('%H:%M:%S', new Date(this.x + #{@grouping_factor})) + '<br/>' +
+                 '<b>#{I18n.t('activerecord.models.runner')}: </b>' +
                  this.y;
         }".js_code
     )
