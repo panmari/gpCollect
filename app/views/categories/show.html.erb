@@ -1,5 +1,5 @@
-<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'W'}, 'btn-female') %>
-<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'M'}, 'btn-male') %>
+<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'W'}, @category, 'btn-female') %>
+<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'M'}, @category, 'btn-male') %>
 
 <h1><%= t('details_for_category', category: @category.name) %></h1>
 <h2>Histogram der Laufzeiten</h2>
