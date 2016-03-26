@@ -26,7 +26,8 @@
     </table>
   </div>
   <div class="col-lg-3">
-    <%= panel heading: t('.remembered_renners'), context: :info, id: 'remembered-runners-panel' do %>
+    <%= panel heading: (t('.remembered_renners') + content_tag(:i, '', class: 'fa fa-star fa-pull-right fa-2x')).html_safe,
+              context: :info, id: 'remembered-runners-panel' do %>
         <div class='panel-body'>
           <%= link_to t('.show_remembered_runners'), url_for(action: 'show_remembered', ids: []),
                       id: 'remembered-runners-link', class: 'btn btn-primary btn-block' %>
