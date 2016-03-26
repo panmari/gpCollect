@@ -1,3 +1,27 @@
 // Place all the styles related to the Categories controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.btn-male {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+
+.btn-male:hover,.btn-male:active,.btn-male:focus {
+  color: #fff;
+  background-color: #29699a;
+  border-color: #204d74;
+}
+
+.btn-female {
+  color: #fff;
+  background-color: #de6dca;
+  border-color: #ce67ba;
+}
+
+.btn-female:hover,.btn-female:active,.btn-female:focus {
+  color: #fff;
+  background-color: #a65799;
+  border-color: #8a417c;
+}

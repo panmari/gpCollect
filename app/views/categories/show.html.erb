@@ -1,7 +1,7 @@
-<%# TODO: Use icons/colors to indicate male/female. %>
-<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'W'}) %>
-<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'M'}) %>
+<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'W'}, 'btn-female') %>
+<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'M'}, 'btn-male') %>
 
+<h1><%= t('details_for_category', category: @category.name) %></h1>
 <div id="hist" style="width:100%; height:500px;"></div>
 <%= high_chart("hist", @hist) %>
 

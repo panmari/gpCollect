@@ -10,12 +10,12 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require dataTables/extras/dataTables.responsive
  *= require font-awesome
  *= require jquery-ui
  *= require_self
+ *= require_tree .
  */
 
 @import "bootstrap-sprockets";
