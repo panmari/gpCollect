@@ -4,7 +4,11 @@ class CompareCategoriesChart < RuntimeChart
   def initialize(categories, mode)
     super()
     categories = Array.wrap(categories)
-    title(text: I18n.t("compare_categories_chart.title.#{mode}"))
+    if categories.size == 1
+      title(text: I18n.t("compare_categories_chart.title_single.#{mode}", category: categories[0].name))
+    else
+      title(text: I18n.t("compare_categories_chart.title.#{mode}"))
+    end
 
     ## Fill with data
     categories.each do |category|

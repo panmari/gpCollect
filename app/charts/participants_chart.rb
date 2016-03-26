@@ -1,8 +1,14 @@
 class ParticipantsChart < LazyHighCharts::HighChart
+  include ChartHelpers
+
   def initialize(categories)
     super('graph')
     categories = Array.wrap(categories)
-    self.title(text: I18n.t('participiants_chart.title'))
+    if categories.size == 1
+      self.title(text: I18n.t('participiants_chart.title_single', category: categories[0].name))
+    else
+      self.title(text: I18n.t('participiants_chart.title'))
+    end
     self.chart(type: 'area')
     self.plot_options(area: {
                           stacking: 'normal'
