@@ -1,0 +1,23 @@
+<%= render 'categories/category_selector' %>
+
+<h1><%= t('details_for_category', category: @category.name) %></h1>
+<h2>Histogram of run durations</h2>
+The run duration of all runners belonging to the category <%= @category.name %> of the last few years aggregated to a
+histogram.
+<div id="hist" style="width:100%; height:500px;"></div>
+<%= high_chart("hist", @hist) %>
+
+
+<h2>Timelines over the last few years</h2>
+
+<h3>Run durations</h3>
+Changes of the run duration of the runners belonging to the category <%= @category.name %>.
+Did they get faster or slower over the years? Check for yourself!
+<div id="duration_chart" style="width:100%; height:500px;"></div>
+<%= high_chart("duration_chart", @chart) %>
+
+<h3>Number of participants</h3>
+See how the number of participants belonging to the category <%= @category.name %> changed over the last few years.
+
+<div id="participant_chart" style="width:100%; height:500px;"></div>
+<%= high_chart("participant_chart", @participant_chart) %>

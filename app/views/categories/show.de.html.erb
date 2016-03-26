@@ -8,7 +8,7 @@ aggregiert zu einem Histogram.
 <%= high_chart("hist", @hist) %>
 
 
-<h2>Changes over past years</h2>
+<h2>Zeitreihen über die letzten Jahre</h2>
 
 <h3>Laufzeiten</h3>
 Veränderungen der Laufzeiten der Kategorie <%= @category.name %> über die letzten Jahre.
@@ -16,18 +16,8 @@ Sind Läufer bzw. Läuferinnen eher schneller oder eher langsamer geworden? Scha
 <div id="duration_chart" style="width:100%; height:500px;"></div>
 <%= high_chart("duration_chart", @chart) %>
 
-<% if @min_duration_chart %>
-    <div id="min_duration_chart" style="width:100%; height:500px;"></div>
-    <%= high_chart("min_duration_chart", @min_duration_chart) %>
-<% end %>
-
 <h3>Anzahl Teilnehmende</h3>
 Veränderungen der Anzahl Teilnehmenden der Kategorie <%= @category.name %> über die letzten Jahre.
 
 <div id="participant_chart" style="width:100%; height:500px;"></div>
 <%= high_chart("participant_chart", @participant_chart) %>
-
-<% if @participant_gender_chart %>
-    <div id="participant_gender_chart" style="width:100%; height:500px;"></div>
-    <%= high_chart("participant_gender_chart", @participant_gender_chart) %>
-<% end %>

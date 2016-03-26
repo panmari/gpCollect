@@ -1,0 +1,18 @@
+<%= render 'categories/category_selector' %>
+<p>
+  Are you only interested in the statistics of a single category? Just click on the corresponding button!
+  <b>M</b> stands for men, <b>W</b> for women.
+  The adjacent number is the minimal respectively maximal age of the category.
+</p>
+
+<h1>Statistics over all runners</h1>
+<h2>Histogram of run durations</h2>
+The run durations of the last few years aggregated over all runners to a histogram.
+<div id="hist" style="width:100%; height:500px;"></div>
+<%= high_chart("hist", @hist) %>
+
+<h2>Timeline of the number of participants</h2>
+See how the number of participants changed over the last few years.
+
+<div id="participant_chart" style="width:100%; height:500px;"></div>
+<%= high_chart("participant_chart", @participant_chart) %>

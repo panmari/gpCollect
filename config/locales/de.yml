@@ -65,3 +65,6 @@ de:
     show_hint: "Zeige Läufer"
     remember_runner: "Merke Läufer für Vergleich"
   details_for_category: "Statistiken der Kategorie %{category}"
+  categories:
+    category_selector:
+      all_runners: "Alle Läufer"
