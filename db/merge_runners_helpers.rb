@@ -6,11 +6,14 @@ module MergeRunnersHelpers
     to_be_merged_runner.destroy!
   end
 
-  def self.find_runners_only_differing_in(attr, additional_attributes_select=[], additional_attributes_group=[])
+  def self.find_runners_only_differing_in(attr, additional_attributes_select=[], additional_attributes_group=[], removed_attributes=[])
     identifying_runner_attributes_select = [:first_name, :last_name, :nationality, :club_or_hometown, :sex]
     identifying_runner_attributes_group = [:first_name, :last_name, :nationality, :club_or_hometown, :sex]
-    r = Runner.select(identifying_runner_attributes_select - [attr].flatten + additional_attributes_select + ['array_agg(id) AS ids'])
-            .group(identifying_runner_attributes_group - [attr].flatten + additional_attributes_group).having('count(*) > 1')
+    r = Runner
+            .select(identifying_runner_attributes_select - removed_attributes - [attr].flatten +
+                          additional_attributes_select + ['array_agg(id) AS ids'])
+            .group(identifying_runner_attributes_group - removed_attributes -[attr].flatten +
+                       additional_attributes_group).having('count(*) > 1')
     # Each merge candidate consists of multiple runners, retrieve these runners from database here.
     merge_candidates = r.map { |i| Runner.includes(:run_days).find(i['ids']) }
     # Only select the runners as merge candidates that differ in the queried attribute.
@@ -128,7 +131,7 @@ module MergeRunnersHelpers
     POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.each do |attr|
       merged_runners = 0
       find_runners_only_differing_in(attr, ["replace(replace(replace(lower(#{attr}), 'ae', 'ä'), 'oe', 'ö'), 'ue', 'ü') as with_umlaut"],
-                                     ['with_umlaut']).each do |entries|
+                                     ['with_umlaut'], [:nationality]).each do |entries|
         # assume the correct entry is the one with more Umlaute,
         # as there seemed to be no unicode support in earlier data.
         merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
