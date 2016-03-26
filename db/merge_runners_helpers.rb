@@ -19,7 +19,7 @@ module MergeRunnersHelpers
     # Only select the runners as merge candidates that differ in the queried attribute.
 
     # TODO: possibly remove this.
-    merge_candidates.select! {|i| i.first[attr] != i.second[attr]}
+    merge_candidates.select! {|i| [attr].flatten.any? { |a| i.first[a] != i.second[a]} }
 
     # TODO: Remove candidates that have a too large discrepancy in age.
     # merge_candidates.select! {|i| i.birth_date - }
@@ -128,18 +128,22 @@ module MergeRunnersHelpers
   end
 
   def self.merge_duplicates_based_on_umlaute
-    POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.each do |attr|
-      merged_runners = 0
-      find_runners_only_differing_in(attr, ["replace(replace(replace(lower(#{attr}), 'ae', 'ä'), 'oe', 'ö'), 'ue', 'ü') as with_umlaut"],
-                                     ['with_umlaut'], [:nationality]).each do |entries|
-        # assume the correct entry is the one with more Umlaute,
-        # as there seemed to be no unicode support in earlier data.
-        merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
-          runner[attr].count('äüöÄÜÖ')
-        end
-      end
-      puts "Merged #{merged_runners} entries based on Umlaute in #{attr}"
+    # Allow missing umlaut to be in any attribute (it may occur that it's missing in the last name and hometown).
+    select_statement = POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.each_with_index.map do |attr, idx|
+      "replace(replace(replace(lower(#{attr}), 'ae', 'ä'), 'oe', 'ö'), 'ue', 'ü') as with_umlaut_#{idx}"
     end
+    group_attributes = POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.each_with_index.map {|_, idx| "with_umlaut_#{idx}"}
+
+    merged_runners = 0
+    find_runners_only_differing_in(POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES, select_statement,
+                                   group_attributes, [:nationality]).each do |entries|
+      # assume the correct entry is the one with more Umlaute,
+      # as there seemed to be no unicode support in earlier data.
+      merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
+        POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.inject(0) { |sum, attr| sum + runner[attr].count('äüöÄÜÖ') }
+      end
+    end
+    puts "Merged #{merged_runners} entries based on Umlaute in any of #{attr}"
   end
 
   # A runner might appear with two similar hometowns, e. g. once with 'Muri b. Bern' and once with 'Muri'.
