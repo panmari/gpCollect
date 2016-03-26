@@ -20,12 +20,6 @@ class RuntimeHistogram < LazyHighCharts::HighChart
   private
 
   def set_options
-    title_text = if @category
-                   'Histogram of run times for category ' + @category.name
-                 else
-                   'Histogram of run times over all categories'
-                 end
-    self.title(text: title_text)
     self.chart(type: 'column')
     self.xAxis(type: 'datetime', # y-axis will be in milliseconds
                dateTimeLabelFormats: {

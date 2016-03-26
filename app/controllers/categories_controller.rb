@@ -5,8 +5,8 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     @categories = Category.includes(run_day_category_aggregates: :run_day).sort_by { |c| c.age_min || c.age_max }
-    @chart = CompareCategoriesChart.new(@categories, 'mean')
-    @min_duration_chart = CompareCategoriesChart.new(@categories, 'min')
+    @chart = CompareCategoriesChart.new(@categories, ['mean'])
+    @min_duration_chart = CompareCategoriesChart.new(@categories, ['min'])
     @participant_chart = ParticipantsChart.new(@categories)
     cache_id = @categories.map(&:run_day_category_aggregates).flatten.map(&:id).join(',')
     gender_only_categories = Rails.cache.fetch(cache_id) do
@@ -20,8 +20,7 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
-    @chart = CompareCategoriesChart.new(@category, 'mean')
-    @min_duration_chart = CompareCategoriesChart.new(@category, 'min')
+    @chart = CompareCategoriesChart.new(@category)
     @participant_chart = ParticipantsChart.new(@category)
     @hist = RuntimeHistogram.new(@category)
   end

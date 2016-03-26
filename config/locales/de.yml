@@ -46,12 +46,16 @@ de:
     mean_category: "Mittlere Zielzeit der Kategorie"
   participiants_chart:
     title: "Anzahl Teilnehmende pro Jahr pro Kategorie"
+    title_single: "Anzahl Teilnehmende der Kategorie %{category} über die Jahre"
     category_label_prefix: "Teilnehmende Kategorie %{category}"
     x_axis_label: "Anzahl Teilnehmende"
   compare_categories_chart:
     title:
-      min: Bestzeit pro Kategorie
+      min: Bestzeit pro Kategorie über die Jahre
       mean: Durchschnittliche Zeit pro Kategorie
+    title_single:
+      min: Bestzeit der Kategorie %{category} über die Jahre
+      mean: Durchschnitte Zeit der Kategorie %{category} über die Jahre
     series:
       min: Bestzeit Kategorie %{category}
       mean: Durchschnittliche Zeit Kategorie %{category}
@@ -60,3 +64,4 @@ de:
   runner_datatable:
     show_hint: "Zeige Läufer"
     remember_runner: "Merke Läufer für Vergleich"
+  details_for_category: "Statistiken der Kategorie %{category}"

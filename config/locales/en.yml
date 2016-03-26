@@ -76,3 +76,4 @@ en:
   runner_datatable:
     show_hint: "Show runner"
     remember_runner: "Remember runner for comparison"
+  details_for_category: "Statistics for category %{category}"
