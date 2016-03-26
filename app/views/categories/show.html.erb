@@ -1,5 +1,4 @@
-<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'W'}, @category, 'btn-female') %>
-<%= category_button_group(Category.modern_ordered.select{|c| c.sex == 'M'}, @category, 'btn-male') %>
+<%= render 'categories/category_selector' %>
 
 <h1><%= t('details_for_category', category: @category.name) %></h1>
 <h2>Histogram der Laufzeiten</h2>

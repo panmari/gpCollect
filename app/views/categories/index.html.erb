@@ -1,0 +1,16 @@
+<%= render 'categories/category_selector' %>
+Interessieren Sie sich nur für die Daten einer einzelnen Kategorie? Klicken Sie den entsprechenden Button!
+M steht für Männlich, W für Weiblich. Die darauffolgende Zahl steht für das Mindestalter der Kategorie.
+
+<h1>Übersicht über alle Läufer</h1>
+<h2>Histogram der Laufzeiten</h2>
+Die Laufzeiten der letzten Jahre aller Läuferinnen und Läufer
+aggregiert zu einem Histogram.
+<div id="hist" style="width:100%; height:500px;"></div>
+<%= high_chart("hist", @hist) %>
+
+<h3>Anzahl Teilnehmende</h3>
+Veränderungen der Anzahl Teilnehmenden über die letzten Jahre.
+
+<div id="participant_chart" style="width:100%; height:500px;"></div>
+<%= high_chart("participant_chart", @participant_chart) %>
