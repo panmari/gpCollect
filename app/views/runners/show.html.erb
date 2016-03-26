@@ -27,7 +27,7 @@
       <% @runner.runs.each do |run| %>
           <tr>
             <td><%= I18n.l run.run_day.date %></td>
-            <td><%= run.category.name %></td>
+            <td><%= link_to run.category.name, run.category %></td>
             <td><%= run.interim_time_formatted(0) %></td>
             <td><%= run.interim_time_formatted(1) %></td>
             <td><%= run.duration_formatted %></td>

@@ -30,9 +30,7 @@
     <%= horizontal do %>
         <%= nav class: 'navbar-left' do %>
             <%= link_to t('.runners'), runners_path %>
-            <% if admin_signed_in? %>
-                <%= link_to t('.categories'), categories_path %>
-            <% end %>
+            <%= link_to t('.categories'), categories_path %>
         <% end %>
         <%= nav class: 'navbar-right' do %>
             <%= link_to t('.about'), static_pages_about_path %>
