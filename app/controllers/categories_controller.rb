@@ -6,7 +6,10 @@ class CategoriesController < ApplicationController
   def index
     @categories = Category.modern_ordered(run_day_category_aggregates: :run_day)
     @participant_chart = ParticipantsChart.new(@categories)
-    @hist = RuntimeHistogram.new
+    @hist = Rails.cache.fetch('hist' + @categories.map(&:id).join(':')) do
+      RuntimeHistogram.new
+    end
+
   end
 
   # GET /categories/1
@@ -14,7 +17,10 @@ class CategoriesController < ApplicationController
   def show
     @chart = CompareCategoriesChart.new(@category)
     @participant_chart = ParticipantsChart.new(@category)
-    @hist = RuntimeHistogram.new(@category)
+
+    @hist = Rails.cache.fetch("hist_#{@category.id}") do
+      RuntimeHistogram.new(@category)
+    end
   end
 
   private
