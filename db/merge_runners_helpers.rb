@@ -151,11 +151,16 @@ module MergeRunnersHelpers
     merged_runners = 0
     prefix_length = 4
     find_runners_only_differing_in(:club_or_hometown,
-                                   ["substring(club_or_hometown, 0, #{prefix_length}) as prefix_only_attr"],
+                                   ["lower(substring(club_or_hometown, 0, #{prefix_length})) as prefix_only_attr"],
                                    ['prefix_only_attr']).each do |entries|
       # The longer club_or_hometown entry is assumed to be correct/contains more information.
+      # If there is a version with all uppercase, it is disprioritized.
       merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
-        runner[:club_or_hometown].length
+        if runner[:club_or_hometown].upcase == runner[:club_or_hometown]
+          -1
+        else
+          runner[:club_or_hometown].length
+        end
       end
     end
     puts "Merged #{merged_runners} entries based on prefix of club or hometown"
