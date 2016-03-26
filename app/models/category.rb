@@ -23,4 +23,20 @@ class Category < ActiveRecord::Base
           end
   end
 
+  # TODO: Maybe add index for this way of retrieval
+  def self.find_by_name(name)
+    sex = name[0]
+    if name[1] == 'U'
+      age_max = name[2..-1].to_i
+      find_by!(sex: sex, age_max: age_max)
+    else
+      age_min = name[1..-1].to_i
+      find_by!(sex: sex, age_min: age_min)
+    end
+  end
+
+  def to_param
+    name
+  end
+
 end
