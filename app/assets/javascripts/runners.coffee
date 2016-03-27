@@ -90,7 +90,7 @@ $ ->
     runner_ids = []
     for id, _ of runner_hash
       runner_ids.push(id)
-    new_link = locale + '/runners/show_remembered?ids=' + runner_ids.join()
+    new_link = '/' + locale + '/runners/show_remembered?ids=' + runner_ids.join()
     $('#remembered-runners-link').attr('href', new_link)
 
   $('#runners-datatable').on('init.dt', ->
