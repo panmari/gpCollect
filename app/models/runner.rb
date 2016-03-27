@@ -14,6 +14,12 @@ class Runner < ActiveRecord::Base
   end
 
   def mean_run_duration
-    runs.average(:duration) || 0
+    # Only query database if runs are not eagerly loaded.
+    if runs.loaded?
+      # TODO: This will produce incorrect results if duration is nil, don't use runs.size in these cases.
+      runs.inject(0) {|sum, r| sum + (r.duration || 0)} / runs.size
+    else
+      runs.average(:duration) || 0
+    end
   end
 end
