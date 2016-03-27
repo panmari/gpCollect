@@ -75,6 +75,8 @@ class RunnerDatatable < AjaxDatatablesRails::Base
     if has_filter
       Rails.logger.debug(params[:search][:value])
       search_for = params[:search][:value].split(' ')
+      # The index only works for terms of length 3 and longer, so shorter terms are filtered here.
+      search_for.reject! {|i| i.length < 3 }
       where_clause = search_for.map do |unescaped_term|
         first_column = model_and_column_to_arel_node(searchable_columns.first)
         concatenated = searchable_columns[1..-1].inject(first_column) do |concated, model_and_column|
