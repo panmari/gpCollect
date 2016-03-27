@@ -2,16 +2,22 @@
 module MergeRunnersHelpers
   def self.merge_runners(runner, to_be_merged_runner)
     runner.runs += to_be_merged_runner.runs
+    # TODO: Do something to update estimated birthday.
     runner.save!
     to_be_merged_runner.destroy!
   end
 
-  def self.find_runners_only_differing_in(attr, additional_attributes_select=[], additional_attributes_group=[], removed_attributes=[])
+
+  def self.find_runners_only_differing_in(attr, additional_attributes_select=[], additional_attributes_group=[],
+      options={})
     identifying_runner_attributes_select = [:first_name, :last_name, :nationality, :club_or_hometown, :sex]
     identifying_runner_attributes_group = [:first_name, :last_name, :nationality, :club_or_hometown, :sex]
-    r = Runner
+    removed_attributes = options.fetch(:removed_attributes, [])
+    corpus = options.fetch(:corpus, Runner.all)
+
+    r = corpus
             .select(identifying_runner_attributes_select - removed_attributes - [attr].flatten +
-                          additional_attributes_select + ['array_agg(id) AS ids'])
+                        additional_attributes_select + ['array_agg(id) AS ids'])
             .group(identifying_runner_attributes_group - removed_attributes -[attr].flatten +
                        additional_attributes_group).having('count(*) > 1')
     # Each merge candidate consists of multiple runners, retrieve these runners from database here.
@@ -19,13 +25,13 @@ module MergeRunnersHelpers
     # Only select the runners as merge candidates that differ in the queried attribute.
 
     # TODO: possibly remove this.
-    merge_candidates.select! {|i| [attr].flatten.any? { |a| i.first[a] != i.second[a]} }
+    merge_candidates.select! { |i| [attr].flatten.any? { |a| i.first[a] != i.second[a] } }
 
     # TODO: Remove candidates that have a too large discrepancy in age.
     # merge_candidates.select! {|i| i.birth_date - }
 
     # Only select runners for merging that have no overlapping run days.
-    merge_candidates.select {|i| i.all? {|fixed_runner| (i - [fixed_runner]).all? { |other_runner| (fixed_runner.run_days & other_runner.run_days).empty? }}}
+    merge_candidates.select { |i| i.all? { |fixed_runner| (i - [fixed_runner]).all? { |other_runner| (fixed_runner.run_days & other_runner.run_days).empty? } } }
   end
 
   def self.count_accents(string)
@@ -47,6 +53,7 @@ module MergeRunnersHelpers
     self.merge_duplicates_based_on_case
     self.merge_duplicates_based_on_space
     self.merge_duplicates_based_on_umlaute
+    self.merge_duplicates_based_on_msm_prefix
     self.merge_duplicates_based_on_hometown_prefix
   end
 
@@ -132,11 +139,11 @@ module MergeRunnersHelpers
     select_statement = POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.each_with_index.map do |attr, idx|
       "replace(replace(replace(lower(#{attr}), 'ae', 'ä'), 'oe', 'ö'), 'ue', 'ü') as with_umlaut_#{idx}"
     end
-    group_attributes = POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.each_with_index.map {|_, idx| "with_umlaut_#{idx}"}
+    group_attributes = POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.each_with_index.map { |_, idx| "with_umlaut_#{idx}" }
 
     merged_runners = 0
     find_runners_only_differing_in(POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES, select_statement,
-                                   group_attributes, [:nationality]).each do |entries|
+                                   group_attributes, {removed_attributes: [:nationality]}).each do |entries|
       # assume the correct entry is the one with more Umlaute,
       # as there seemed to be no unicode support in earlier data.
       merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
@@ -166,6 +173,44 @@ module MergeRunnersHelpers
     puts "Merged #{merged_runners} entries based on prefix of club or hometown"
   end
 
+  # A runner might appear with two similar clubs,
+  # e. g. once with 'MSM - BFE Berufsfachschule Emmental' and once with 'BFE Berufsfachschule Emmental'.
+  def self.merge_duplicates_based_on_msm_prefix
+    merged_runners = 0
+    suffix_length = 4
+    attribute = :club_or_hometown
+    find_runners_only_differing_in(attribute, ["lower(replace(#{attribute},'MSM - ', '')) as no_msm_prefix"], ['no_msm_prefix']).each do |entries|
+      # Pick the version including 'MSM' (is always the longer one).
+      merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
+        runner[:club_or_hometown].length
+      end
+    end
+    puts "Merged #{merged_runners} entries based on prefix MSM prefix"
+  end
+
+  # A runner might appear with two similar clubs,
+  # TODO: clean this up, e. g. by running on restricted corpus.
+  # As it is now, it might merge 'Zollikofen' with 'Rennclub Zollikofen', which might not be the preferred behavior
+  # (Since these are two different entities, unlike the other merges that just try to rectify typos/variation of writings of the same entity).
+  # This kind of merge should probably only be done manually.
+  def self.merge_duplicates_based_on_hometown_suffix
+    merged_runners = 0
+    suffix_length = 4
+    attribute = :club_or_hometown
+    find_runners_only_differing_in(attribute, ["lower(substring(#{attribute} from length(#{attribute}) - #{suffix_length})) as suffix_only_attr"], ['suffix_only_attr']).each do |entries|
+      # The longer club_or_hometown entry is assumed to be correct/contains more information.
+      # If there is a version with all uppercase, it is disprioritized.
+      merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
+        if runner[:club_or_hometown].upcase == runner[:club_or_hometown]
+          -1
+        else
+          runner[:club_or_hometown].length
+        end
+      end
+    end
+    puts "Merged #{merged_runners} entries based on prefix of club or hometown"
+  end
+
   # Reduces the given entries to only one, chosen by the block passed.
   # The one that evaluates to the maximum of the block passed will be retained, the others merged with it.
   def self.reduce_to_one_runner_by_condition(entries, &block)
@@ -174,10 +219,4 @@ module MergeRunnersHelpers
     wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
     wrong_entries.size
   end
-
-    # TODO: Try to fix club_or_hometown duplicates, e. g.
-    # Achim	Seifermann	LAUFWELT de Lauftreff
-    # Achim	Seifermann	Laufwelt.de
-    #only_differing_club_or_hometown = Runner.select(identifying_runner_attributes - [:club_or_hometown])
-    #                                      .group(identifying_runner_attributes - [:club_or_hometown]).having('count(*) > 1')
 end
