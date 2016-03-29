@@ -82,6 +82,8 @@ module SeedHelpers
     ActiveRecord::Base.transaction do
       CSV.open(file, headers: true, col_sep: ';').each do |line|
         runner_hash = {}
+        # Only match if only consists of numbers.
+        start_number = line[3 + shift].scan(/^[0-9]+$/)[0]
         name = line[4 + shift]
         category_string = line[5 + shift]
         club_or_hometown = line[6 + shift]
@@ -115,7 +117,8 @@ module SeedHelpers
 
           interim_times = [duration_string_to_milliseconds(line[8 + shift + duration_shift], true),
                            duration_string_to_milliseconds(line[9 + shift + duration_shift], true)]
-          Run.create!(runner: runner, category: category, duration: duration_string_to_milliseconds(duration_string),
+          Run.create!(start_number: start_number, runner: runner, category: category,
+                      duration: duration_string_to_milliseconds(duration_string),
                       run_day: run_day, interim_times: interim_times)
           progressbar.increment
         rescue Exception => e
