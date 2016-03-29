@@ -15,11 +15,12 @@ files = (1999..2006).map { |year| {file: "db/data/gp_bern_10m_#{year}.csv",
                                    run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer,
                                                                       date: Date.new(year),
                                                                       route: route_16km)} } +
-    (2007..2008).map { |year| {file: "db/data/gp_bern_10m_#{year}.csv",
-                               run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer,
-                                                                  date: Date.new(year),
-                                                                  route: route_16km),
-                               shift: -1, duration_shift: -1} } +
+    [Date.new(2007, 05, 12),
+     Date.new(2008, 05, 10)].map { |date| {file: "db/data/gp_bern_10m_#{date.year}.csv",
+                                           run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer,
+                                                                              date: date,
+                                                                              route: route_16km),
+                                           shift: -1, duration_shift: -1} } +
     [
         {file: "db/data/gp_bern_10m_2009.csv", shift: -1,
          run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2009, 4, 18), route: route_16km)},
