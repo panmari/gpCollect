@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150919184314) do
+ActiveRecord::Schema.define(version: 20160331165854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,14 +83,16 @@ ActiveRecord::Schema.define(version: 20150919184314) do
   end
 
   add_index "run_day_category_aggregates", ["category_id", "run_day_id"], name: "index_run_day_category_aggregates_on_category_id_and_run_day_id", using: :btree
+  add_index "run_day_category_aggregates", ["run_day_id", "category_id"], name: "index_run_day_category_aggregates_on_run_day_id_and_category_id", using: :btree
 
   create_table "run_days", force: :cascade do |t|
     t.integer  "organizer_id"
     t.date     "date"
     t.string   "weather"
     t.integer  "route_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "alpha_foto_id"
   end
 
   add_index "run_days", ["organizer_id"], name: "index_run_days_on_organizer_id", using: :btree
@@ -123,6 +125,7 @@ ActiveRecord::Schema.define(version: 20150919184314) do
     t.integer  "duration",      limit: 8
     t.integer  "run_day_id"
     t.integer  "interim_times",                        array: true
+    t.integer  "start_number"
   end
 
   add_index "runs", ["category_id"], name: "index_runs_on_category_id", using: :btree

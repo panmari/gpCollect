@@ -3,6 +3,10 @@ require 'csv'
 module SeedHelpers
   DURATION_REGEXP = /(?:(?<hours>\d{1,2}):)?(?<minutes>\d{2}):(?<seconds>\d{2})(?:\.(?<hundred_miliseconds>\d))?/
 
+  def self.create_progressbar_for(file)
+    ProgressBar.create(total: `wc -l #{file}`.to_i, format: '%B %R runs/s, %a', :throttle_rate => 0.1)
+  end
+
   # TODO: Possibly handle disqualified cases better.
   # Right now they have nil as duration (but still have an entry in the run table).
   def self.duration_string_to_milliseconds(duration_string, allow_blank=false)
@@ -76,8 +80,8 @@ module SeedHelpers
     shift = options.fetch(:shift, 0)
     duration_shift = options.fetch(:duration_shift, 0)
     puts "Seeding #{file} "
-    progressbar = ProgressBar.create(total: `wc -l #{file}`.to_i, format: '%B %R runs/s, %a',
-                                     :throttle_rate => 0.1)
+    progressbar = create_progressbar_for(file)
+
     run_day = options.fetch(:run_day)
     ActiveRecord::Base.transaction do
       CSV.open(file, headers: true, col_sep: ';').each do |line|

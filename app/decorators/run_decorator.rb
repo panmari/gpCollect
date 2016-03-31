@@ -16,4 +16,9 @@ class RunDecorator < Draper::Decorator
     end
   end
 
+  def alpha_foto_link
+    if object.alpha_foto_url?
+      h.link_to('Alphafoto', object.alpha_foto_url)
+    end
+  end
 end

@@ -1,6 +1,7 @@
 require 'mechanize'
 require 'csv'
 require_relative 'scrape_helpers'
+require_relative '../../db/seed_helpers'
 
 namespace :db do
   desc "Scrapes data from the public website and writes it to a csv file (2007-2012)"
@@ -79,7 +80,7 @@ namespace :db do
             rows.each do |row|
               # skip header, filler rows, disqualified
               next if row.size == 0 or
-                  STOP_WORDS.any? {|stop_word| row[0].include?(stop_word) } or
+                  STOP_WORDS.any? { |stop_word| row[0].include?(stop_word) } or
                   %w(DNF DSQ ---).any? { |disq_marker| row[1] == disq_marker }
 
               begin
@@ -118,4 +119,51 @@ namespace :db do
       end
     end
   end
+
+  desc "Adds start number to existing runs"
+  task add_start_numbers: :environment do
+    [2013, 2014, 2015].each do |year|
+      file = "db/data/gp_bern_10m_#{year}.csv"
+      shift = 0
+      duration_shift = 0
+      run_day = RunDay.find_by_year!(year)
+      progress_bar = SeedHelpers::create_progressbar_for(file)
+      ActiveRecord::Base.transaction do
+        CSV.open(file, headers: true, col_sep: ';').each do |line|
+          begin
+            start_number = line[3 + shift].scan(/^[0-9]+$/)[0] rescue next
+            category_string = line[5 + shift]
+            duration_string = line[10 + shift + duration_shift]
+            progress_bar.increment
+            next if category_string.blank? or duration_string.blank?
+
+            duration = SeedHelpers::duration_string_to_milliseconds(duration_string)
+            category = SeedHelpers::find_or_create_category_for(category_string)
+            r = Run.find_by(run_day: run_day, duration: duration, category: category)
+            if r
+              r.update_attributes(start_number: start_number)
+            end
+          rescue Exception => e
+            puts line
+            raise e
+          end
+        end
+      end
+      progress_bar.finish
+    end
+  end
+
+  desc "Adds alpha foto id to existing run days"
+  task add_alpha_foto_id: :environment do
+    {2015 => '630',
+     2014 => '532',
+     2013 => '430',
+     2012 => '352',
+     2011 => '260',
+     2010 => '202'}.each do |year, alpha_foto_id|
+      rd = RunDay.find_by_year!(year)
+      rd.update_attributes!(alpha_foto_id: alpha_foto_id)
+    end
+  end
+
 end
