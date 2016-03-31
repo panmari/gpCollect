@@ -1,6 +1,6 @@
 module ChartHelpers
   def date_to_miliseconds(date)
-    date.to_time.to_f * 1000
+    date.to_time.to_i * 1000
   end
 
   ### Copied private helpers from lazy_high_charts/lib/lazy_high_charts/layout_helper.rb
