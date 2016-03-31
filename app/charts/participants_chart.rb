@@ -11,7 +11,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
     self.legend(layout: 'horizontal')
     self.tooltip(shared: true)
 
-    x_axis_ticks = RunDay.all.map { |run_day| date_to_miliseconds(run_day.date) }
+    x_axis_ticks = RunDay.all.ordered_by_date.map { |run_day| date_to_miliseconds(run_day.date) }
     self.yAxis(title: { text: I18n.t('participiants_chart.x_axis_label')})
     self.xAxis(type: "datetime",
                tickPositioner: "function() {
