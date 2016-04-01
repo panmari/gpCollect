@@ -30,7 +30,7 @@ sitemap_files = ['public/sitemap.xml.gz'] + [1, 2, 3].map {|i| "public/sitemap#{
 set :linked_files, fetch(:linked_files, []).push('.env', *sitemap_files)
 
 # Default value for linked_dirs is []
-set :linked_dirs, fetch(:linked_dirs, []).push('public/assets', 'log')
+set :linked_dirs, fetch(:linked_dirs, []).push('public/assets', 'log', 'db/data')
 # .pus, 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 
 # Default value for default_env is {}
@@ -66,9 +66,9 @@ namespace :deploy do
 
   after :finished, :compile_assets_and_restart do
     on roles(:all) do
-      within release_path do
-        execute :rake, 'tmp:clear'
-      end
+      # within release_path do
+      #   execute :rake, 'tmp:clear'
+      # end
       invoke 'deploy:compile_assets_locally'
       invoke 'service:thin:restart'
     end
