@@ -52,7 +52,7 @@ en:
       search_hint: "First name, last name and club/hometown are searchable. Multiple search terms can be entered."
     show:
       no_runs_available: "There are no runs recorded for this runner."
-      runs: "Previous results at the GP Berne"
+      runs: "Previous results at the Grand Prix Berne"
     show_remembered:
       overview_multiple_runners_and_years: "Overview over multiple runners and years"
   show_runner_chart:
