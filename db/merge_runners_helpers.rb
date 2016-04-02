@@ -7,6 +7,18 @@ module MergeRunnersHelpers
     to_be_merged_runner.destroy!
   end
 
+  # Returns 1 if a > b (e. g. M30 > MU18)
+  def self.compare_categories(a, b)
+    [a.age_min || 0, a.age_max || 0, a.sex] <=> [b.age_min || 0, b.age_max || 0, b.sex]
+  end
+
+  # TODO: In 2005, categories changed. E. g. M35 doesn't exist anymore, moving runners from this category to M30 in the
+  # next year. This method will with it's current implementation return false for these cases.
+  def self.check_runs_for_ascending_categories(runs)
+    runs.sort_by(&:run_day).each_cons(2).all? do |previous_run, run|
+      self.compare_categories(previous_run.category, run.category) <= 0
+    end
+  end
 
   def self.find_runners_only_differing_in(attr, additional_attributes_select=[], additional_attributes_group=[],
       options={})
@@ -21,14 +33,16 @@ module MergeRunnersHelpers
             .group(identifying_runner_attributes_group - removed_attributes -[attr].flatten +
                        additional_attributes_group).having('count(*) > 1')
     # Each merge candidate consists of multiple runners, retrieve these runners from database here.
-    merge_candidates = r.map { |i| Runner.includes(:run_days).find(i['ids']) }
+    merge_candidates = r.map { |i| Runner.includes(:run_days, runs: :run_day).find(i['ids']) }
     # Only select the runners as merge candidates that differ in the queried attribute.
 
     # TODO: possibly remove this.
     merge_candidates.select! { |i| [attr].flatten.any? { |a| i.first[a] != i.second[a] } }
 
-    # TODO: Remove candidates that have a too large discrepancy in age.
-    # merge_candidates.select! {|i| i.birth_date - }
+    # A runner can not suddenly get younger, so check if categories are ascending.
+    merge_candidates.select! do |runners|
+      self.check_runs_for_ascending_categories(runners.map(&:runs).flatten)
+    end
 
     # Only select runners for merging that have no overlapping run days.
     merge_candidates.select { |i| i.all? { |fixed_runner| (i - [fixed_runner]).all? { |other_runner| (fixed_runner.run_days & other_runner.run_days).empty? } } }
