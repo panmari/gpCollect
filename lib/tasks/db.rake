@@ -122,12 +122,14 @@ namespace :db do
 
   desc "Adds start number to existing runs"
   task add_start_numbers: :environment do
-    [2013, 2014, 2015].each do |year|
-      file = "db/data/gp_bern_10m_#{year}.csv"
-      shift = 0
-      duration_shift = 0
-      run_day = RunDay.find_by_year!(year)
+    SeedHelpers::input_files_hash.select {|h| h[:run_day].date.year >= 2007 }.each do |options|
+      file = options.fetch(:file)
+      shift = options.fetch(:shift, 0)
+      duration_shift = options.fetch(:duration_shift, 0)
+      puts "Seeding #{file} "
+      run_day = options[:run_day]
       progress_bar = SeedHelpers::create_progressbar_for(file)
+      updated_runners_count = 0
       ActiveRecord::Base.transaction do
         CSV.open(file, headers: true, col_sep: ';').each do |line|
           begin
@@ -141,6 +143,7 @@ namespace :db do
             category = SeedHelpers::find_or_create_category_for(category_string)
             r = Run.find_by(run_day: run_day, duration: duration, category: category)
             if r
+              updated_runners_count += 1
               r.update_attributes(start_number: start_number)
             end
           rescue Exception => e
@@ -150,6 +153,7 @@ namespace :db do
         end
       end
       progress_bar.finish
+      puts "Updated #{updated_runners_count} runs"
     end
   end
 
