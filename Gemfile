@@ -70,10 +70,10 @@ gem 'sitemap_generator'
 gem 'rack-mini-profiler'
 gem 'flamegraph'
 gem 'stackprof'
+gem 'ruby-progressbar'
 
 group :development do
   # For tracking progress when seeding
-  gem 'ruby-progressbar'
 
   # For easier deployment
   gem 'capistrano-rails', require: false

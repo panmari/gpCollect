@@ -1,5 +1,5 @@
 {
-    "sEmptyTable":      "Keine Läufer vorhanden, die der Suche entsprechen",
+    "sEmptyTable":      "Keine Läufer vorhanden, die der Suche entsprechen. Bitte beachten Sie, dass nur Läufer der 16 km Läufe vorhanden sind.",
     "sInfo":            "_START_ bis _END_ von _TOTAL_ Läufern",
     "sInfoEmpty":       "0 bis 0 von 0 Läufern",
     "sInfoFiltered":    "(gefiltert von _MAX_ Läufern)",

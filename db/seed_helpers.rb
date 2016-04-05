@@ -3,6 +3,42 @@ require 'csv'
 module SeedHelpers
   DURATION_REGEXP = /(?:(?<hours>\d{1,2}):)?(?<minutes>\d{2}):(?<seconds>\d{2})(?:\.(?<hundred_miliseconds>\d))?/
 
+  def self.input_files_hash
+    route_16km = Route.find_or_create_by!(length: 16.093)
+    gp_bern_organizer = Organizer.find_or_create_by!(name: 'Grand Prix von Bern')
+
+    (1999..2006).map { |year| {file: "db/data/gp_bern_10m_#{year}.csv",
+                               run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer,
+                                                                  date: Date.new(year),
+                                                                  route: route_16km)} } +
+        [Date.new(2007, 05, 12),
+         Date.new(2008, 05, 10)].map { |date| {file: "db/data/gp_bern_10m_#{date.year}.csv",
+                                               run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer,
+                                                                                  date: date,
+                                                                                  route: route_16km),
+                                               shift: -1, duration_shift: -1} } +
+        [
+            {file: "db/data/gp_bern_10m_2009.csv", shift: -1,
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2009, 4, 18), route: route_16km)},
+            {file: "db/data/gp_bern_10m_2010.csv", shift: -1,
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2010, 5, 22), route: route_16km)},
+            {file: "db/data/gp_bern_10m_2011.csv", shift: -1,
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2011, 5, 14), route: route_16km)},
+            {file: "db/data/gp_bern_10m_2012.csv", shift: -1,
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2012, 5, 12), route: route_16km)},
+            {file: "db/data/gp_bern_10m_2013.csv",
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2013, 5, 18), route: route_16km)},
+            {file: "db/data/gp_bern_10m_2014.csv",
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2014, 5, 10), route: route_16km)},
+            {file: "db/data/gp_bern_10m_2015.csv",
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2015, 5, 9), route: route_16km)}
+        ]
+  end
+
+  def self.create_progressbar_for(file)
+    ProgressBar.create(total: `wc -l #{file}`.to_i, format: '%B %R runs/s, %a', :throttle_rate => 0.1)
+  end
+
   # TODO: Possibly handle disqualified cases better.
   # Right now they have nil as duration (but still have an entry in the run table).
   def self.duration_string_to_milliseconds(duration_string, allow_blank=false)
@@ -76,12 +112,14 @@ module SeedHelpers
     shift = options.fetch(:shift, 0)
     duration_shift = options.fetch(:duration_shift, 0)
     puts "Seeding #{file} "
-    progressbar = ProgressBar.create(total: `wc -l #{file}`.to_i, format: '%B %R runs/s, %a',
-                                     :throttle_rate => 0.1)
+    progressbar = create_progressbar_for(file)
+
     run_day = options.fetch(:run_day)
     ActiveRecord::Base.transaction do
       CSV.open(file, headers: true, col_sep: ';').each do |line|
         runner_hash = {}
+        # Only match if only consists of numbers.
+        start_number = line[3 + shift].scan(/^[0-9]+$/)[0]
         name = line[4 + shift]
         category_string = line[5 + shift]
         club_or_hometown = line[6 + shift]
@@ -115,7 +153,8 @@ module SeedHelpers
 
           interim_times = [duration_string_to_milliseconds(line[8 + shift + duration_shift], true),
                            duration_string_to_milliseconds(line[9 + shift + duration_shift], true)]
-          Run.create!(runner: runner, category: category, duration: duration_string_to_milliseconds(duration_string),
+          Run.create!(start_number: start_number, runner: runner, category: category,
+                      duration: duration_string_to_milliseconds(duration_string),
                       run_day: run_day, interim_times: interim_times)
           progressbar.increment
         rescue Exception => e
