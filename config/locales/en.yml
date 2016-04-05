@@ -53,6 +53,7 @@ en:
     show:
       no_runs_available: "There are no runs recorded for this runner."
       runs: "Previous results at the Grand Prix Berne"
+      external_links: "External links"
     show_remembered:
       overview_multiple_runners_and_years: "Overview over multiple runners and years"
   show_runner_chart:
