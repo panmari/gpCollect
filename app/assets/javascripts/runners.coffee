@@ -15,7 +15,7 @@ $ ->
       { orderable: false }
     ]
     "language": {
-      "url": "datatables." + window.locale + ".lang"
+      "url": "/datatables." + window.locale + ".lang"
     }
     "aoColumnDefs": [
       # Add special class to buttons column.
