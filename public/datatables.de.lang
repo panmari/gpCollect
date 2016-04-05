@@ -9,7 +9,7 @@
     "sLoadingRecords":  "Wird geladen...",
     "sProcessing":      "Bitte warten...",
     "sSearch":          "Suchen",
-    "sZeroRecords":     "Keine Läufer vorhanden, die der Suche entsprechen.",
+    "sZeroRecords":     "Keine Läufer vorhanden, die der Suche entsprechen. Bitte beachten Sie, dass nur Läufer der 16 km Läufe vorhanden sind.",
     "oPaginate": {
         "sFirst":       "Erste",
         "sPrevious":    "Zurück",
