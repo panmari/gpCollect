@@ -6,10 +6,13 @@ class CategoriesController < ApplicationController
   def index
     @categories = Category.modern_ordered(run_day_category_aggregates: :run_day)
     @participant_chart = ParticipantsChart.new(@categories)
-    @hist = Rails.cache.fetch('hist' + @categories.map(&:id).join(':')) do
-      RuntimeHistogram.new
-    end
-
+    @hist = if runner_constraint.blank?
+              Rails.cache.fetch('hist' + @categories.map(&:id).join(':')) do
+                RuntimeHistogram.new
+              end
+            else
+              RuntimeHistogram.new(runner_constraint: runner_constraint)
+            end
   end
 
   # GET /categories/1
@@ -17,10 +20,13 @@ class CategoriesController < ApplicationController
   def show
     @chart = CompareCategoriesChart.new(@category)
     @participant_chart = ParticipantsChart.new(@category)
-
-    @hist = Rails.cache.fetch("hist_#{@category.id}") do
-      RuntimeHistogram.new(@category)
-    end
+    @hist = if runner_constraint.blank?
+              Rails.cache.fetch("hist_#{@category.id}") do
+                RuntimeHistogram.new(category: @category)
+              end
+            else
+              RuntimeHistogram.new(category: @category, runner_constraint: runner_constraint)
+            end
   end
 
   private
@@ -29,7 +35,7 @@ class CategoriesController < ApplicationController
   # that can take on the values defined by `values`.
   def aggregate_to(categories, attribute, values)
     values.map! &:to_sym
-    values_hash = values.each_with_object({}) {|v, h| h[v] = OpenStruct.new(run_day_category_aggregates: [], name: v) }
+    values_hash = values.each_with_object({}) { |v, h| h[v] = OpenStruct.new(run_day_category_aggregates: [], name: v) }
     RunDay.all.each do |run_day|
       run_day_agg = values.each_with_object({}) { |v, h| h[v] = OpenStruct.new(runs_count: 0, run_day: run_day) }
       categories.each do |c|
@@ -48,5 +54,17 @@ class CategoriesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_category
     @category = Category.includes(run_day_category_aggregates: :run_day).find_by_name(params[:id])
+  end
+
+  ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES = [:first_name, :last_name]
+
+  def runner_constraint
+    if admin_signed_in?
+      ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES.each_with_object({}) do |attr, constraint_hash|
+        constraint_hash[attr] = params[attr].titleize unless params[attr].blank?
+      end
+    else
+      {}
+    end
   end
 end

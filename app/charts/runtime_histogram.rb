@@ -1,17 +1,25 @@
 class RuntimeHistogram < LazyHighCharts::HighChart
-  def initialize(category=nil)
+  def initialize(options={})
     super(type: 'column')
-    @category = category
+    @category = options.fetch(:category, nil)
+    @runner_constraint = options.fetch(:runner_constraint, nil)
     # A groupping factor 30000 will lead to buckets of size 30 seconds.
-    @grouping_factor = 30000
+    @grouping_factor = if @runner_constraint
+                         120000
+                       else
+                         30000
+                       end
     runs = if @category
              Run.where(category: @category)
            else
              Run.all
            end
+    unless @runner_constraint.blank?
+      runs = runs.includes(:runner).where(runners: @runner_constraint)
+    end
     @data = runs.where.not(duration: nil).group("duration / #{@grouping_factor}").count
     # Sort and bring back to correct range.
-    @data = @data.sort_by { |k, _| k }.map {|a| [a[0] * @grouping_factor, a[1]]}
+    @data = @data.sort_by { |k, _| k }.map { |a| [a[0] * @grouping_factor, a[1]] }
 
     set_options
     series({data: @data})
@@ -32,7 +40,7 @@ class RuntimeHistogram < LazyHighCharts::HighChart
                    month: '%H:%M:%S',
                    year: '%H:%M:%S'
                },
-               title: { text: I18n.t('runtime_chart.time')}
+               title: {text: I18n.t('runtime_chart.time')}
     )
     self.tooltip(
         useHTML: true,
