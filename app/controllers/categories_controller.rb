@@ -56,12 +56,14 @@ class CategoriesController < ApplicationController
     @category = Category.includes(run_day_category_aggregates: :run_day).find_by_name(params[:id])
   end
 
-  ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES = [:first_name, :last_name]
+  ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES = {first_name: :titleize, last_name: :titleize,
+                                          club_or_hometown: :titleize, nationality: :upcase}
 
   def runner_constraint
     if admin_signed_in?
-      ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES.each_with_object({}) do |attr, constraint_hash|
-        constraint_hash[attr] = params[attr].titleize unless params[attr].blank?
+      ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES.each_with_object({}) do |attr_and_pp, constraint_hash|
+        attr, post_process = *attr_and_pp
+        constraint_hash[attr] = params[attr].send(post_process) unless params[attr].blank?
       end
     else
       {}
