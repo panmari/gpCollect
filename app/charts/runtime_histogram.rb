@@ -54,6 +54,11 @@ class RuntimeHistogram < LazyHighCharts::HighChart
                  this.y;
         }".js_code
     )
+    self.plotOptions(column: {
+        groupPadding: 0,
+        pointPadding: 0,
+        borderWidth: 0
+    })
     self.legend(enabled: false)
   end
 end
