@@ -30,12 +30,12 @@
               context: :info, id: 'remembered-runners-panel' do %>
         <div class='panel-body'>
           <%= link_to t('.show_remembered_runners'), url_for(action: 'show_remembered', ids: []),
-                      id: 'remembered-runners-link', class: 'btn btn-primary btn-block' %>
+                      id: 'remembered-runners-link', class: 'btn btn-primary btn-block remembered-runners-interactible' %>
           <%= link_to t('.forget_remembered_runners'), '#', data: {forget_runners: true},
-                      class: 'btn btn-danger btn-block' %>
+                      class: 'btn btn-danger btn-block remembered-runners-interactible' %>
           <% if admin_signed_in? %>
               <%= link_to t('.merge_remembered_runners'), new_merge_runners_request_path,
-                          class: 'btn btn-default btn-xs btn-block' %>
+                          class: 'btn btn-default btn-xs btn-block remembered-runners-interactible' %>
           <% end %>
         </div>
     <% end %>
