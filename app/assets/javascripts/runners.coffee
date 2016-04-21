@@ -94,8 +94,10 @@ $ ->
     $('#remembered-runners-link').attr('href', new_link)
     if runner_ids.length > 0
       $('.remembered-runners-interactible').removeClass('disabled')
+      $('#remember-runners-hint').hide()
     else
       $('.remembered-runners-interactible').addClass('disabled')
+      $('#remember-runners-hint').show()
 
   $('#runners-datatable').on('init.dt', ->
     # Only search after a minimum of 3 characters were entered

@@ -29,6 +29,9 @@
     <%= panel heading: (t('.remembered_renners') + content_tag(:i, '', class: 'fa fa-star fa-pull-right fa-2x')).html_safe,
               context: :info, id: 'remembered-runners-panel' do %>
         <div class='panel-body'>
+          <div id="remember-runners-hint" class="text-center text-muted">
+            <%= t('.remember_runners_hint').html_safe %>
+          </div>
           <%= link_to t('.show_remembered_runners'), url_for(action: 'show_remembered', ids: []),
                       id: 'remembered-runners-link', class: 'btn btn-primary btn-block remembered-runners-interactible' %>
           <%= link_to t('.forget_remembered_runners'), '#', data: {forget_runners: true},
