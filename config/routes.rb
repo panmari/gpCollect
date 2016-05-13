@@ -1,3 +1,5 @@
+Rails.application.routes.default_url_options[:host] = 'gpcollect.duckdns.org'
+
 Rails.application.routes.draw do
   scope "/:locale" do
     get 'static_pages/about'
