@@ -59,6 +59,7 @@ en:
       overview_multiple_runners_and_years: "Overview over multiple runners and years"
   show_runner_chart:
     goal: "Goal"
+    at_12_5_km: "At 12.5 km"
     at_10_km: "At 10 km"
     at_5_km: "At 5 km"
     mean_category: "Mean goal time of category"

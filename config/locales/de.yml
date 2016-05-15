@@ -43,6 +43,7 @@ de:
       overview_multiple_runners_and_years: "Übersicht über mehrere Läufer und Jahre"
   show_runner_chart:
     goal: "Zielzeit"
+    at_12_5_km: "Am 12.5. km"
     at_10_km: "Am 10. km"
     at_5_km: "Am 5. km"
     mean_category: "Mittlere Zielzeit der Kategorie"

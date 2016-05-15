@@ -22,6 +22,7 @@
       <th><%= Run.human_attribute_name :category %></th>
       <th><%= t('show_runner_chart.at_5_km') %></th>
       <th><%= t('show_runner_chart.at_10_km') %></th>
+      <th><%= t('show_runner_chart.at_12_5_km') %></th>
       <th><%= Run.human_attribute_name :duration %></th>
       <th><%= t('.external_links') %></th>
       </thead>
@@ -31,6 +32,7 @@
             <td><%= link_to run.category.name, run.category %></td>
             <td><%= run.interim_time_formatted(0) %></td>
             <td><%= run.interim_time_formatted(1) %></td>
+            <td><%= run.interim_time_formatted(2) %></td>
             <td><%= run.duration_formatted %></td>
             <td><%= run.alpha_foto_link %></td>
           </tr>
