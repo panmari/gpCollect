@@ -31,7 +31,10 @@ module SeedHelpers
             {file: "db/data/gp_bern_10m_2014.csv",
              run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2014, 5, 10), route: route_16km)},
             {file: "db/data/gp_bern_10m_2015.csv",
-             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2015, 5, 9), route: route_16km)}
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2015, 5, 9), route: route_16km)},
+            {file: "db/data/gp_bern_10m_2016.csv", col_sep: ',', interim_times_count: 3,
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2016, 5, 14), route: route_16km)}
+
         ]
   end
 
@@ -111,26 +114,31 @@ module SeedHelpers
     file = options.fetch(:file)
     shift = options.fetch(:shift, 0)
     duration_shift = options.fetch(:duration_shift, 0)
+    col_sep = options.fetch(:col_sep, ';')
+    interim_times_count = options.fetch(:interim_times_count, 2)
     puts "Seeding #{file} "
     progressbar = create_progressbar_for(file)
 
     run_day = options.fetch(:run_day)
     ActiveRecord::Base.transaction do
-      CSV.open(file, headers: true, col_sep: ';').each do |line|
-        runner_hash = {}
-        # Only match if only consists of numbers.
-        start_number = line[3 + shift].scan(/^[0-9]+$/)[0]
-        name = line[4 + shift]
-        category_string = line[5 + shift]
-        club_or_hometown = line[6 + shift]
-        runner_hash[:club_or_hometown] = club_or_hometown.blank? ? nil : club_or_hometown
-        duration_string = line[10 + shift + duration_shift]
-
-        # Don't create a runner/run if there is no category or duration associated.
-        next if category_string.blank? or duration_string.blank?
+      CSV.open(file, headers: true, col_sep: col_sep).each do |line|
         begin
+          runner_hash = {}
+          name = line[4 + shift]
+          category_string = line[5 + shift]
+          club_or_hometown = line[6 + shift]
+          runner_hash[:club_or_hometown] = club_or_hometown.blank? ? nil : club_or_hometown
+          duration_string = line[8 + interim_times_count + shift + duration_shift]
+
+          # Don't create a runner/run if there is no category or duration (incl. > 2h) associated.
+          next if line[0] == '&gt'
+          next if category_string.blank? or duration_string.blank?
+
+          # Only match if only consists of numbers with some optional prefix.
+          start_number = line[3 + shift].scan(/^[MK]?[0-9]+$/)[0]
+
           # E. g. 'Abati, Mauro (SUI)'
-          m = NAME_REGEXP.match name
+          m = NAME_REGEXP.match(name)
           if m
             runner_hash[:last_name] = m[:last_name].gsub('0', 'o').titleize
             runner_hash[:first_name] = m[:first_name].gsub('0', 'o').titleize
@@ -151,8 +159,9 @@ module SeedHelpers
 
           runner = find_or_create_runner_for(runner_hash, run_day, category)
 
-          interim_times = [duration_string_to_milliseconds(line[8 + shift + duration_shift], true),
-                           duration_string_to_milliseconds(line[9 + shift + duration_shift], true)]
+          interim_times = interim_times_count.times.map do |interim_idx|
+            duration_string_to_milliseconds(line[8 + shift + duration_shift + interim_idx], true)
+          end
           Run.create!(start_number: start_number, runner: runner, category: category,
                       duration: duration_string_to_milliseconds(duration_string),
                       run_day: run_day, interim_times: interim_times)
