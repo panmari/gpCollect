@@ -15,4 +15,30 @@ class Run < ActiveRecord::Base
     end
   end
 
+  def rank
+    result = ActiveRecord::Base.connection.execute(<<-SQL
+      SELECT rank
+      FROM (
+        SELECT runs.id AS id, rank() OVER (ORDER BY duration)
+        FROM runs
+        WHERE run_day_id = #{self.run_day_id}) Filtered
+      WHERE id = #{self.id}
+    SQL
+    )
+    result.first['rank']
+  end
+
+  def category_rank
+    result = ActiveRecord::Base.connection.execute(<<-SQL
+      SELECT rank
+      FROM (
+        SELECT runs.id AS id, rank() OVER (ORDER BY duration)
+        FROM runs
+        WHERE run_day_id = #{self.run_day_id} AND
+          category_id = #{self.category_id}) Filtered
+      WHERE id = #{self.id}
+      SQL
+    )
+    result.first['rank']
+  end
 end
