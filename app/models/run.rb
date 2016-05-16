@@ -23,6 +23,7 @@ class Run < ActiveRecord::Base
         FROM runs
         WHERE run_day_id = #{self.run_day_id}) Filtered
       WHERE id = #{self.id}
+      LIMIT 1
     SQL
     )
     result.first['rank']
@@ -37,6 +38,7 @@ class Run < ActiveRecord::Base
         WHERE run_day_id = #{self.run_day_id} AND
           category_id = #{self.category_id}) Filtered
       WHERE id = #{self.id}
+      LIMIT 1
       SQL
     )
     result.first['rank']
