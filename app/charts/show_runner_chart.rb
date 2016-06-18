@@ -27,6 +27,5 @@ class ShowRunnerChart < RuntimeChart
       run.run_day_category_aggregate.mean_duration
     end
     self.series(name: I18n.t('show_runner_chart.mean_category'), data: data, type: 'line', color: '#222222')
-    # TODO: Make custom color theme for better readability.
   end
 end
