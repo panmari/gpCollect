@@ -20,7 +20,7 @@ class RuntimeHistogram < LazyHighCharts::HighChart
     unless @runner_constraint.blank?
       runs = runs.includes(:runner).where(runners: @runner_constraint)
     end
-    data = Rails.cache.fetch("hist_data_#{@category.id}") do
+    data = Rails.cache.fetch("hist_data_#{@category.id rescue 'all'}") do
       runs.where.not(duration: nil).group("duration / #{@grouping_factor}").count
     end
 
