@@ -2,7 +2,6 @@ class CategoriesController < ApplicationController
   before_action :set_category, only: [:show]
 
   # GET /categories
-  # GET /categories.json
   def index
     @categories = Category.modern_ordered(run_day_category_aggregates: :run_day)
     @participant_chart = ParticipantsChart.new(@categories)
@@ -16,14 +15,12 @@ class CategoriesController < ApplicationController
   end
 
   # GET /categories/1
-  # GET /categories/1.json
   def show
     @chart = CompareCategoriesChart.new(@category)
     @participant_chart = ParticipantsChart.new(@category)
+    highlighted_run = Run.find_by_id(params[:highlighted_run_id])
     @hist = if runner_constraint.blank?
-              Rails.cache.fetch("hist_#{@category.id}") do
-                RuntimeHistogram.new(category: @category)
-              end
+              RuntimeHistogram.new(category: @category, highlighted_run: highlighted_run)
             else
               RuntimeHistogram.new(category: @category, runner_constraint: runner_constraint)
             end

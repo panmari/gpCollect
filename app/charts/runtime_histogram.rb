@@ -9,6 +9,9 @@ class RuntimeHistogram < LazyHighCharts::HighChart
                        else
                          30000
                        end
+    @highlighted_run = options.fetch(:highlighted_run, nil)
+    highlighted_key = @highlighted_run.duration / @grouping_factor if @highlighted_run
+
     runs = if @category
              Run.where(category: @category)
            else
@@ -17,12 +20,36 @@ class RuntimeHistogram < LazyHighCharts::HighChart
     unless @runner_constraint.blank?
       runs = runs.includes(:runner).where(runners: @runner_constraint)
     end
-    @data = runs.where.not(duration: nil).group("duration / #{@grouping_factor}").count
+    data = Rails.cache.fetch("hist_data_#{@category.id}") do
+      runs.where.not(duration: nil).group("duration / #{@grouping_factor}").count
+    end
+
     # Sort and bring back to correct range.
-    @data = @data.sort_by { |k, _| k }.map { |a| [a[0] * @grouping_factor, a[1]] }
+    data_series = data.sort_by { |k, _| k }.map do |a|
+      if a[0] == highlighted_key
+        {x: a[0] * @grouping_factor, y: a[1], color: 'red', marker: {}}
+      else
+        [a[0] * @grouping_factor, a[1]]
+      end
+    end
 
     set_options
-    series({data: @data})
+
+    series({data: data_series, id: 'hist', name: 'hist'})
+    if @highlighted_run
+      series({
+          type: 'flags',
+          name: 'Highcharts',
+          color: '#333333',
+          data: [
+              { x: highlighted_key * @grouping_factor,
+                text: "In #{@highlighted_run.run_day.year} was #{@highlighted_run.decorate.duration_formatted}" ,
+                title: @highlighted_run.runner.decorate.name },
+          ],
+          showInLegend: false,
+          onSeries: 'hist',
+      })
+    end
   end
 
   private
@@ -46,12 +73,15 @@ class RuntimeHistogram < LazyHighCharts::HighChart
         useHTML: true,
         #shared: true,
         formatter: "function() {
-          return '<b>#{I18n.t('runtime_chart.time')}: </b>' +
-                 Highcharts.dateFormat('%H:%M:%S', new Date(this.x)) +
-                 ' - ' +
-                 Highcharts.dateFormat('%H:%M:%S', new Date(this.x + #{@grouping_factor})) + '<br/>' +
-                 '<b>#{I18n.t('activerecord.models.runner')}: </b>' +
-                 this.y;
+          if (this.series.name == 'hist')
+            return '<b>#{I18n.t('runtime_chart.time')}: </b>' +
+                   Highcharts.dateFormat('%H:%M:%S', new Date(this.x)) +
+                   ' - ' +
+                   Highcharts.dateFormat('%H:%M:%S', new Date(this.x + #{@grouping_factor})) + '<br/>' +
+                   '<b>#{I18n.t('activerecord.models.runner')}: </b>' +
+                   this.y;
+          else
+            return this.point.text;
         }".js_code
     )
     self.plotOptions(column: {

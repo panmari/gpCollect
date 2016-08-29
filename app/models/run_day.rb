@@ -12,4 +12,7 @@ class RunDay < ActiveRecord::Base
     RunDay.find_by!('extract(year from date) = ?', year)
   end
 
+  def year
+    date.year
+  end
 end

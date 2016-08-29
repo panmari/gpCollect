@@ -19,7 +19,7 @@
 //= require date-de
 //= require js.cookie
 //= require bootstrap-sprockets
-//= require highcharts/highcharts
+//= require highcharts/highstock
 //= require nprogress
 //= require nprogress-ajax
 //= require_tree .
