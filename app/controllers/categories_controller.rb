@@ -1,16 +1,19 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show]
 
+  def default_url_options
+    super.merge(highlighted_run_id: params[:highlighted_run_id])
+  end
+
   # GET /categories
   def index
     @categories = Category.modern_ordered(run_day_category_aggregates: :run_day)
     @participant_chart = ParticipantsChart.new(@categories)
+    highlighted_run = Run.find_by_id(params[:highlighted_run_id])
     @hist = if runner_constraint.blank?
-              Rails.cache.fetch('hist' + @categories.map(&:id).join(':')) do
-                RuntimeHistogram.new
-              end
+              RuntimeHistogram.new(highlighted_run: highlighted_run)
             else
-              RuntimeHistogram.new(runner_constraint: runner_constraint)
+              RuntimeHistogram.new(runner_constraint: runner_constraint, highlighted_run: highlighted_run)
             end
   end
 
@@ -22,7 +25,7 @@ class CategoriesController < ApplicationController
     @hist = if runner_constraint.blank?
               RuntimeHistogram.new(category: @category, highlighted_run: highlighted_run)
             else
-              RuntimeHistogram.new(category: @category, runner_constraint: runner_constraint)
+              RuntimeHistogram.new(category: @category, runner_constraint: runner_constraint, highlighted_run: highlighted_run)
             end
   end
 
