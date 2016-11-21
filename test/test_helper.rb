@@ -7,7 +7,6 @@ require 'rails/test_help'
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
-  include Devise::TestHelpers
   # Add more helper methods to be used by all tests here...
 
   def setup

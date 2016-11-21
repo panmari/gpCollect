@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class RunnersControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @runner = create(:runner_with_runs)
     # Create run aggregates that are needed for show action.

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class MergeRunnersRequestsControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @first = create(:runner)
     second_attributes = @first.attributes.except('id')

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class CategoriesControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @category = create(:category)
     categoryW = create(:category, sex: 'W')

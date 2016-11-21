@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class RunsControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @run = create(:run)
   end
