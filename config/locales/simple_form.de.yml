@@ -1,15 +1,14 @@
-en:
+de:
   simple_form:
     required:
-      text: 'required'
+      text: 'benötigt'
       mark: '*'
       # You can uncomment the line below if you need to overwrite the whole required html.
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     error_notification:
-      recaptcha: reCAPTCHA verification failed, please try again.
-      default_message: "Please review the problems below:"
-    # Examples
+      default_message: Fehler sind aufgetreten. Siehe unten.
+      recaptcha: reCAPTCHA konnte nicht verifiziert werden. Bitte versuchen Sie es noch einmal.    # Examples
     # labels:
     #   defaults:
     #     password: 'Password'

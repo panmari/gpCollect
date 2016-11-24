@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       end
     end
     resources :categories
+    resources :feedbacks
     resources :runs
     resources :runners do
       collection do

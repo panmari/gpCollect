@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516132505) do
+ActiveRecord::Schema.define(version: 20161124091625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,14 @@ ActiveRecord::Schema.define(version: 20160516132505) do
     t.datetime "updated_at", null: false
     t.integer  "age_min"
     t.integer  "age_max"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.text     "text"
+    t.string   "email"
+    t.string   "ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "merge_runners_requests", force: :cascade do |t|
