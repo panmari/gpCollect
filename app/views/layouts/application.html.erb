@@ -32,6 +32,7 @@
         <%= nav class: 'navbar-left' do %>
             <%= link_to t('.runners'), runners_path %>
             <%= link_to t('.categories'), categories_path %>
+            <%= link_to(t('.feedback'), feedbacks_path) if current_admin %>
         <% end %>
         <%= nav class: 'navbar-right' do %>
             <%= link_to t('.about'), static_pages_about_path %>
