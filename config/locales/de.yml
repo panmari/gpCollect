@@ -29,6 +29,9 @@ de:
   feedbacks:
     new:
       new_feedback: Feedback erstellen
+    create:
+      notice: Feedback wurde erfolgreich gesendet.
+
   runners:
     index:
       remembered_renners: "Gemerkte Läufer"

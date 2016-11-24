@@ -27,7 +27,7 @@ class FeedbacksController < ApplicationController
                         attribute: :recaptcha,
                         message: I18n.t('simple_form.error_notification.recaptcha')) && @feedback.save
       @feedback.update_attribute(:ip, request.remote_ip)
-      redirect_to '/', notice: 'Feedback was successfully created.'
+      redirect_to '/', notice: t('.notice')
     else
       render :new
     end

@@ -45,6 +45,8 @@ en:
   feedbacks:
     new:
       new_feedback: Create feedback
+    create:
+      notice: Feedback was sent successfully.
   runners:
     index:
       remembered_renners: "Remembered runners"
