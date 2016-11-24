@@ -66,6 +66,8 @@ gem 'thin'
 
 gem 'sitemap_generator'
 
+gem "recaptcha", require: "recaptcha/rails"
+
 # For performance evaluation:
 gem 'rack-mini-profiler'
 gem 'flamegraph'

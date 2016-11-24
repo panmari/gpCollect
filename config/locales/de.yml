@@ -26,6 +26,12 @@ de:
           run_date: Lauftag
           category: Kategorie
           duration: Laufzeit
+  feedbacks:
+    new:
+      new_feedback: Feedback erstellen
+    create:
+      notice: Feedback wurde erfolgreich gesendet.
+
   runners:
     index:
       remembered_renners: "Gemerkte Läufer"

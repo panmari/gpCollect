@@ -42,6 +42,11 @@ en:
           best_time: "Best time"
           mean_time: 'Mean time'
           birth_date: 'Estimated birth date'
+  feedbacks:
+    new:
+      new_feedback: Create feedback
+    create:
+      notice: Feedback was sent successfully.
   runners:
     index:
       remembered_renners: "Remembered runners"
