@@ -46,10 +46,13 @@
   <%# Make user aware of search box after some time. %>
   <script>
     setTimeout(function () {
-      // Add tooltip to search box
+      // Add tooltip to search box.
       var search_box = $(".dataTables_filter input");
       search_box.tooltip({ title: '<%= t('.search_hint') %>'});
       search_box.effect('highlight', {}, 3000);
     }, 2000);
   </script>
+</div>
+<div class="row">
+  <%= t('.bottom_hint', last_year: RunDay.most_recent_year).html_safe %>
 </div>

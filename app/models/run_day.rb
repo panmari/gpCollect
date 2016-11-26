@@ -12,6 +12,10 @@ class RunDay < ActiveRecord::Base
     RunDay.find_by!('extract(year from date) = ?', year)
   end
 
+  def self.most_recent_year
+    RunDay.ordered_by_date.last.year
+  end
+
   def year
     date.year
   end

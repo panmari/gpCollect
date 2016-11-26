@@ -41,6 +41,8 @@ de:
       search_for_runners: "Suche nach Läufern des Grand Prix Bern"
       search_hint: "Es kann nach Vorname, Nachname oder Club/Heimatstadt gesucht werden. Mehrere Suchbegriffe können mit Leertaste unterteilt werden."
       remember_runners_hint: 'Merke und vergleiche Läufer mit Klick auf den jeweiligen <i class="fa fa-star-o"></i> button.'
+      bottom_hint: 'Nur Läufer des Grand Prix Bern (der 16 km Lauf) der Jahre 1999 - %{last_year} sind vorhanden.
+      Mehr Resultate sind auf <a href="http://www.gpbern.ch/de/resultate">der offiziellen Resultatseite</a> verfügbar.'
     show:
       no_runs_available: "Es gibt keine Läufe für diesen Läufer"
       runs: "Bisherige Ergebnisse am Grand Prix Bern"

@@ -56,6 +56,8 @@ en:
       search_for_runners: "Search for runners of the Grand Prix Berne"
       search_hint: "First name, last name and club/hometown are searchable. Multiple search terms can be entered."
       remember_runners_hint: 'Click the <i class="fa fa-star-o"></i> button of runners to remember and compare them.'
+      bottom_hint: 'Only runners of the Grand Prix Bern (the 16 km run) of the years 1999 - %{last_year} are available.
+      More results can be found on <a href="http://www.gpbern.ch/de/resultate">the official result page</a>.'
     show:
       no_runs_available: "There are no runs recorded for this runner."
       runs: "Previous results at the Grand Prix Berne"
