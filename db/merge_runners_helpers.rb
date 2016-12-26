@@ -139,10 +139,12 @@ module MergeRunnersHelpers
   def self.merge_duplicates_based_on_space
     POSSIBLY_WRONGLY_SPACED_ATTRIBUTES.each do |attr|
       merged_runners = 0
-      find_runners_only_differing_in(attr, ["replace(#{attr}, '-', ' ') as spaced"], ['spaced']).each do |entries|
+      find_runners_only_differing_in(attr, ["lower(regexp_replace(#{attr}, '[- ]', '', 'g')) as unspaced"], ['unspaced']).each do |entries|
         # We take the one with more spaces as he correct one.
+        # Except when there is a version with consecutive spaces such as
+        #   La Tour-de -Peilz
         merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
-          runner[attr].scan(/ /).size
+          [-runner[attr].scan(/[- ]{2,}/).size, runner[attr].scan(/[ -]/).size]
         end
       end
       puts "Merged #{merged_runners} entries based on spaces of #{attr}."
