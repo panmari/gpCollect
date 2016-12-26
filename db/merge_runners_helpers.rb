@@ -33,10 +33,11 @@ module MergeRunnersHelpers
             .group(identifying_runner_attributes_group - removed_attributes -[attr].flatten +
                        additional_attributes_group).having('count(*) > 1')
     # Each merge candidate consists of multiple runners, retrieve these runners from database here.
-    merge_candidates = r.map { |i| Runner.includes(:run_days, runs: :run_day).find(i['ids']) }
+    merge_candidates = r.map { |i| Runner.includes(:run_days, runs: [:run_day, :category]).find(i['ids']) }
     # Only select the runners as merge candidates that differ in the queried attribute.
 
     # TODO: possibly remove this.
+    # Only select runners that actually differ in the given attribute.
     merge_candidates.select! { |i| [attr].flatten.any? { |a| i.first[a] != i.second[a] } }
 
     # A runner can not suddenly get younger, so check if categories are ascending.
