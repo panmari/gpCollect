@@ -22,12 +22,12 @@
 en:
   layouts:
     application:
-      title: "GP Collect - Runtimes of the GP Bern"
+      title: "Runtimes of the GP Bern"
       runners: "Search runners"
-      categories: "Category overview"
+      categories: "Categories overview"
       home: "GP Collect"
       about: "About"
-      title_with_runner: "GP Collect - %{runner}"
+      title_with_runner: "Runtimes of %{runner}"
   activerecord:
       models:
         runner: Runner
@@ -86,7 +86,8 @@ en:
   runner_datatable:
     show_hint: "Show runner"
     remember_runner: "Remember runner for comparison"
-  details_for_category: "Statistics for category %{category}"
   categories:
     category_selector:
       all_runners: "All runners"
+    show:
+      details_for_category: "Statistics for category %{category}"

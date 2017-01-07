@@ -3,8 +3,8 @@ de:
     application:
       runners: "Läufersuche"
       categories: "Kategorienübersicht"
-      title: "GP Collect - Laufzeiten des GP Bern"
-      title_with_runner: "GP Collect - %{runner}"
+      title: "Laufzeiten des GP Bern"
+      title_with_runner: "Laufzeiten von %{runner}"
       home: "GP Collect"
       about: "Über"
   activerecord:
@@ -75,7 +75,8 @@ de:
   runner_datatable:
     show_hint: "Zeige Läufer"
     remember_runner: "Merke Läufer für Vergleich"
-  details_for_category: "Statistiken der Kategorie %{category}"
   categories:
     category_selector:
       all_runners: "Alle Läufer"
+    show:
+      details_for_category: "Statistiken der Kategorie %{category}"

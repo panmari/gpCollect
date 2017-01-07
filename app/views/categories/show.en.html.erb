@@ -1,6 +1,6 @@
+<% content_for :page_title, t('.details_for_category', category: @category.name) %>
 <%= render 'categories/category_selector' %>
-
-<h1><%= t('details_for_category', category: @category.name) %></h1>
+<h1><%= t('.details_for_category', category: @category.name) %></h1>
 <h2>Histogram of run durations</h2>
 The run duration of all runners belonging to the category <%= @category.name %> of the last few years aggregated to a
 histogram.

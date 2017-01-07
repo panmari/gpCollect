@@ -1,6 +1,7 @@
+<% content_for :page_title, t('.details_for_category', category: @category.name) %>
 <%= render 'categories/category_selector' %>
 
-<h1><%= t('details_for_category', category: @category.name) %></h1>
+<h1><%= t('.details_for_category', category: @category.name) %></h1>
 <h2>Histogram der Laufzeiten</h2>
 Die Laufzeiten der letzten Jahre der Läuferinnen bzw. Läufer aus der Kategorie <%= @category.name %>
 aggregiert zu einem Histogram.
