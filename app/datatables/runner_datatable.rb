@@ -13,6 +13,7 @@ class RunnerDatatable < AjaxDatatablesRails::Base
     @searchable_columns ||= ['Runner.first_name', 'Runner.last_name', 'Runner.club_or_hometown']
   end
 
+  # Override as_json from gem in order to cache counts and read out optimized counts defined in fetch_records.
   def as_json(options = {})
     filtered_data = data
     total_count = Rails.cache.fetch('raw_count') { get_raw_records.count(:all) }
@@ -87,7 +88,7 @@ class RunnerDatatable < AjaxDatatablesRails::Base
         term = "%#{sanitize_sql_like(unescaped_term)}%"
         unaccented_concatenated.matches(::Arel::Nodes::NamedFunction.new('f_unaccent', [::Arel::Nodes::build_quoted(term)]))
       end.reduce(:and)
-      puts where_clause.inspect
+      # Do filtered counts here instead of calling count again later. 
       records.select('*, count(*) OVER() as filtered_count').where(where_clause)
     else
       records
