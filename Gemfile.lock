@@ -66,7 +66,7 @@ GEM
       railties (>= 3.1)
     builder (3.2.3)
     byebug (9.0.6)
-    capistrano (3.8.0)
+    capistrano (3.8.1)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
