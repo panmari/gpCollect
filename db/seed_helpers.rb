@@ -33,8 +33,12 @@ module SeedHelpers
             {file: "db/data/gp_bern_10m_2015.csv",
              run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2015, 5, 9), route: route_16km)},
             {file: "db/data/gp_bern_10m_2016.csv", col_sep: ',', interim_times_count: 3,
-             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2016, 5, 14), route: route_16km)}
-
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2016, 5, 14), route: route_16km)},
+            {file: "db/data/gp_bern_10m_2017.csv", col_sep: ',', interim_col: 9,
+             interim_times_count: 4, duration_col: 14, category_col: 6,
+             club_or_hometown_col: 7,
+             run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer, date: Date.new(2017, 5, 13), route: route_16km,
+             alpha_foto_id: '869')},
         ]
   end
 
@@ -110,12 +114,20 @@ module SeedHelpers
   # Optionally taking the following keys:
   # * shift: Additional shift of ALL read out columns, if format does not match exactly.
   # * duration_shift: additional shift for duration column.
+  # * interim_times_count: Number of additional measurements before final time, 2 by default.
   def self.seed_runs_file(options)
     file = options.fetch(:file)
     shift = options.fetch(:shift, 0)
     duration_shift = options.fetch(:duration_shift, 0)
     col_sep = options.fetch(:col_sep, ';')
     interim_times_count = options.fetch(:interim_times_count, 2)
+
+    start_number_col = options.fetch(:start_number_col, 3 + shift)
+    category_col = options.fetch(:category_col, 5 + shift)
+    club_or_hometown_col = options.fetch(:club_or_hometown_col, 6 + shift)
+    interim_col = options.fetch(:interim_col, 8 + shift + duration_shift)
+    duration_col = options.fetch(:duration_col, 8 + interim_times_count + shift + duration_shift)
+
     puts "Seeding #{file} "
     progressbar = create_progressbar_for(file)
 
@@ -125,17 +137,17 @@ module SeedHelpers
         begin
           runner_hash = {}
           name = line[4 + shift]
-          category_string = line[5 + shift]
-          club_or_hometown = line[6 + shift]
+          category_string = line[category_col]
+          club_or_hometown = line[club_or_hometown_col]
           runner_hash[:club_or_hometown] = club_or_hometown.blank? ? nil : club_or_hometown
-          duration_string = line[8 + interim_times_count + shift + duration_shift]
+          duration_string = line[duration_col]
 
           # Don't create a runner/run if there is no category or duration (incl. > 2h) associated.
           next if line[0] == '&gt'
           next if category_string.blank? or duration_string.blank?
 
           # Only match if only consists of numbers with some optional prefix.
-          start_number = line[3 + shift].scan(/^[MK]?[0-9]+$/)[0]
+          start_number = line[start_number_col].scan(/^[MK]?[0-9]+$/)[0]
 
           # E. g. 'Abati, Mauro (SUI)'
           m = NAME_REGEXP.match(name)
@@ -160,7 +172,7 @@ module SeedHelpers
           runner = find_or_create_runner_for(runner_hash, run_day, category)
 
           interim_times = interim_times_count.times.map do |interim_idx|
-            duration_string_to_milliseconds(line[8 + shift + duration_shift + interim_idx], true)
+            duration_string_to_milliseconds(line[interim_col + interim_idx], true)
           end
           Run.create!(start_number: start_number, runner: runner, category: category,
                       duration: duration_string_to_milliseconds(duration_string),

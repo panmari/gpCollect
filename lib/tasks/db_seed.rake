@@ -74,7 +74,8 @@ namespace :db do
 
   desc "Adds alpha foto id to existing run days"
   task add_alpha_foto_id: :environment do
-    {2016 => '739',
+    {2017 => '869',
+     2016 => '739',
      2015 => '630',
      2014 => '532',
      2013 => '430',

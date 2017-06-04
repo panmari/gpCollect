@@ -1,3 +1,6 @@
+# Script for seeding a new database from scratch. To incrementally
+# seed another year, use `rake db:seed_most_recent_year`
+
 require_relative 'seed_helpers'
 require_relative 'merge_runners_helpers'
 
