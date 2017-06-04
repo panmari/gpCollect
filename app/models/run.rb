@@ -15,6 +15,23 @@ class Run < ActiveRecord::Base
     end
   end
 
+  # If 4 times are available, they correspond to [2.2, 5, 10, 12.8] km
+  # If 3: [5, 10, 12.5] km
+  # If 2: [5, 10] km
+  # This method pads all arrays available to size 4.
+  # TODO: 12.5 != 12.8, handle this case better.
+  def interim_times
+    t = self[:interim_times]
+    case t.size
+    when 3
+      return [nil] + t
+    when 2
+      return [nil] + t + [nil]
+    else
+      return t
+    end
+  end
+
   def rank
     result = ActiveRecord::Base.connection.execute(<<-SQL
       SELECT rank
