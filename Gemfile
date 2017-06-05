@@ -85,7 +85,7 @@ group :development do
   gem 'capistrano-rails-tail-log', require: false
 
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
