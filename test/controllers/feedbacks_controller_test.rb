@@ -43,7 +43,8 @@ class FeedbacksControllerTest < ActionController::TestCase
   test "should update feedback" do
     sign_in @admin
     patch :update, params: {
-      id: @feedback, feedback: { email: @feedback.email, ip: @feedback.ip, text: @feedback.text }
+      id: @feedback.id, 
+      feedback: { email: @feedback.email, ip: @feedback.ip, text: @feedback.text }
     }
     assert_redirected_to feedback_path(assigns(:feedback))
   end
