@@ -13,7 +13,7 @@ class RunsControllerTest < ActionController::TestCase
   end
 
   test "should show run" do
-    get :show, id: @run
+    get :show, params: { id: @run.id }
     assert_response :success
   end
 end

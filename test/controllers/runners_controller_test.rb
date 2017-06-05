@@ -19,7 +19,7 @@ class RunnersControllerTest < ActionController::TestCase
   end
 
   test "should show runner" do
-    get :show, id: @runner
+    get :show, params: { id: @runner.id }
     assert_response :success
   end
 end

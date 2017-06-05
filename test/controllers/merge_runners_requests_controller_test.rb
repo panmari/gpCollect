@@ -26,7 +26,9 @@ class MergeRunnersRequestsControllerTest < ActionController::TestCase
 
   test "should create merge_runners_request" do
     assert_difference('MergeRunnersRequest.count') do
-      post :create, merge_runners_request: @merge_runners_request.attributes.except('id')
+      post :create, params: {
+        merge_runners_request: @merge_runners_request.attributes.except('id')
+      }
     end
 
     assert_redirected_to runners_path
@@ -34,26 +36,29 @@ class MergeRunnersRequestsControllerTest < ActionController::TestCase
 
   test "should show merge_runners_request" do
     sign_in @admin
-    get :show, id: @merge_runners_request
+    get :show, params: { id: @merge_runners_request.id }
     assert_response :success
   end
 
   test "should get edit" do
     sign_in @admin
-    get :edit, id: @merge_runners_request
+    get :edit, params: { id: @merge_runners_request.id }
     assert_response :success
   end
 
   test "should update merge_runners_request" do
     sign_in @admin
-    patch :update, id: @merge_runners_request, merge_runners_request: @merge_runners_request.attributes.except('id')
+    patch :update, params: {
+      id: @merge_runners_request,
+      merge_runners_request: @merge_runners_request.attributes.except('id')
+    }
     assert_redirected_to merge_runners_request_path(assigns(:merge_runners_request))
   end
 
   test "should destroy merge_runners_request" do
     sign_in @admin
     assert_difference('MergeRunnersRequest.count', -1) do
-      delete :destroy, id: @merge_runners_request
+      delete :destroy, params: { id: @merge_runners_request.id }
     end
 
     assert_redirected_to merge_runners_requests_path

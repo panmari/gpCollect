@@ -17,7 +17,7 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should show category" do
-    get :show, id: @category
+    get :show, params: { id: @category.name }
     assert_response :success
   end
 end

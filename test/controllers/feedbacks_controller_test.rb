@@ -20,7 +20,9 @@ class FeedbacksControllerTest < ActionController::TestCase
 
   test "should create feedback" do
     assert_difference('Feedback.count') do
-      post :create, feedback: { email: @feedback.email, ip: @feedback.ip, text: @feedback.text }
+      post :create, params: {
+        feedback: { email: @feedback.email, ip: @feedback.ip, text: @feedback.text }
+      }
     end
 
     assert_redirected_to '/'
@@ -28,26 +30,28 @@ class FeedbacksControllerTest < ActionController::TestCase
 
   test "should show feedback" do
     sign_in @admin
-    get :show, id: @feedback
+    get :show, params: { id: @feedback.id }
     assert_response :success
   end
 
   test "should get edit" do
     sign_in @admin
-    get :edit, id: @feedback
+    get :edit, params: { id: @feedback.id }
     assert_response :success
   end
 
   test "should update feedback" do
     sign_in @admin
-    patch :update, id: @feedback, feedback: { email: @feedback.email, ip: @feedback.ip, text: @feedback.text }
+    patch :update, params: {
+      id: @feedback, feedback: { email: @feedback.email, ip: @feedback.ip, text: @feedback.text }
+    }
     assert_redirected_to feedback_path(assigns(:feedback))
   end
 
   test "should destroy feedback" do
     sign_in @admin
     assert_difference('Feedback.count', -1) do
-      delete :destroy, id: @feedback
+      delete :destroy, params: { id: @feedback.id }
     end
 
     assert_redirected_to feedbacks_path
