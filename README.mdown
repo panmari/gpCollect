@@ -22,6 +22,10 @@ contributor (place the data manually in `db/data`. Once you have all files neces
 
     rake db:seed
 
+For incrementally seeding a new year in a production database, use
+
+    RAILS_ENV=production bundle exec rake db:seed_most_recent_year
+
 ### Merge Duplicates
 
 During seeding, there is no normalization of data. This leads to some duplicated runners. To merge them, execute
