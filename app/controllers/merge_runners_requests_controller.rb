@@ -4,7 +4,7 @@ class MergeRunnersRequestsController < ApplicationController
 
   # GET /merge_runner_requests
   def index
-    @merge_runners_requests = MergeRunnersRequest.all.decorate
+    @merge_runners_requests = MergeRunnersRequest.all.includes(:runners).decorate
   end
 
   # GET /merge_runner_requests/1
