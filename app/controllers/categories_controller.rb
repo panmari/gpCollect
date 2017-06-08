@@ -7,7 +7,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.modern_ordered(run_day_category_aggregates: :run_day)
+    @categories = Category.modern.ordered.includes(run_day_category_aggregates: :run_day)
     @participant_chart = ParticipantsChart.new(@categories)
     highlighted_run = Run.find_by_id(params[:highlighted_run_id])
     @hist = if runner_constraint.blank?

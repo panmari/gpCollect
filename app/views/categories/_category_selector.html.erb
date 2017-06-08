@@ -4,5 +4,5 @@
     <%= link_to t('.all_runners'), categories_path, class: 'btn btn-block btn-success' + active_class %>
   </div>
 </div>
-<%= category_button_group(Category.modern_ordered.select { |c| c.sex == 'W' }, @category, 'btn-female') %>
-<%= category_button_group(Category.modern_ordered.select { |c| c.sex == 'M' }, @category, 'btn-male') %>
+<%= category_button_group(Category.modern.ordered.select { |c| c.sex == 'W' }, @category, 'btn-female') %>
+<%= category_button_group(Category.modern.ordered.select { |c| c.sex == 'M' }, @category, 'btn-male') %>

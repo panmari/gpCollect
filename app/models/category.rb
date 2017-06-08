@@ -2,18 +2,15 @@ class Category < ActiveRecord::Base
   has_many :runs
   has_many :run_day_category_aggregates
 
-  scope :ordered, -> { order({age_min: :asc, age_max: :asc, sex: :asc})}
+  scope :ordered, -> { order(:age_max, :age_min, :sex)}
 
-  # All categories that occured on the latest run day.
-  # TODO: Turn this into something scope-like.
-  def self.modern(includes=[])
-    RunDayCategoryAggregate.includes(category: includes).where(run_day: RunDay.last).where('runs_count > 0').map(&:category).flatten
-  end
-
-  # Orders by in such a way that lower ages come first (independent of upper or lower bound). Sex is interleaved.
-  def self.modern_ordered(includes=[])
-    self.modern(includes).sort {|a, b| [a.age_min || 0, a.age_max || 0, a.sex] <=> [b.age_min || 0, b.age_max || 0, b.sex] }
-  end
+  MODERN_RUNS_YEAR = 2016
+  # All categories that occured since the refresh. Older runs have slightly
+  # different categories.
+  scope :modern, -> { joins(run_day_category_aggregates: :run_day)
+    .where('extract(year from run_days.date) = ?', MODERN_RUNS_YEAR)
+    .where('runs_count > ?', 0).references(:run_day_category_aggregates)
+  }
 
   def name
     sex + if age_max
