@@ -4,6 +4,8 @@ class Run < ActiveRecord::Base
   belongs_to :run_day
   belongs_to :run_day_category_aggregate, :foreign_key => [:run_day_id, :category_id]
 
+  scope :ordered, -> { joins(:run_day).order(date: :asc).references(:run_day)}
+
   # Only available for runs with run_day.date >= 2010
   def alpha_foto_url?
     run_day.alpha_foto_id and start_number
