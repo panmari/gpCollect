@@ -23,7 +23,7 @@ gem 'jquery-rails'
 # For cool tables that are updated via ajax
 gem 'jquery-ui-rails'
 gem 'jquery-datatables-rails'
-gem 'ajax-datatables-rails', '~>0.3.0'
+gem 'ajax-datatables-rails'
 # Handling cookies easily in javascript
 gem 'js_cookie_rails'
 

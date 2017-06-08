@@ -4,15 +4,17 @@ $ ->
     processing: true,
     serverSide: true,
     ajax: source,
+    paging: true,
+    pagingType: 'full_numbers'
     columns: [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      { orderable: false },
-      { orderable: false }
+      {searchable: true, orderable: true, data: 'first_name'},
+      {searchable: true, orderable: true, data: 'last_name'},
+      {searchable: true, orderable: true, data: 'club_or_hometown'},
+      {searchable: false, orderable: true, data: 'sex'},
+      {searchable: false, orderable: true, data: 'nationality'},
+      {searchable: false, orderable: true, data: 'runs_count'},
+      {searchable: false, orderable: false, data: 'fastest_run_duration' },
+      {searchable: false, orderable: false, data: 'links' },
     ]
     "language": {
       "url": "/datatables." + window.locale + ".lang"
