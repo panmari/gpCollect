@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/composite-primary-keys/composite_primary_keys
+  revision: 03dc16ec61c3afbf57f062de644041665b66cf47
+  specs:
+    composite_primary_keys (9.0.7)
+      activerecord (~> 5.1.0)
+
+GIT
   remote: https://github.com/deviantech/capistrano-conditional.git
   revision: 07eb658082452b8d79a8b13f6196116b09d7c554
   specs:
@@ -9,44 +16,44 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (5.0.3)
-      actionpack (= 5.0.3)
-      nio4r (>= 1.2, < 3.0)
+    actioncable (5.1.1)
+      actionpack (= 5.1.1)
+      nio4r (~> 2.0)
       websocket-driver (~> 0.6.1)
-    actionmailer (5.0.3)
-      actionpack (= 5.0.3)
-      actionview (= 5.0.3)
-      activejob (= 5.0.3)
+    actionmailer (5.1.1)
+      actionpack (= 5.1.1)
+      actionview (= 5.1.1)
+      activejob (= 5.1.1)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.0.3)
-      actionview (= 5.0.3)
-      activesupport (= 5.0.3)
+    actionpack (5.1.1)
+      actionview (= 5.1.1)
+      activesupport (= 5.1.1)
       rack (~> 2.0)
       rack-test (~> 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.0.3)
-      activesupport (= 5.0.3)
+    actionview (5.1.1)
+      activesupport (= 5.1.1)
       builder (~> 3.1)
-      erubis (~> 2.7.0)
+      erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.0.3)
-      activesupport (= 5.0.3)
+    activejob (5.1.1)
+      activesupport (= 5.1.1)
       globalid (>= 0.3.6)
-    activemodel (5.0.3)
-      activesupport (= 5.0.3)
+    activemodel (5.1.1)
+      activesupport (= 5.1.1)
     activemodel-serializers-xml (1.0.1)
       activemodel (> 5.x)
       activerecord (> 5.x)
       activesupport (> 5.x)
       builder (~> 3.1)
-    activerecord (5.0.3)
-      activemodel (= 5.0.3)
-      activesupport (= 5.0.3)
-      arel (~> 7.0)
-    activesupport (5.0.3)
+    activerecord (5.1.1)
+      activemodel (= 5.1.1)
+      activesupport (= 5.1.1)
+      arel (~> 8.0)
+    activesupport (5.1.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
       minitest (~> 5.1)
@@ -55,14 +62,15 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     ajax-datatables-rails (0.3.1)
       railties (>= 3.1)
-    arel (7.1.4)
+    arel (8.0.0)
     autoprefixer-rails (7.1.1)
       execjs
     bcrypt (3.1.11)
     bh (1.3.4)
       actionpack
       activesupport
-    bindex (0.5.0)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     bootstrap-kaminari-views (0.0.5)
       kaminari (>= 0.13)
       rails (>= 3.1)
@@ -102,6 +110,7 @@ GEM
       activerecord (~> 5.0.0)
     concurrent-ruby (1.0.5)
     daemons (1.2.4)
+    debug_inspector (0.0.3)
     devise (4.3.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -123,7 +132,7 @@ GEM
       activemodel-serializers-xml (~> 1.0)
       activesupport (~> 5.0)
       request_store (~> 1.0)
-    erubis (2.7.0)
+    erubi (1.6.0)
     eventmachine (1.2.3)
     execjs (2.7.0)
     factory_girl (4.8.0)
@@ -133,6 +142,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.7.3)
       i18n (~> 0.5)
+    ffi (1.9.18)
     flamegraph (0.9.5)
     font-awesome-rails (4.7.0.2)
       railties (>= 3.2, < 5.2)
@@ -174,6 +184,10 @@ GEM
     kaminari-core (1.0.1)
     lazy_high_charts (1.5.8)
       hash-deep-merge
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.5)
@@ -210,17 +224,17 @@ GEM
       rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
-    rails (5.0.3)
-      actioncable (= 5.0.3)
-      actionmailer (= 5.0.3)
-      actionpack (= 5.0.3)
-      actionview (= 5.0.3)
-      activejob (= 5.0.3)
-      activemodel (= 5.0.3)
-      activerecord (= 5.0.3)
-      activesupport (= 5.0.3)
+    rails (5.1.1)
+      actioncable (= 5.1.1)
+      actionmailer (= 5.1.1)
+      actionpack (= 5.1.1)
+      actionview (= 5.1.1)
+      activejob (= 5.1.1)
+      activemodel (= 5.1.1)
+      activerecord (= 5.1.1)
+      activesupport (= 5.1.1)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 5.0.3)
+      railties (= 5.1.1)
       sprockets-rails (>= 2.0.0)
     rails-controller-testing (1.0.2)
       actionpack (~> 5.x, >= 5.0.1)
@@ -234,13 +248,16 @@ GEM
     rails-i18n (5.0.4)
       i18n (~> 0.7)
       railties (~> 5.0)
-    railties (5.0.3)
-      actionpack (= 5.0.3)
-      activesupport (= 5.0.3)
+    railties (5.1.1)
+      actionpack (= 5.1.1)
+      activesupport (= 5.1.1)
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (12.0.0)
+    rb-fsevent (0.9.8)
+    rb-inotify (0.9.8)
+      ffi (>= 0.5.0)
     recaptcha (4.3.1)
       json
     request_store (1.3.2)
@@ -265,6 +282,7 @@ GEM
       rspec-support (~> 3.6.0)
     rspec-support (3.6.0)
     ruby-progressbar (1.8.1)
+    ruby_dep (1.5.0)
     rvm1-capistrano3 (1.4.0)
       capistrano (~> 3.0)
       sshkit (>= 1.2)
@@ -343,7 +361,7 @@ DEPENDENCIES
   capistrano-service
   codeclimate-test-reporter
   coffee-rails
-  composite_primary_keys
+  composite_primary_keys!
   devise
   devise-i18n
   dotenv-rails
@@ -359,11 +377,12 @@ DEPENDENCIES
   js_cookie_rails
   kaminari
   lazy_high_charts
+  listen
   mechanize
   nprogress-rails
   pg
   rack-mini-profiler
-  rails (~> 5.0.0)
+  rails (~> 5.1.0)
   rails-controller-testing
   rails-i18n
   recaptcha

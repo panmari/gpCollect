@@ -4,9 +4,9 @@ ruby '2.4.0'
 gem 'dotenv-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>5.0.0'
+gem 'rails', '~>5.1.0'
 gem 'rails-i18n'
-gem 'composite_primary_keys'
+gem 'composite_primary_keys', git: 'https://github.com/composite-primary-keys/composite_primary_keys' #'~>10.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -91,6 +91,7 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'listen'
 end
 
 group :test do
