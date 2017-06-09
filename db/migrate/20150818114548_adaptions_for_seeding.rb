@@ -1,4 +1,4 @@
-class AdaptionsForSeeding < ActiveRecord::Migration
+class AdaptionsForSeeding < ActiveRecord::Migration[4.2]
   def change
     remove_column :runs, :start, :datetime
     remove_column :categories, :age_max, :integer

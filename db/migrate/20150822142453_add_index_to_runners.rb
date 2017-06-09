@@ -1,4 +1,4 @@
-class AddIndexToRunners < ActiveRecord::Migration
+class AddIndexToRunners < ActiveRecord::Migration[4.2]
   TEXT_SEARCH_ATTRIBUTES = %w(first_name last_name club_or_hometown)
 
   def change

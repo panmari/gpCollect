@@ -1,4 +1,4 @@
-class AddMinimumDurationToRunDayAggregate < ActiveRecord::Migration
+class AddMinimumDurationToRunDayAggregate < ActiveRecord::Migration[4.2]
   def change
     add_column :run_day_category_aggregates, :min_duration, :integer
 
