@@ -1,4 +1,4 @@
-class CreateRunDayCategoryAggregates < ActiveRecord::Migration
+class CreateRunDayCategoryAggregates < ActiveRecord::Migration[4.2]
   def change
     create_table :run_day_category_aggregates do |t|
       t.integer :category_id, null: false

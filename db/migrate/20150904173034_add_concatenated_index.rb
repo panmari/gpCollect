@@ -1,6 +1,6 @@
 require_relative "20150822142453_add_index_to_runners"
 
-class AddConcatenatedIndex < ActiveRecord::Migration
+class AddConcatenatedIndex < ActiveRecord::Migration[4.2]
   def change
     reversible do |dir|
       dir.up do

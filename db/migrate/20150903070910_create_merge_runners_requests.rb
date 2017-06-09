@@ -1,4 +1,4 @@
-class CreateMergeRunnersRequests < ActiveRecord::Migration
+class CreateMergeRunnersRequests < ActiveRecord::Migration[4.2]
   def change
     create_table :merge_runners_requests do |t|
       t.string :merged_first_name

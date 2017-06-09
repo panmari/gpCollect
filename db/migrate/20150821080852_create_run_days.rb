@@ -1,4 +1,4 @@
-class CreateRunDays < ActiveRecord::Migration
+class CreateRunDays < ActiveRecord::Migration[4.2]
   def change
     create_table :organizers do |t|
       t.string :name
