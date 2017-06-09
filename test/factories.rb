@@ -20,6 +20,14 @@ FactoryGirl.define do
     age_min 30
   end
 
+  factory :organizer do
+    name { Faker::Lorem.words(3) }
+  end
+
+  factory :route do
+    length { Faker::Number.between(1, 42) }
+  end
+
   factory :feedback do
     email { Faker::Internet.email }
     text { Faker::Lorem.words(300) }
@@ -27,6 +35,8 @@ FactoryGirl.define do
   end
 
   factory :run_day do
+    organizer
+    route
     date { 1.year.ago }
   end
 
@@ -44,6 +54,7 @@ FactoryGirl.define do
     category
     run_day
     runner
+    run_day_category_aggregate
   end
 
   factory :runner do

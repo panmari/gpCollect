@@ -23,16 +23,9 @@ end
 class ActionController::TestCase
   module Behavior
     module LocaleParameter
-      def process_with_kwargs(http_method, action, *args)
-        if kwarg_request?(args)
-          args.first.merge!(method: http_method)
-          args[0] = args.first.deep_merge(params: {locale: I18n.locale })
-          process(action, *args)
-        else
-          # Different version for calling without arguments.
-          args = [{method: http_method, params: {locale: I18n.locale }}]
-          process(action, *args)
-        end
+      def process(action, params: {}, **args)
+        params[:locale] = I18n.locale
+        super(action, params: params, **args)
       end
     end
   end
