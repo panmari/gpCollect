@@ -54,7 +54,7 @@ module MergeRunnersHelpers
     (string.scan(/[[:alpha:]]/) - string.scan(/\w/)).size
   end
 
-  MALE_FIRST_NAMES = %w(Jannick Candido Loïc Patrick Raffael Kazim Luca Manuel Patrice Eric Yannick)
+  MALE_FIRST_NAMES = %w(Jannick Candido Loïc Patrick Raffael Kazim Luca Manuel Patrice Eric Yannick Emanuil Mathieu Nicolo)
   FEMALE_FIRST_NAMES = %w(Denise Tabea Capucine Lucienne Carole Dominique)
   POSSIBLY_WRONGLY_ACCENTED_ATTRIBUTES = [:first_name, :last_name]
   POSSIBLY_WRONGLY_CASED_ATTRIBUTES = [:club_or_hometown]
@@ -82,7 +82,8 @@ module MergeRunnersHelpers
                     elsif FEMALE_FIRST_NAMES.include?(first_name)
                       'W'
                     else
-                      raise "Could not match gender to #{entries}, please extend names list."
+                      puts "Could not match gender to #{entries}, please type M/W and extend names list."
+		      STDIN.gets.chomp.upcase
                     end
       merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
         # TODO: Specify which one to pick if there are multiple runners with the correct sex.
@@ -95,7 +96,7 @@ module MergeRunnersHelpers
   def self.merge_duplicates_based_on_nationality
     merged_runners = 0
     find_runners_only_differing_in(:nationality).each do |entries|
-      # Use most recently known nationality for runner that has a non-blank nationality.
+      # Use most recent non-blank nationality.
       correct_entry = entries.reject { |entry| entry.nationality.blank? }.max_by { |entry| entry.run_days.max_by(&:date) }
       wrong_entries = entries.reject { |entry| entry == correct_entry }
       wrong_entries.each { |entry| merge_runners(correct_entry, entry) }

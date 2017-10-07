@@ -1,5 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show]
+  before_action :set_categories
 
   def default_url_options
     super.merge(highlighted_run_id: params[:highlighted_run_id])
@@ -7,7 +8,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.modern.ordered.includes(run_day_category_aggregates: :run_day)
+    @categories = @categories.includes(:run_days)
     @participant_chart = ParticipantsChart.new(@categories)
     highlighted_run = Run.find_by_id(params[:highlighted_run_id])
     @hist = if runner_constraint.blank?
@@ -49,6 +50,10 @@ class CategoriesController < ApplicationController
       values.each { |v| values_hash[v].run_day_category_aggregates << run_day_agg[v] }
     end
     values_hash.values
+  end
+
+  def set_categories
+    @categories = Category.modern.ordered
   end
 
   # Use callbacks to share common setup or constraints between actions.
