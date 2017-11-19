@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
-ruby '2.4.0'
+ruby '2.4.1'
 
 gem 'dotenv-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~>5.1.0'
 gem 'rails-i18n'
-gem 'composite_primary_keys', git: 'https://github.com/composite-primary-keys/composite_primary_keys' #'~>10.0'
+gem 'composite_primary_keys'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -98,7 +98,7 @@ group :test do
   gem "codeclimate-test-reporter", require: nil
 
   gem 'rails-controller-testing'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails'
 end

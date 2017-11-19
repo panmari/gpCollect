@@ -14,7 +14,7 @@ module Faker
   end
 end
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :category do
     sex 'M'
     age_min 30
