@@ -4,17 +4,17 @@ class ParticipantsChart < LazyHighCharts::HighChart
   def initialize(categories)
     super('graph')
     categories = Array.wrap(categories)
-    self.chart(type: 'area')
-    self.plot_options(area: {
-                          stacking: 'normal'
-                      })
-    self.legend(layout: 'horizontal')
-    self.tooltip(shared: true)
+    chart(type: 'area')
+    plot_options(area: {
+                   stacking: 'normal'
+                 })
+    legend(layout: 'horizontal')
+    tooltip(shared: true)
 
     x_axis_ticks = RunDay.all.ordered_by_date.map { |run_day| date_to_miliseconds(run_day.date) }
-    self.yAxis(title: { text: I18n.t('participiants_chart.x_axis_label')})
-    self.xAxis(type: "datetime",
-               tickPositioner: "function() {
+    yAxis(title: { text: I18n.t('participiants_chart.x_axis_label') })
+    xAxis(type: 'datetime',
+          tickPositioner: "function() {
                  var ticks = [#{generate_json_from_array(x_axis_ticks)}];
                     //dates.info defines what to show in labels
                     //apparently dateTimeLabelFormats is always ignored when specifying tickPosistioner
@@ -31,8 +31,8 @@ class ParticipantsChart < LazyHighCharts::HighChart
         count = agg.runs_count
         [date_to_miliseconds(agg.run_day.date), count]
       end
-      self.series(name: I18n.t('participiants_chart.category_label_prefix', category: category.name),
-                  data: data)
+      series(name: I18n.t('participiants_chart.category_label_prefix', category: category.name),
+             data: data)
     end
   end
 end

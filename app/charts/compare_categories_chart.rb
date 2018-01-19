@@ -1,7 +1,6 @@
 class CompareCategoriesChart < RuntimeChart
-
   # Valid modes at the time of writing are 'mean' and 'min'
-  def initialize(categories, modes=[:min, :mean])
+  def initialize(categories, modes = %i[min mean])
     super()
     categories = Array.wrap(categories)
 
@@ -12,8 +11,8 @@ class CompareCategoriesChart < RuntimeChart
           duration = agg.send(:"#{mode}_duration")
           [date_to_miliseconds(agg.run_day.date), duration]
         end
-        self.series(name: I18n.t("compare_categories_chart.series.#{mode}", category: category.name),
-                    data: data)
+        series(name: I18n.t("compare_categories_chart.series.#{mode}", category: category.name),
+               data: data)
       end
     end
   end

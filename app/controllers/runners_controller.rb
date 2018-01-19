@@ -24,13 +24,14 @@ class RunnersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_runner
-      @runner = Runner.includes(runs: [:category, :run_day, :run_day_category_aggregate]).find(params[:id]).decorate
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def runner_params
-      params.require(:runner).permit(:first_name, :last_name, :birth_date, :sex)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_runner
+    @runner = Runner.includes(runs: %i[category run_day run_day_category_aggregate]).find(params[:id]).decorate
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def runner_params
+    params.require(:runner).permit(:first_name, :last_name, :birth_date, :sex)
+  end
 end

@@ -2,13 +2,13 @@ class Run < ActiveRecord::Base
   belongs_to :runner, counter_cache: true
   belongs_to :category
   belongs_to :run_day
-  belongs_to :run_day_category_aggregate, :foreign_key => [:run_day_id, :category_id]
+  belongs_to :run_day_category_aggregate, foreign_key: %i[run_day_id category_id]
 
-  scope :ordered, -> { joins(:run_day).order(date: :asc).references(:run_day)}
+  scope :ordered, -> { joins(:run_day).order(date: :asc).references(:run_day) }
 
   # Only available for runs with run_day.date >= 2010
   def alpha_foto_url?
-    run_day.alpha_foto_id and start_number
+    run_day.alpha_foto_id && start_number
   end
 
   def alpha_foto_url
@@ -40,11 +40,11 @@ class Run < ActiveRecord::Base
       FROM (
         SELECT runs.id AS id, rank() OVER (ORDER BY duration)
         FROM runs
-        WHERE run_day_id = #{self.run_day_id}) Filtered
-      WHERE id = #{self.id}
+        WHERE run_day_id = #{run_day_id}) Filtered
+      WHERE id = #{id}
       LIMIT 1
     SQL
-    )
+                                                  )
     result.first['rank']
   end
 
@@ -54,12 +54,12 @@ class Run < ActiveRecord::Base
       FROM (
         SELECT runs.id AS id, rank() OVER (ORDER BY duration)
         FROM runs
-        WHERE run_day_id = #{self.run_day_id} AND
-          category_id = #{self.category_id}) Filtered
-      WHERE id = #{self.id}
+        WHERE run_day_id = #{run_day_id} AND
+          category_id = #{category_id}) Filtered
+      WHERE id = #{id}
       LIMIT 1
       SQL
-    )
+                                                  )
     result.first['rank']
   end
 end

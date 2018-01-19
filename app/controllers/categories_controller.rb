@@ -61,8 +61,8 @@ class CategoriesController < ApplicationController
     @category = Category.includes(run_day_category_aggregates: :run_day).find_by_name(params[:id])
   end
 
-  ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES = {first_name: :titleize, last_name: :titleize,
-                                          club_or_hometown: :titleize, nationality: :upcase}
+  ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES = { first_name: :titleize, last_name: :titleize,
+                                           club_or_hometown: :titleize, nationality: :upcase }.freeze
 
   def runner_constraint
     if admin_signed_in?

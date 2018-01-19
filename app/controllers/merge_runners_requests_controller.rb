@@ -1,6 +1,6 @@
 class MergeRunnersRequestsController < ApplicationController
-  before_action :set_merge_runner_request, only: [:show, :edit, :update, :destroy, :accept]
-  before_action :authenticate_admin!, except: [:new, :create]
+  before_action :set_merge_runner_request, only: %i[show edit update destroy accept]
+  before_action :authenticate_admin!, except: %i[new create]
 
   # GET /merge_runner_requests
   def index
@@ -25,8 +25,7 @@ class MergeRunnersRequestsController < ApplicationController
   end
 
   # GET /merge_runner_requests/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /merge_runner_requests
   def create
@@ -69,14 +68,15 @@ class MergeRunnersRequestsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_merge_runner_request
-      @merge_runners_request = MergeRunnersRequest.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def merge_runner_request_params
-      params.require(:merge_runners_request).permit(:merged_first_name, :merged_last_name, :merged_club_or_hometown,
-                                                    :merged_nationality, :merged_sex, :merged_birth_date, runner_ids: [])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_merge_runner_request
+    @merge_runners_request = MergeRunnersRequest.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def merge_runner_request_params
+    params.require(:merge_runners_request).permit(:merged_first_name, :merged_last_name, :merged_club_or_hometown,
+                                                  :merged_nationality, :merged_sex, :merged_birth_date, runner_ids: [])
+  end
 end

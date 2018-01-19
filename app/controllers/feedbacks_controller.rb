@@ -1,6 +1,6 @@
 class FeedbacksController < ApplicationController
-  before_action :authenticate_admin!, except: [:new, :create]
-  before_action :set_feedback, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_admin!, except: %i[new create]
+  before_action :set_feedback, only: %i[show edit update destroy]
 
   # GET /feedbacks
   def index
@@ -8,8 +8,7 @@ class FeedbacksController < ApplicationController
   end
 
   # GET /feedbacks/1
-  def show
-  end
+  def show; end
 
   # GET /feedbacks/new
   def new
@@ -17,8 +16,7 @@ class FeedbacksController < ApplicationController
   end
 
   # GET /feedbacks/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /feedbacks
   def create
@@ -49,13 +47,14 @@ class FeedbacksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_feedback
-      @feedback = Feedback.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def feedback_params
-      params.require(:feedback).permit(:text, :email)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_feedback
+    @feedback = Feedback.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def feedback_params
+    params.require(:feedback).permit(:text, :email)
+  end
 end

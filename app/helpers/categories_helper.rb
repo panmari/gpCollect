@@ -1,6 +1,5 @@
 module CategoriesHelper
-
-  def category_button_group(categories, active_category, button_class='btn-default')
+  def category_button_group(categories, active_category, button_class = 'btn-default')
     content_tag :div, class: 'row' do
       split_index = categories.size / 2
       [categories[0...split_index], categories[split_index..-1]].map do |category_slice|

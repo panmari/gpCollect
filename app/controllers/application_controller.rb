@@ -5,9 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_action do
     # If logged in, show rack profiler stats.
-    if admin_signed_in?
-      Rack::MiniProfiler.authorize_request
-    end
+    Rack::MiniProfiler.authorize_request if admin_signed_in?
   end
   before_action :set_locale
 
@@ -17,15 +15,16 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    h = {locale: I18n.locale}
-    if Rails.env.production?
-      h.merge!(host: 'gpcollect.duckdns.org')
-    end
+    h = { locale: I18n.locale }
+    h[:host] = 'gpcollect.duckdns.org' if Rails.env.production?
     h
   end
 
   private
+
   def extract_locale_from_accept_language_header
-    request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first rescue I18n.default_locale
+    request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+  rescue StandardError
+    I18n.default_locale
   end
 end

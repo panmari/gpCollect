@@ -2,7 +2,7 @@ class RunDayCategoryAggregate < ActiveRecord::Base
   self.primary_keys = :run_day_id, :category_id
   belongs_to :run_day
   belongs_to :category
-  has_many :runs, class_name: 'Run', :foreign_key => [:run_day_id, :category_id]
+  has_many :runs, class_name: 'Run', foreign_key: %i[run_day_id category_id]
 
   before_save :update_aggregate_attributes
 

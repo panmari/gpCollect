@@ -10,7 +10,7 @@ class RunnerDatatable < AjaxDatatablesRails::Base
       nationality: { source: 'Runner.nationality', searchable: false },
       runs_count: { source: 'Runner.runs_count', searchable: false },
       fastest_run_duration: { searchable: false, orderable: false },
-      links: { searchable: false, orderable: false },
+      links: { searchable: false, orderable: false }
     }
   end
 
@@ -36,19 +36,19 @@ class RunnerDatatable < AjaxDatatablesRails::Base
   def data
     RunnerDecorator.decorate_collection(records).map do |record|
       {
-          first_name: record.first_name,
-          last_name: record.last_name,
-          club_or_hometown: record.club_or_hometown,
-          sex: record.sex,
-          nationality: record.nationality,
-          runs_count: record.runs_count,
-          fastest_run_duration: record.fastest_run_duration,
-          # TODO: only send id and name, then generate links in javascript.
-          links: link_to(fa_icon('eye lg'), runner_path(record), class: 'btn btn-primary',
-                  title: I18n.t('runner_datatable.show_hint')) + ' ' +
-              link_to(content_tag(:i, '', class: 'fa fa-lg'), '#', title: I18n.t('runner_datatable.remember_runner'),
-                      data: {remember_runner: record.id,
-                             remember_runner_name: record.name}, class: 'btn btn-info')
+        first_name: record.first_name,
+        last_name: record.last_name,
+        club_or_hometown: record.club_or_hometown,
+        sex: record.sex,
+        nationality: record.nationality,
+        runs_count: record.runs_count,
+        fastest_run_duration: record.fastest_run_duration,
+        # TODO: only send id and name, then generate links in javascript.
+        links: link_to(fa_icon('eye lg'), runner_path(record), class: 'btn btn-primary',
+                                                               title: I18n.t('runner_datatable.show_hint')) + ' ' +
+          link_to(content_tag(:i, '', class: 'fa fa-lg'), '#', title: I18n.t('runner_datatable.remember_runner'),
+                                                               data: { remember_runner: record.id,
+                                                                       remember_runner_name: record.name }, class: 'btn btn-info')
       }
     end
   end
@@ -76,17 +76,17 @@ class RunnerDatatable < AjaxDatatablesRails::Base
       Rails.logger.debug(datatable.search.value)
       search_for = datatable.search.value.split(' ')
       # The index only works for terms of length 3 and longer, so shorter terms are filtered here.
-      search_for.reject! {|i| i.length < 3 }
+      search_for.reject! { |i| i.length < 3 }
       where_clause = search_for.map do |unescaped_term|
         first_column = searchable_columns.first
         first_arel_field = first_column.table[first_column.field]
         concatenated = searchable_columns[1..-1].inject(first_arel_field) do |concated, c|
           arel_field = c.table[c.field]
-          concated.concat(::Arel::Nodes::build_quoted(';')).concat(arel_field)
+          concated.concat(::Arel::Nodes.build_quoted(';')).concat(arel_field)
         end
         unaccented_concatenated = ::Arel::Nodes::NamedFunction.new('f_unaccent', [concatenated])
         term = "%#{sanitize_sql_like(unescaped_term)}%"
-        unaccented_concatenated.matches(::Arel::Nodes::NamedFunction.new('f_unaccent', [::Arel::Nodes::build_quoted(term)]))
+        unaccented_concatenated.matches(::Arel::Nodes::NamedFunction.new('f_unaccent', [::Arel::Nodes.build_quoted(term)]))
       end.reduce(:and)
       # Do filtered counts here instead of calling count again later.
       records.select('*, count(*) OVER() as filtered_count').where(where_clause)
@@ -99,9 +99,8 @@ class RunnerDatatable < AjaxDatatablesRails::Base
 
   # Sanitizes a +string+ so that it is safe to use within an SQL
   # LIKE statement. This method uses +escape_character+ to escape all occurrences of "\", "_" and "%"
-  def sanitize_sql_like(string, escape_character = "\\")
-    pattern = Regexp.union(escape_character, "%", "_")
+  def sanitize_sql_like(string, escape_character = '\\')
+    pattern = Regexp.union(escape_character, '%', '_')
     string.gsub(pattern) { |x| [escape_character, x].join }
   end
-
 end

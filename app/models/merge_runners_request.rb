@@ -2,8 +2,8 @@ class MergeRunnersRequest < ActiveRecord::Base
   has_and_belongs_to_many :runners
   has_many :runs, through: :runners
 
-  INHERITED_ATTRIBUTES = [:first_name, :last_name, :nationality, :sex, :club_or_hometown, :birth_date]
-  VALID_SEXES = %w(M W)
+  INHERITED_ATTRIBUTES = %i[first_name last_name nationality sex club_or_hometown birth_date].freeze
+  VALID_SEXES = %w[M W].freeze
 
   validates_presence_of *INHERITED_ATTRIBUTES.map { |attr| "merged_#{attr}" }
   # TODO: Add validation for non-intersecting run days
@@ -18,7 +18,7 @@ class MergeRunnersRequest < ActiveRecord::Base
     # TODO: possibly do something more sophisticated with birth_date.
     merge_request_defaults = INHERITED_ATTRIBUTES.each_with_object({}) { |attr, hash| hash["merged_#{attr}"] = best_mc[attr] }
     merge_request_defaults[:runners] = merge_candidates
-    self.new(merge_request_defaults)
+    new(merge_request_defaults)
   end
 
   # Instantiates a new runner with data from this merge request and associates all runs with the new instance. Still

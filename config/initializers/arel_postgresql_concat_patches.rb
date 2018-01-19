@@ -2,7 +2,7 @@
 module Arel
   module Nodes
     class Concatenation < ::Arel::Nodes::InfixOperation
-      def initialize left, right
+      def initialize(left, right)
         super(:"||", left, right)
       end
     end
@@ -11,10 +11,9 @@ module Arel
   module Expression
     include ::Arel::OrderPredications
 
-    def concat other
+    def concat(other)
       Nodes::Concatenation.new self, other
     end
-
   end
 
   module Attributes

@@ -6,7 +6,6 @@ class RunDecorator < Draper::Decorator
     h.format_duration(object.duration)
   end
 
-
   def interim_time_formatted(idx)
     time = object.interim_times[idx]
     if time

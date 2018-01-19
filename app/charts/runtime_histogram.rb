@@ -1,13 +1,13 @@
 class RuntimeHistogram < LazyHighCharts::HighChart
-  def initialize(options={})
+  def initialize(options = {})
     super(type: 'column')
     @category = options.fetch(:category, nil)
     @runner_constraint = options.fetch(:runner_constraint, nil)
     # A groupping factor 30000 will lead to buckets of size 30 seconds.
     @grouping_factor = if @runner_constraint
-                         120000
+                         120_000
                        else
-                         30000
+                         30_000
                        end
     @highlighted_run = options.fetch(:highlighted_run, nil)
     highlighted_key = @highlighted_run.duration / @grouping_factor if @highlighted_run
@@ -20,14 +20,18 @@ class RuntimeHistogram < LazyHighCharts::HighChart
     unless @runner_constraint.blank?
       runs = runs.includes(:runner).where(runners: @runner_constraint)
     end
-    data = Rails.cache.fetch("hist_data_#{@category.id rescue 'all'}") do
+    data = Rails.cache.fetch("hist_data_#{begin
+                                            @category.id
+                                          rescue StandardError
+                                            'all'
+                                          end}") do
       runs.where.not(duration: nil).group("duration / #{@grouping_factor}").count
     end
 
     # Sort and bring back to correct range.
     data_series = data.sort_by { |k, _| k }.map do |a|
       if a[0] == highlighted_key
-        {x: a[0] * @grouping_factor, y: a[1], color: 'red', marker: {}}
+        { x: a[0] * @grouping_factor, y: a[1], color: 'red', marker: {} }
       else
         [a[0] * @grouping_factor, a[1]]
       end
@@ -35,60 +39,59 @@ class RuntimeHistogram < LazyHighCharts::HighChart
 
     set_options
 
-    series({data: data_series, id: 'hist', name: 'hist'})
+    series(data: data_series, id: 'hist', name: 'hist')
     if @highlighted_run
-      series({
-          type: 'flags',
-          name: 'Highcharts',
-          color: '#333333',
-          data: [
-              { x: highlighted_key * @grouping_factor,
-                text: "In #{@highlighted_run.run_day.year} was #{@highlighted_run.decorate.duration_formatted}" ,
-                title: @highlighted_run.runner.decorate.name },
-          ],
-          showInLegend: false,
-          onSeries: 'hist',
-      })
+      series(
+        type: 'flags',
+        name: 'Highcharts',
+        color: '#333333',
+        data: [
+          { x: highlighted_key * @grouping_factor,
+            text: "In #{@highlighted_run.run_day.year} was #{@highlighted_run.decorate.duration_formatted}",
+            title: @highlighted_run.runner.decorate.name }
+        ],
+        showInLegend: false,
+        onSeries: 'hist'
+      )
     end
   end
 
   private
 
   def set_options
-    self.chart(type: 'column')
-    self.xAxis(type: 'datetime', # y-axis will be in milliseconds
-               dateTimeLabelFormats: {
-                   # force all formats to be hour:minute:second
-                   second: '%H:%M:%S',
-                   minute: '%H:%M:%S',
-                   hour: '%H:%M:%S',
-                   day: '%H:%M:%S',
-                   week: '%H:%M:%S',
-                   month: '%H:%M:%S',
-                   year: '%H:%M:%S'
-               },
-               title: {text: I18n.t('runtime_chart.time')}
+    chart(type: 'column')
+    xAxis(type: 'datetime', # y-axis will be in milliseconds
+          dateTimeLabelFormats: {
+            # force all formats to be hour:minute:second
+            second: '%H:%M:%S',
+            minute: '%H:%M:%S',
+            hour: '%H:%M:%S',
+            day: '%H:%M:%S',
+            week: '%H:%M:%S',
+            month: '%H:%M:%S',
+            year: '%H:%M:%S'
+          },
+          title: { text: I18n.t('runtime_chart.time') })
+    tooltip(
+      useHTML: true,
+      # shared: true,
+      formatter: "function() {
+        if (this.series.name == 'hist')
+          return '<b>#{I18n.t('runtime_chart.time')}: </b>' +
+                 Highcharts.dateFormat('%H:%M:%S', new Date(this.x)) +
+                 ' - ' +
+                 Highcharts.dateFormat('%H:%M:%S', new Date(this.x + #{@grouping_factor})) + '<br/>' +
+                 '<b>#{I18n.t('activerecord.models.runner')}: </b>' +
+                 this.y;
+        else
+          return this.point.text;
+      }".js_code
     )
-    self.tooltip(
-        useHTML: true,
-        #shared: true,
-        formatter: "function() {
-          if (this.series.name == 'hist')
-            return '<b>#{I18n.t('runtime_chart.time')}: </b>' +
-                   Highcharts.dateFormat('%H:%M:%S', new Date(this.x)) +
-                   ' - ' +
-                   Highcharts.dateFormat('%H:%M:%S', new Date(this.x + #{@grouping_factor})) + '<br/>' +
-                   '<b>#{I18n.t('activerecord.models.runner')}: </b>' +
-                   this.y;
-          else
-            return this.point.text;
-        }".js_code
-    )
-    self.plotOptions(column: {
-        groupPadding: 0,
-        pointPadding: 0,
-        borderWidth: 0
-    })
-    self.legend(enabled: false)
+    plotOptions(column: {
+                  groupPadding: 0,
+                  pointPadding: 0,
+                  borderWidth: 0
+                })
+    legend(enabled: false)
   end
 end
