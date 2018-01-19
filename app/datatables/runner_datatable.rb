@@ -1,6 +1,4 @@
 class RunnerDatatable < AjaxDatatablesRails::Base
-#  include ActiveRecord::Sanitization::ClassMethods
-
   def_delegators :@view, :runner_path, :remember_runner_path, :link_to, :fa_icon, :content_tag
 
   def view_columns
@@ -61,8 +59,8 @@ class RunnerDatatable < AjaxDatatablesRails::Base
 
   def retrieve_records
     records = fetch_records
-    # TODO: Figure out why simply overriding filter_records does not work,
-    # then rename filter_records_with_gin and delete retrieve_records
+    # TODO: Solve more elegantly once issue in gem is resolved:
+    # https://github.com/jbox-web/ajax-datatables-rails/issues/228
     records = filter_records_with_gin(records)
     records = sort_records(records)     if datatable.orderable?
     records = paginate_records(records) if datatable.paginate?
