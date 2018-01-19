@@ -23,17 +23,25 @@ class Geocoder
   end
 
   def find_lat_long_for(runner)
-    if runner.club_or_hometown.blank? || /\d/.match(runner.club_or_hometown) ||
-       /^[A-Z]{1,3}$/.match(runner.club_or_hometown) || @club_names.include?(runner.club_or_hometown.downcase)
+    if runner.club_or_hometown.blank? ||
+       runner.club_or_hometown.length < 2 ||
+       /\d/.match(runner.club_or_hometown) ||
+       /^[A-Z]{1,3}$/.match(runner.club_or_hometown) ||
+       @club_names.include?(runner.club_or_hometown.downcase)
       # If club or hometown contains numbers, chances are high that it's a club and not geolocatable.
       return nil, "Blacklisted: #{runner.club_or_hometown}"
     end
-
-    cleaned_hometown = runner.club_or_hometown.gsub(/I\. ?E\.\z/i, 'im Emmental')
-    cleaned_hometown = cleaned_hometown.split('/')[0].strip
-    cleaned_hometown.gsub!(/ b\. /i, ' bei ')
-    cleaned_hometown.gsub!(/Hindelb\z/, 'Hindelbank')
-    cleaned_hometown.gsub!(@ignored_prefixes_regex, '')
+    begin
+      cleaned_hometown = runner.club_or_hometown.gsub(/I\. ?E\.\z/i, 'im Emmental')
+      # TODO: Harden for strings that only consist of '//////' or '/ asdf' (currently throws exception).
+      cleaned_hometown = cleaned_hometown.split('/')[0].strip
+      cleaned_hometown.gsub!(/ b\. /i, ' bei ')
+      cleaned_hometown.gsub!(/Hindelb\z/, 'Hindelbank')
+      cleaned_hometown.gsub!(@ignored_prefixes_regex, '')
+    rescue Exception => e
+      puts 'Failed cleaning hometown: ' + runner.club_or_hometown
+      raise e
+    end
 
     cache_key = "#{cleaned_hometown}:#{runner.nationality}"
     if @cache[cache_key]
