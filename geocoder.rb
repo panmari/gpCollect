@@ -6,13 +6,14 @@ require 'json'
 # results in order to reduce hits to geocoding API.
 # Excpects 'GOOGLE_API_KEY' set in the environment.
 class Geocoder
-  def initialize(cache_file, ags_file, ignored_prefixes_file)
+  def initialize(cache_file, ags_file, ignored_prefixes_file, options = {})
     @api_key = ENV['GOOGLE_API_KEY']
     @cache = if cache_file
                JSON.parse(File.open(cache_file).read)
              else
                {}
              end
+    @cache.delete_if { |_, v| v == false } if options.fetch(:retry_failures, false)
     @error_log = File.open('geocoder_err.log', 'w')
     @ignored_prefixes_regex = File.open(ignored_prefixes_file) { |f| /^(#{f.map { |p| Regexp.escape(p.strip) }.join('|')}) / }
     @club_names = File.open(ags_file) { |f| f.each_with_object(Set.new) { |l, a| a << l.strip.downcase } }
@@ -46,13 +47,11 @@ class Geocoder
     end
     begin
       cleaned_place = clean_geocoding_string(place)
-    rescue Exception => e
+    rescue StandardError => e
       puts 'Failed cleaning hometown: ' + place
       raise e
     end
-    if cleaned_place.blank?
-      return nil, "Blank after cleaning: #{place}"
-    end
+    return nil, "Blank after cleaning: #{place}" if cleaned_place.blank?
 
     cache_key = "#{cleaned_place}:#{nationality}"
     if @cache[cache_key]
@@ -68,11 +67,9 @@ class Geocoder
 
     unless response[:status] == 'OK'
       PP.pp('Google api returned status: ' + response[:status], @error_log)
-      PP.pp(cache_key, @error_log)
-      PP.pp(response, @error_log)
-      if response[:status] == 'OVER_QUERY_LIMIT'
-        raise Exception('Over query limit')
-      end
+      PP.pp(place + ' --> ' + cache_key, @error_log)
+      PP.pp(response, @error_log) unless response[:status] == 'ZERO_RESULTS'
+      raise 'Over query limit' if response[:status] == 'OVER_QUERY_LIMIT'
       @cache[cache_key] = false
       return nil, cleaned_place
     end
@@ -82,8 +79,8 @@ class Geocoder
        !/#{place}, \d+,/.match(response[:results][0][:formatted_address])
       # TODO: Add check for distance of results, use first if all close to each other.
       PP.pp('More than one top results', @error_log)
-      PP.pp(cache_key, @error_log)
-      PP.pp(response, @error_log)
+      PP.pp(place + ' --> ' + cache_key, @error_log)
+      PP.pp(response[:results].map { |r| r[:formatted_address] }, @error_log)
       @cache[cache_key] = false
       return nil, cleaned_place
     end
