@@ -1,6 +1,7 @@
 require 'net/http'
 require 'pp'
 require 'json'
+require 'time'
 
 # Helper class for geocoding entities using the Google geocoding API. Caches
 # results in order to reduce hits to geocoding API.
@@ -14,7 +15,7 @@ class Geocoder
                {}
              end
     @cache.delete_if { |_, v| v == false } if options.fetch(:retry_failures, false)
-    @error_log = File.open('geocoder_err.log', 'w')
+    @error_log = File.open("geocoder_err_#{Time.now.getutc.iso8601}.log", 'w')
     @ignored_prefixes_regex = File.open(ignored_prefixes_file) { |f| /^(#{f.map { |p| Regexp.escape(p.strip) }.join('|')}) / }
     @club_names = File.open(ags_file) { |f| f.each_with_object(Set.new) { |l, a| a << l.strip.downcase } }
   end
@@ -69,6 +70,7 @@ class Geocoder
       PP.pp('Google api returned status: ' + response[:status], @error_log)
       PP.pp(place + ' --> ' + cache_key, @error_log)
       PP.pp(response, @error_log) unless response[:status] == 'ZERO_RESULTS'
+      PP.pp('-----', @error_log)
       raise 'Over query limit' if response[:status] == 'OVER_QUERY_LIMIT'
       @cache[cache_key] = false
       return nil, cleaned_place
@@ -81,6 +83,7 @@ class Geocoder
       PP.pp('More than one top results', @error_log)
       PP.pp(place + ' --> ' + cache_key, @error_log)
       PP.pp(response[:results].map { |r| r[:formatted_address] }, @error_log)
+      PP.pp('-----', @error_log)
       @cache[cache_key] = false
       return nil, cleaned_place
     end
