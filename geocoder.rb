@@ -2,6 +2,9 @@ require 'net/http'
 require 'pp'
 require 'json'
 
+# Helper class for geocoding entities using the Google geocoding API. Caches
+# results in order to reduce hits to geocoding API.
+# Excpects 'GOOGLE_API_KEY' set in the environment.
 class Geocoder
   def initialize(cache_file, ags_file, ignored_prefixes_file)
     @api_key = ENV['GOOGLE_API_KEY']
@@ -22,64 +25,72 @@ class Geocoder
     end
   end
 
-  def find_lat_long_for(runner)
-    if runner.club_or_hometown.blank? ||
-       runner.club_or_hometown.length < 2 ||
-       /\d/.match(runner.club_or_hometown) ||
-       /^[A-Z]{1,3}$/.match(runner.club_or_hometown) ||
-       @club_names.include?(runner.club_or_hometown.downcase)
+  def clean_geocoding_string(s)
+    s.gsub!(/I\. ?E\.\z/i, 'im Emmental')
+    # TODO: Harden for strings that only consist of '//////' or '/ asdf' (currently throws exception).
+    s = s.split('/')[0].strip
+    s.gsub!(/ b\. /i, ' bei ')
+    s.gsub!(/Hindelb\z/, 'Hindelbank')
+    s.gsub!(@ignored_prefixes_regex, '')
+    s
+  end
+
+  def find_lat_long_for(place, nationality)
+    if place.blank? ||
+       place.length < 2 ||
+       /\d/.match(place) ||
+       /^[A-Z]{1,3}$/.match(place) ||
+       @club_names.include?(place.downcase)
       # If club or hometown contains numbers, chances are high that it's a club and not geolocatable.
-      return nil, "Blacklisted: #{runner.club_or_hometown}"
+      return nil, "Blacklisted: #{place}"
     end
     begin
-      cleaned_hometown = runner.club_or_hometown.gsub(/I\. ?E\.\z/i, 'im Emmental')
-      # TODO: Harden for strings that only consist of '//////' or '/ asdf' (currently throws exception).
-      cleaned_hometown = cleaned_hometown.split('/')[0].strip
-      cleaned_hometown.gsub!(/ b\. /i, ' bei ')
-      cleaned_hometown.gsub!(/Hindelb\z/, 'Hindelbank')
-      cleaned_hometown.gsub!(@ignored_prefixes_regex, '')
+      cleaned_place = clean_geocoding_string(place)
     rescue Exception => e
-      puts 'Failed cleaning hometown: ' + runner.club_or_hometown
+      puts 'Failed cleaning hometown: ' + place
       raise e
     end
+    if cleaned_place.blank?
+      return nil, "Blank after cleaning: #{place}"
+    end
 
-    cache_key = "#{cleaned_hometown}:#{runner.nationality}"
+    cache_key = "#{cleaned_place}:#{nationality}"
     if @cache[cache_key]
-      return @cache[cache_key], "Cache hit for: #{cleaned_hometown}"
+      return @cache[cache_key], "Cache hit for: #{cleaned_place}"
     end
     if @cache[cache_key] == false
       # TODO: Add option that retries failures.
-      return nil, "Fail cache hit for: #{cleaned_hometown}"
+      return nil, "Fail cache hit for: #{cleaned_place}"
     end
-    uri = to_uri(cleaned_hometown, runner.nationality)
+    uri = to_uri(cleaned_place, nationality)
 
-    response = JSON.parse(Net::HTTP.get(uri), symbolize_names: :true)
+    response = JSON.parse(Net::HTTP.get(uri), symbolize_names: true)
 
     unless response[:status] == 'OK'
       PP.pp('Google api returned status: ' + response[:status], @error_log)
-      PP.pp(runner, @error_log)
+      PP.pp(cache_key, @error_log)
       PP.pp(response, @error_log)
       if response[:status] == 'OVER_QUERY_LIMIT'
         raise Exception('Over query limit')
       end
       @cache[cache_key] = false
-      return nil, cleaned_hometown
+      return nil, cleaned_place
     end
 
     if (response[:results].size > 1) &&
        # Accept first result if it's formatted address consists of 'hometown, postcode'
-       !/#{runner.club_or_hometown}, \d+,/.match(response[:results][0][:formatted_address])
+       !/#{place}, \d+,/.match(response[:results][0][:formatted_address])
       # TODO: Add check for distance of results, use first if all close to each other.
       PP.pp('More than one top results', @error_log)
-      PP.pp(runner, @error_log)
+      PP.pp(cache_key, @error_log)
       PP.pp(response, @error_log)
       @cache[cache_key] = false
-      return nil, cleaned_hometown
+      return nil, cleaned_place
     end
 
     geometry = response[:results][0][:geometry]
     @cache[cache_key] = geometry[:location]
-    [geometry[:location], cleaned_hometown]
+    [geometry[:location], cleaned_place]
   end
 
   def to_uri(address, nationality)
