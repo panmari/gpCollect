@@ -14,7 +14,7 @@ class Geocoder
                {}
              end
     @error_log = File.open('geocoder_err.log', 'w')
-    @ignored_prefixes_regex = File.open(ignored_prefixes_file) { |f| /^(#{f.map { |p| Regexp.escape(p) }.join('|')}) / }
+    @ignored_prefixes_regex = File.open(ignored_prefixes_file) { |f| /^(#{f.map { |p| Regexp.escape(p.strip) }.join('|')}) / }
     @club_names = File.open(ags_file) { |f| f.each_with_object(Set.new) { |l, a| a << l.strip.downcase } }
   end
 
