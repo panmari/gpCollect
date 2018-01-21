@@ -1,189 +1,36 @@
-<div id="map" class="col-lg-12" style="height: 600px"></div>
+<button onclick="toggleHeatmap()">Toggle Heatmap</button>
+<div id="map" class="col-lg-12" style="height: 500px"></div>
 <script type="text/javascript">
   var map;
+  var heatmap;
+  const heatmapData = {};
 
   function initMap() {
-    var heatmapData = <%= lat_long_weights_to_js(@lat_long_weights) %>;
-    // Map initialized with Bern centered.
-    var center = new google.maps.LatLng(46.955117, 7.441560);
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: center,
-      zoom: 8,
-      maxZoom: 14,
-      minZoom: 6,
-      styles: [
-        {
-          "featureType": "administrative.locality",
-          "elementType": "all",
-          "stylers": [
-            {
-              "hue": "#2c2e33"
-            },
-            {
-              "saturation": 7
-            },
-            {
-              "lightness": 19
-            },
-            {
-              "visibility": "on"
-            }
-          ]
-        },
-        {
-          "featureType": "landscape",
-          "elementType": "all",
-          "stylers": [
-            {
-              "hue": "#ffffff"
-            },
-            {
-              "saturation": -100
-            },
-            {
-              "lightness": 100
-            },
-            {
-              "visibility": "simplified"
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "elementType": "all",
-          "stylers": [
-            {
-              "hue": "#ffffff"
-            },
-            {
-              "saturation": -100
-            },
-            {
-              "lightness": 100
-            },
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "hue": "#bbc0c4"
-            },
-            {
-              "saturation": -93
-            },
-            {
-              "lightness": 31
-            },
-            {
-              "visibility": "simplified"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "hue": "#bbc0c4"
-            },
-            {
-              "saturation": -93
-            },
-            {
-              "lightness": 31
-            },
-            {
-              "visibility": "on"
-            }
-          ]
-        },
-        {
-          "featureType": "road.arterial",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "hue": "#bbc0c4"
-            },
-            {
-              "saturation": -93
-            },
-            {
-              "lightness": -2
-            },
-            {
-              "visibility": "simplified"
-            }
-          ]
-        },
-        {
-          "featureType": "road.local",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "hue": "#e9ebed"
-            },
-            {
-              "saturation": -90
-            },
-            {
-              "lightness": -8
-            },
-            {
-              "visibility": "simplified"
-            }
-          ]
-        },
-        {
-          "featureType": "transit",
-          "elementType": "all",
-          "stylers": [
-            {
-              "hue": "#e9ebed"
-            },
-            {
-              "saturation": 10
-            },
-            {
-              "lightness": 69
-            },
-            {
-              "visibility": "on"
-            }
-          ]
-        },
-        {
-          "featureType": "water",
-          "elementType": "all",
-          "stylers": [
-            {
-              "hue": "#e9ebed"
-            },
-            {
-              "saturation": -78
-            },
-            {
-              "lightness": 67
-            },
-            {
-              "visibility": "simplified"
-            }
-          ]
-        }
-      ]
+    const rawHeatmapData = <%= @lat_lng_weights.to_json %>;
+    // Datastructure that holds heatmap data.
+    // { year1: [p1, p2, p3, ..], year2: [p1, p2, p3] }
+    rawHeatmapData.forEach(function(arr) {
+      heatmapData[arr[0]] =
+          arr[1].map(function(arr) {
+            p = {location: new google.maps.LatLng(arr[0], arr[1])};
+            p.weight = Math.log(arr[2]);
+            return p
+          });
     });
-
-    var heatmap = new google.maps.visualization.HeatmapLayer({
-      data: heatmapData
+    // Map with style defined in assets initialized with Bern centered.
+    MAPS_STYLE.center = new google.maps.LatLng(46.955117, 7.441560);
+    map = new google.maps.Map(document.getElementById('map'), MAPS_STYLE);
+    heatmap = new google.maps.visualization.HeatmapLayer({
+      map: map,
+      radius: 50,
+      data: heatmapData[2017],
     });
-    heatmap.setMap(map);
-    heatmap.set('radius', 30);
   }
-
+  year = 2016
+  function toggleHeatmap() {
+    heatmap.setData(heatmapData[year]);
+    year = year == 2017 ? 2016 : 2017;
+  }
 </script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?libraries=visualization&key=AIzaSyATumct5s89DG_XeTg1UsYRYJW3BDAnPtc&callback=initMap">
