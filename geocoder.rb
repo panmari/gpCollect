@@ -16,7 +16,7 @@ class Geocoder
              end
     @cache.delete_if { |_, v| v == false } if options.fetch(:retry_failures, false)
     @error_log = File.open("geocoder_err_#{Time.now.getutc.iso8601}.log", 'w')
-    @ignored_prefixes_regex = File.open(ignored_prefixes_file) { |f| /^(#{f.map { |p| Regexp.escape(p.strip) }.join('|')}) / }
+    @ignored_prefixes_regex = File.open(ignored_prefixes_file) { |f| /^(#{f.map { |p| Regexp.escape(p.strip) }.join('|')})[ -]+/ }
     @club_names = File.open(ags_file) { |f| f.each_with_object(Set.new) { |l, a| a << l.strip.downcase } }
   end
 
@@ -29,18 +29,23 @@ class Geocoder
 
   def clean_geocoding_string(s)
     s.gsub!(/I\. ?E\.\z/i, 'im Emmental')
-    # TODO: Harden for strings that only consist of '//////' or '/ asdf' (currently throws exception).
-    s = s.split('/')[0].strip
+    s.gsub!('a/Albis', 'am Albis')
+    s.gsub!('bei /B.', 'bei Burgdorf')
     s.gsub!(/ b\. /i, ' bei ')
+    s.gsub!('Bärn', 'Bern')
+    s.gsub!('Berm', 'Bern')
     s.gsub!(/Hindelb\z/, 'Hindelbank')
     s.gsub!(@ignored_prefixes_regex, '')
+    # TODO: Harden for strings that only consist of '//////' or '/ asdf' (currently throws exception).
+    s = s.split('/')[0].strip
     s
   end
 
   def find_lat_long_for(place, nationality)
     if place.blank? ||
        place.length < 2 ||
-       /\d/.match(place) ||
+       place.length > 40 || # Very long things are usually full sentences.
+       /\.ch$/.match(place) || # Swiss domain ending, eg freizeit.ch.
        /^[A-Z]{1,3}$/.match(place) ||
        @club_names.include?(place.downcase)
       # If club or hometown contains numbers, chances are high that it's a club and not geolocatable.
