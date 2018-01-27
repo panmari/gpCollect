@@ -1,19 +1,23 @@
-<button onclick="toggleHeatmap()">Toggle Heatmap</button>
+<button id="year-toggle" onclick="toggleHeatmap()">Toggle Heatmap</button>
 <div id="map" class="col-lg-12" style="height: 500px"></div>
 <script type="text/javascript">
   var map;
   var heatmap;
   const heatmapData = {};
+  const rawHeatmapData = <%= @lat_lng_weights.to_json %>;
+  const yearsAvailable = rawHeatmapData.map(function(arr) {
+    return arr[0];
+  })
+  let displayedYear = yearsAvailable[0];
 
   function initMap() {
-    const rawHeatmapData = <%= @lat_lng_weights.to_json %>;
     // Datastructure that holds heatmap data.
     // { year1: [p1, p2, p3, ..], year2: [p1, p2, p3] }
     rawHeatmapData.forEach(function(arr) {
       heatmapData[arr[0]] =
           arr[1].map(function(arr) {
             p = {location: new google.maps.LatLng(arr[0], arr[1])};
-            p.weight = Math.log(arr[2]);
+            p.weight = arr[2]; //Math.log(arr[2]);
             return p
           });
     });
@@ -23,13 +27,13 @@
     heatmap = new google.maps.visualization.HeatmapLayer({
       map: map,
       radius: 50,
-      data: heatmapData[2017],
+      data: heatmapData[displayedYear],
     });
   }
-  year = 2016
   function toggleHeatmap() {
-    heatmap.setData(heatmapData[year]);
-    year = year == 2017 ? 2016 : 2017;
+    displayedYear = yearsAvailable[0] + ((displayedYear - yearsAvailable[0] + 1) % yearsAvailable.length);
+    heatmap.setData(heatmapData[displayedYear]);
+    $('#year-toggle')[0].textContent = 'Showing data from ' + displayedYear
   }
 </script>
 <script async defer
