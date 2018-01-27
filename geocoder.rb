@@ -5,6 +5,7 @@ require 'time'
 
 # Helper class for geocoding entities using the Google geocoding API. Caches
 # results in order to reduce hits to geocoding API.
+# For quota available, see https://console.developers.google.com/apis/api/geocoding-backend.googleapis.com/quotas.
 # Excpects 'GOOGLE_API_KEY' set in the environment.
 class Geocoder
   def initialize(cache_file, ags_file, ignored_prefixes_file, options = {})
@@ -31,7 +32,14 @@ class Geocoder
     s.gsub!(/I\. ?E\.\z/i, 'im Emmental')
     s.gsub!('a/Albis', 'am Albis')
     s.gsub!('bei /B.', 'bei Burgdorf')
+    s.gsub!(/\/ SG\z/, 'SG') # '/ SG' at end of string -> SG
     s.gsub!(/ b\. /i, ' bei ')
+    s.gsub!('Deisswil Mbuchsee', 'Deisswil bei Münchenbuchsee')
+    s.gsub!(/ bei Kallna\z/i, ' bei Kalnach')
+    s.gsub!(/ bei Kall\z/i, ' bei Kalnach')
+    s.gsub!(/ im Kande\z/i, ' im Kandertal')
+    s.gsub!(/ bei Aad\z/i, ' bei Aadorf')
+    s.gsub!('Hasle bei /B.', 'Hasle bei Burgdorf')
     s.gsub!('Bärn', 'Bern')
     s.gsub!('Berm', 'Bern')
     s.gsub!(/Hindelb\z/, 'Hindelbank')

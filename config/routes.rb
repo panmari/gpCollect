@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         get 'show_remembered'
       end
     end
+    resources :geo_information, only: :index
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

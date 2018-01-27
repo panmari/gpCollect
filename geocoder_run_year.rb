@@ -1,21 +1,21 @@
 require 'ruby-progressbar'
 load 'geocoder.rb'
 
-year = 2015
+year = 2006
 geocoder_cache_file = 'geocoder_cache.json'
 geocoder = Geocoder.new(geocoder_cache_file,
                         'ags.list',
                         'ignored_prefixes.list',
                         retry_failures: false)
 lat_long_weights = Hash.new(0)
-f = File.open('failures_with_count.log', 'w')
+failures_file = File.open("failures_with_count_#{year}.log", 'w')
 begin
   keyed_counts = RunDay.find_by_year!(year).runners.group(:club_or_hometown, :nationality).count
   pg = ProgressBar.create(title: 'Geocoding queries', total: keyed_counts.size)
   keyed_counts.sort_by(&:second).reverse.map(&:flatten).each do |place, nationality, count|
     lat_lng, = geocoder.find_lat_long_for(place, nationality)
     if lat_lng.blank?
-      f.puts(place, count)
+      failures_file.puts(place, count)
     else
       lat_long_weights[lat_lng] += count
     end
@@ -32,3 +32,4 @@ ensure
   pg.finish
   puts("Geocoded #{lat_long_weights.values.sum} of #{keyed_counts.values.sum} runners")
 end
+failures_file.close
