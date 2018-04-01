@@ -1,4 +1,12 @@
-<button id="year-toggle" onclick="toggleHeatmap()">Toggle Heatmap</button>
+<div class="btn-group btn-group-justified col-lg-12" role="group">
+  <% @lat_lng_weights.each do |year, _| %>
+    <a class="btn btn-default select-year"
+            id="year-<%= year %>"
+            onclick="toggleHeatmap(<%=year%>)">
+      <%= year %>
+    </a>
+  <% end %>
+</div>
 <div id="map" class="col-lg-12" style="height: 500px"></div>
 <script type="text/javascript">
   var map;
@@ -30,10 +38,10 @@
       data: heatmapData[displayedYear],
     });
   }
-  function toggleHeatmap() {
-    displayedYear = yearsAvailable[0] + ((displayedYear - yearsAvailable[0] + 1) % yearsAvailable.length);
-    heatmap.setData(heatmapData[displayedYear]);
-    $('#year-toggle')[0].textContent = 'Showing data from ' + displayedYear
+  function toggleHeatmap(year) {
+    heatmap.setData(heatmapData[year]);
+    $('.select-year').removeClass('active')
+    $('#year-' + year).addClass('active')
   }
 </script>
 <script async defer
