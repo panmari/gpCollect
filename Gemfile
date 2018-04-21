@@ -5,7 +5,9 @@ gem 'dotenv-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'composite_primary_keys'
-gem 'rails', '~>5.1.0'
+# Needs composite_primary_keys upgrade before upgrading to 5.1.6, see
+# https://github.com/composite-primary-keys/composite_primary_keys/issues/435
+gem 'rails', '5.1.5'
 gem 'rails-i18n'
 # Use postgresql as the database for Active Record
 gem 'pg', '<1.0'
