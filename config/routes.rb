@@ -1,7 +1,7 @@
 Rails.application.routes.default_url_options[:host] = 'gpcollect.duckdns.org'
 
 Rails.application.routes.draw do
-  scope "/:locale" do
+  scope '/:locale' do
     get 'static_pages/about'
 
     devise_for :admins
@@ -10,10 +10,10 @@ Rails.application.routes.draw do
         get 'accept'
       end
     end
-    resources :categories
+    resources :categories, only: %i[index show]
+    resources :runs, only: %i[index show] # not actually in use.
     resources :feedbacks
-    resources :runs
-    resources :runners do
+    resources :runners, only: %i[index show] do
       collection do
         get 'show_remembered'
       end
