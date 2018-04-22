@@ -25,6 +25,7 @@ en:
       title: "Runtimes of the GP Bern"
       runners: "Search runners"
       categories: "Categories overview"
+      route: "Course"
       home: "GP Collect"
       about: "About"
       title_with_runner: "Runtimes of %{runner}"

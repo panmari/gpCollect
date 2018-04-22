@@ -3,6 +3,7 @@ de:
     application:
       runners: "Läufersuche"
       categories: "Kategorienübersicht"
+      route: "Laufstrecke"
       title: "Laufzeiten des GP Bern"
       title_with_runner: "Laufzeiten von %{runner}"
       home: "GP Collect"
