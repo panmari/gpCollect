@@ -1,8 +1,10 @@
 <% content_for :page_title, t('layouts.application.title_with_runner', runner: @runner.name) %>
 <h1><%= @runner.name %></h1>
 <dl class="dl-horizontal">
-  <dt><%= Runner.human_attribute_name :birth_date %></dt>
-  <dd><%= I18n.l @runner.birth_date %></dd>
+  <% if current_admin %>
+    <dt><%= Runner.human_attribute_name :birth_date %></dt>
+    <dd><%= I18n.l @runner.birth_date %></dd>
+  <% end %>
   <dt><%= Runner.human_attribute_name(:sex).html_safe %></dt>
   <dd><%= @runner.sex %></dd>
   <dt><%= Runner.human_attribute_name :club_or_hometown %></dt>
