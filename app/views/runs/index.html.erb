@@ -5,9 +5,9 @@
     <tr>
       <th>Duration</th>
       <th>Runner</th>
+      <th>Nationality</th>
       <th>Category</th>
       <th>Year</th>
-      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -15,10 +15,10 @@
     <% @runs.each do |run| %>
       <tr>
         <td class="col-xs-1"><%= run.duration_formatted %></td>
-        <td><%= link_to run.runner.name, run.runner %></td>
-        <td><%= run.category.name %></td>
+        <td><%= link_to(run.runner.name, run.runner) %></td>
+        <td><%= run.runner.nationality %></td>
+        <td><%= link_to(run.category.name, category_path(run.category,  { highlighted_run_id: run.id })) %></td>
         <td><%= run.run_day.date.year %></td>
-        <td><%= link_to 'Show', run %></td>
       </tr>
     <% end %>
   </tbody>
