@@ -21,7 +21,6 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 # For cool tables that are updated via ajax
 gem 'ajax-datatables-rails'
-gem 'jquery-datatables-rails'
 gem 'jquery-ui-rails'
 # Handling cookies easily in javascript
 gem 'js_cookie_rails'
@@ -46,7 +45,7 @@ gem 'bh', '1.3.4'
 gem 'font-awesome-rails'
 
 # For pagination
-gem 'bootstrap-kaminari-views'
+gem 'bootstrap4-kaminari-views'
 gem 'kaminari'
 
 # Decorators
