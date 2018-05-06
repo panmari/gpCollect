@@ -39,11 +39,10 @@ gem 'nprogress-rails'
 gem 'lazy_high_charts'
 
 # Twitter bootstrap
-gem 'bootstrap-sass'
+gem 'bootstrap', '~> 4.1.0'
 # Helpers for bootstrap
 gem 'bh', '1.3.4'
 # Awesome icons
-gem 'bootswatch-rails'
 gem 'font-awesome-rails'
 
 # For pagination

@@ -17,11 +17,9 @@
  *= require_self
  *= require_tree .
  */
-
-@import "bootstrap-sprockets";
-@import "bootswatch/cerulean/variables";
+@import "bootswatch_cerulean/variables";
 @import "bootstrap";
-@import "bootswatch/cerulean/bootswatch";
+@import "bootswatch_cerulean/bootswatch";
 // Fancy progress bar
 $nprogress-color: #fff;
 @import 'nprogress';

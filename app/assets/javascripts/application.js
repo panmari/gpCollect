@@ -18,6 +18,7 @@
 //= require dataTables/extras/dataTables.responsive
 //= require date-de
 //= require js.cookie
+//= require popper
 //= require bootstrap-sprockets
 //= require highcharts/highstock
 //= require nprogress
