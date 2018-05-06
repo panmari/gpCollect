@@ -24,27 +24,38 @@
   </script>
 </head>
 <body>
-<%= navbar do %>
-    <%= vertical do %>
-        <%= link_to t('.home'), root_path %>
-    <% end %>
-    <%= horizontal do %>
-        <%= nav class: 'navbar-left' do %>
-            <%= link_to t('.runners'), runners_path %>
-            <%= link_to t('.categories'), categories_path %>
-            <%= link_to(t('.route'), route_path(1)) %>
-            <%= link_to(t('.feedback'), feedbacks_path) if current_admin %>
-        <% end %>
-        <%= nav class: 'navbar-right' do %>
-            <%= link_to t('.about'), static_pages_about_path %>
-            <% if current_admin %>
-                <%= link_to 'Logout', destroy_admin_session_path, method: 'delete' %>
-            <% else %>
-                <%= link_to 'Login', new_admin_session_path %>
-            <% end %>
-        <% end %>
-    <% end %>
-<% end %>
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <%= link_to t('.home'), root_path, class: "navbar-brand" %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <%= link_to t('.runners'), runners_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to(t('.route'), route_path(1), class: 'nav-link') %>
+        </li>
+        <li class="nav-item">
+          <%= link_to(t('.feedback'), feedbacks_path, class: 'nav-link') if current_admin %>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <%= link_to t('.about'), static_pages_about_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <% if current_admin %>
+              <%= link_to 'Logout', destroy_admin_session_path, method: 'delete', class: 'nav-link' %>
+          <% else %>
+              <%= link_to 'Login', new_admin_session_path, class: 'nav-link' %>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </nav>
 <div class="container" role="main">
   <%= flash_messages %>
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
