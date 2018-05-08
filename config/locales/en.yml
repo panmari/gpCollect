@@ -61,8 +61,8 @@ en:
   runners:
     index:
       remembered_renners: "Remembered runners"
-      show_remembered_runners: "Show remembered runners"
-      forget_remembered_runners: "Forget remembered runners"
+      show_remembered_runners: "Compare"
+      forget_remembered_runners: "Remove all"
       merge_remembered_runners: "Merge remembere runners"
       search_for_runners: "Search for runners of the Grand Prix Berne"
       search_hint: "First name, last name and club/hometown are searchable. Multiple search terms can be entered."

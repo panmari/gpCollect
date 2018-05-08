@@ -36,8 +36,8 @@ de:
   runners:
     index:
       remembered_renners: "Gemerkte Läufer"
-      show_remembered_runners: "Zeige gemerkte Läufer"
-      forget_remembered_runners: "Entferne gemerkte Läufer"
+      show_remembered_runners: "Vergleichen"
+      forget_remembered_runners: "Entferne alle"
       merge_remembered_runners: "Führe gemerkte Läufer zusammen"
       search_for_runners: "Suche nach Läufern des Grand Prix Bern"
       search_hint: "Es kann nach Vorname, Nachname oder Club/Heimatstadt gesucht werden. Mehrere Suchbegriffe können mit Leertaste unterteilt werden."

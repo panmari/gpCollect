@@ -26,22 +26,25 @@
     </table>
   </div>
   <div class="col-lg-3">
-    <%= panel heading: (t('.remembered_renners') + content_tag(:i, '', class: 'fa fa-star fa-pull-right fa-2x')).html_safe,
-              context: :info, id: 'remembered-runners-panel' do %>
-        <div class='panel-body'>
-          <div id="remember-runners-hint" class="text-center text-muted">
-            <%= t('.remember_runners_hint').html_safe %>
-          </div>
-          <%= link_to t('.show_remembered_runners'), url_for(action: 'show_remembered', ids: []),
-                      id: 'remembered-runners-link', class: 'btn btn-primary btn-block remembered-runners-interactible' %>
-          <%= link_to t('.forget_remembered_runners'), '#', data: {forget_runners: true},
-                      class: 'btn btn-danger btn-block remembered-runners-interactible' %>
-          <% if admin_signed_in? %>
-              <%= link_to t('.merge_remembered_runners'), new_merge_runners_request_path,
-                          class: 'btn btn-default btn-xs btn-block remembered-runners-interactible' %>
-          <% end %>
+    <div class="card">
+      <div class="card-header text-light bg-info">
+        <%= t('.remembered_renners') %>
+        <%= content_tag(:i, '', class: 'fa fa-star') %>
+      </div>
+      <div class="card-body" id="remembered-runners-panel">
+        <div id="remember-runners-hint" class="text-center text-muted">
+          <%= t('.remember_runners_hint').html_safe %>
         </div>
-    <% end %>
+        <%= link_to t('.show_remembered_runners'), url_for(action: 'show_remembered', ids: []),
+                    id: 'remembered-runners-link', class: 'btn btn-primary btn-block remembered-runners-interactible' %>
+        <%= link_to t('.forget_remembered_runners'), '#', data: {forget_runners: true},
+                    class: 'btn btn-danger btn-block remembered-runners-interactible' %>
+        <% if admin_signed_in? %>
+            <%= link_to t('.merge_remembered_runners'), new_merge_runners_request_path,
+                        class: 'btn btn-light btn-sm btn-block remembered-runners-interactible' %>
+        <% end %>
+      </div>
+    </div>
   </div>
   <%# Make user aware of search box after some time. %>
   <script>

@@ -71,7 +71,7 @@ $ ->
       icon.addClass(deselected_icon)
 
   update_remembered_runner_panel = (runner_hash) ->
-    panel = $('#remembered-runners-panel .panel-body')
+    panel = $('#remembered-runners-panel')
     dismiss_button = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
     $('div[data-runner-id]').remove()
     runner_ids_sorted = Object.keys(runner_hash).sort( (a,b) ->
@@ -80,7 +80,7 @@ $ ->
     for id in runner_ids_sorted
       name = runner_hash[parseInt(id)]
       link = $('<a>', {text: name, href: locale + '/runners/' + id})
-      div = $('<div>', class: 'runner-alert alert alert-info alert-dismissable')
+      div = $('<div>', class: 'runner-alert alert alert-primary alert-dismissable')
       .append(link)
       .append(dismiss_button)
       .attr('data-runner-id', id)
