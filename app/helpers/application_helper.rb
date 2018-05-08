@@ -19,6 +19,12 @@ module ApplicationHelper
     simple_form_for(record, options, &block)
   end
 
+  def nav_item(label, link, link_options = {})
+    link_options[:class] = 'nav-link'
+    nav_classes = 'nav-item ' + (current_page?(link) ? 'active' : '')
+    content_tag(:li, link_to(label, link, link_options), class: nav_classes)
+  end
+
   def flash_messages
     flash.map do |style, msg|
       context = 'danger' if style.to_sym == :error

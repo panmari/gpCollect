@@ -24,36 +24,28 @@
   </script>
 </head>
 <body>
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <%= link_to t('.home'), root_path, class: "navbar-brand" %>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <%= link_to t('.runners'), runners_path, class: 'nav-link' %>
-        </li>
-        <li class="nav-item">
-          <%= link_to(t('.route'), route_path(1), class: 'nav-link') %>
-        </li>
-        <li class="nav-item">
-          <%= link_to(t('.feedback'), feedbacks_path, class: 'nav-link') if current_admin %>
-        </li>
-      </ul>
+  <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+    <div class="container">
+      <%= link_to t('.home'), root_path, class: "navbar-brand" %>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <%= nav_item(t('.runners'), runners_path) %>
+          <%= nav_item(t('.route'), route_path(1)) %>
+          <%= nav_item(t('.feedback'), feedbacks_path) if current_admin  %>
+        </ul>
 
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <%= link_to t('.about'), static_pages_about_path, class: 'nav-link' %>
-        </li>
-        <li class="nav-item">
+        <ul class="navbar-nav mr-auto">
+          <%= nav_item(t('.about'), static_pages_about_path) %>
           <% if current_admin %>
-              <%= link_to 'Logout', destroy_admin_session_path, method: 'delete', class: 'nav-link' %>
+            <%= nav_item('Logout', destroy_admin_session_path, method: 'delete') %>
           <% else %>
-              <%= link_to 'Login', new_admin_session_path, class: 'nav-link' %>
+            <%= nav_item('Login', new_admin_session_path) %>
           <% end %>
-        </li>
-      </ul>
+        </ul>
+      </div>
     </div>
   </nav>
 <div class="container" role="main">
