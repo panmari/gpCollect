@@ -16,3 +16,13 @@
   top: 0 !important;
   right: 0 !important;
 }
+
+// Overrides default behavior of jquery datatables with bootstrap4.
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+table.dataTable {
+  border-collapse: collapse !important;
+}
