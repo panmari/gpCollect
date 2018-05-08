@@ -37,7 +37,7 @@
           <%= nav_item(t('.feedback'), feedbacks_path) if current_admin  %>
         </ul>
 
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav ml-auto">
           <%= nav_item(t('.about'), static_pages_about_path) %>
           <% if current_admin %>
             <%= nav_item('Logout', destroy_admin_session_path, method: 'delete') %>
