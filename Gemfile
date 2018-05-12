@@ -38,9 +38,7 @@ gem 'nprogress-rails'
 gem 'lazy_high_charts'
 
 # Twitter bootstrap
-gem 'bootstrap', '~> 4.1.0'
-# Helpers for bootstrap
-gem 'bh', '1.3.4'
+gem 'bootstrap', '~> 4.1.1'
 # Awesome icons
 gem 'font-awesome-rails'
 
