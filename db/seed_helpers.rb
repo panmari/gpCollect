@@ -192,13 +192,10 @@ module SeedHelpers
             runner_hash[:nationality] = m[:nationality]
           else
             # Known issue: in 2013 file there are some names that only consist of nationality, skip these
-            if name =~ /\([A-Z]{3}\)/
-              next
-            elsif name =~ /\([0-9]{1,3}\)/ # Known issue: Nationality consist of numbers -> next
-              next
-            else
-              raise 'Could not parse name: ' + name
-            end
+            next if /\([A-Z]{3}\)/.match?(name)
+            # Known issue: Nationality consist of numbers -> next
+            next if /\([0-9]{1,3}\)/.match?(name)
+            raise 'Could not parse name: ' + name
           end
 
           category = find_or_create_category_for(category_string)
@@ -206,7 +203,7 @@ module SeedHelpers
 
           runner = find_or_create_runner_for(runner_hash, run_day, category)
 
-          interim_times = interim_times_count.times.map do |interim_idx|
+          interim_times = (0...interim_times_count).map do |interim_idx|
             duration_string_to_ms(line[interim_col + interim_idx], true)
           end
           Run.create!(start_number: start_number, runner: runner,
