@@ -14,9 +14,8 @@ class Run < ActiveRecord::Base
   end
 
   def alpha_foto_url
-    if alpha_foto_url?
-      "https://www.alphafoto.com/images.php?runID=#{run_day.alpha_foto_id}&sn=#{start_number}"
-    end
+    return unless alpha_foto_url?
+    "https://www.alphafoto.com/images.php?runID=#{run_day.alpha_foto_id}&sn=#{start_number}"
   end
 
   # If 4 times are available, they correspond to [2.2, 5, 10, 12.8] km
