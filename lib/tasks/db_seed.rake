@@ -57,7 +57,7 @@ namespace :db do
             progress_bar.increment
             next if category_string.blank? || duration_string.blank?
 
-            duration = SeedHelpers.duration_string_to_milliseconds(duration_string)
+            duration = SeedHelpers.duration_string_to_ms(duration_string)
             category = SeedHelpers.find_or_create_category_for(category_string)
             r = Run.find_by(run_day: run_day, duration: duration, category: category)
             if r

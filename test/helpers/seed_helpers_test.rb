@@ -47,22 +47,22 @@ class SeedHelpersTest < ActionController::TestCase
   end
 
   test 'should turn a duration with dot and all values correctly to miliseconds' do
-    duration = SeedHelpers::duration_string_to_milliseconds '01:01:01.2'
+    duration = SeedHelpers::duration_string_to_ms '01:01:01.2'
     expect(duration).to be((1 * 3600 + 1 * 60 + 1) * 1000 + 2 * 100)
   end
 
   test 'should turn a duration with hours correctly to miliseconds' do
-    duration = SeedHelpers::duration_string_to_milliseconds '01:00:00,0'
+    duration = SeedHelpers::duration_string_to_ms '01:00:00,0'
     expect(duration).to be(3600 * 1000)
   end
 
   test 'should turn a duration without hours correctly to miliseconds' do
-    duration = SeedHelpers::duration_string_to_milliseconds '50:00,0'
+    duration = SeedHelpers::duration_string_to_ms '50:00,0'
     expect(duration).to be(50 * 60 * 1000)
   end
 
   test 'should turn a duration without hundreds miliseconds correctly to miliseconds' do
-    duration = SeedHelpers::duration_string_to_milliseconds '1:14:24'
+    duration = SeedHelpers::duration_string_to_ms '1:14:24'
     expect(duration).to be(((1 * 3600 + 14 * 60 + 24) * 1000).to_i)
   end
 

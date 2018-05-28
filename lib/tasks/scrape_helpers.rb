@@ -64,8 +64,8 @@ module ScrapeHelpers
       if km5_to_km10.include?('-')
         km10 = nil
       else
-        km5_int = SeedHelpers.duration_string_to_milliseconds(km5)
-        km10_int = SeedHelpers.duration_string_to_milliseconds(km5_to_km10)
+        km5_int = SeedHelpers.duration_string_to_ms(km5)
+        km10_int = SeedHelpers.duration_string_to_ms(km5_to_km10)
         km10 = format_duration(km5_int + km10_int)
       end
       # Not used
