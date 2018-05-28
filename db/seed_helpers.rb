@@ -167,7 +167,7 @@ module SeedHelpers
 
     run_day = options.fetch(:run_day)
     ActiveRecord::Base.transaction do
-      CSV.open(file, headers: true, col_sep: col_sep).each do |line|
+      CSV.foreach(file, headers: true, col_sep: col_sep) do |line|
         begin
           runner_hash = {}
           name = line[4 + shift]
@@ -176,7 +176,8 @@ module SeedHelpers
           runner_hash[:club_or_hometown] = club_or_hometown.blank? ? nil : club_or_hometown
           duration_string = line[duration_col]
 
-          # Don't create a runner/run if there is no category or duration (incl. > 2h) associated.
+          # Don't create a runner/run if there is no category or duration
+          # (including > 2h) associated.
           next if line[0] == '&gt'
           next if category_string.blank? || duration_string.blank?
 
