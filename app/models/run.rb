@@ -2,7 +2,9 @@ class Run < ActiveRecord::Base
   belongs_to :runner, counter_cache: true
   belongs_to :category
   belongs_to :run_day
-  belongs_to :run_day_category_aggregate, foreign_key: %i[run_day_id category_id]
+  belongs_to :run_day_category_aggregate,
+             foreign_key: %i[run_day_id category_id],
+             optional: true # Added after inserting all runs.
 
   scope :ordered, -> { joins(:run_day).order(date: :asc).references(:run_day) }
 
