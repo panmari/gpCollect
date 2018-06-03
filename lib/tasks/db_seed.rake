@@ -8,7 +8,9 @@ namespace :db do
     MergeRunnersHelpers.merge_duplicates
   end
 
-  desc 'Seeds data from the most recent entry in SeedHeplers::input_files_hash'
+  desc 'Seeds data from the most recent entry in '\
+  'SeedHeplers::input_files_hash. '\
+  'Existing runs associated with that run day are deleted.'
   task seed_most_recent_year: :environment do
     file = SeedHelpers.input_files_hash.last
     run_day = file[:run_day]
@@ -16,6 +18,7 @@ namespace :db do
     RunDayCategoryAggregate.where(run_day: run_day).delete_all
 
     SeedHelpers.seed_runs_file(file)
+    puts 'Done seeding, creating aggregate statistics...'
     Category.all.each do |category|
       RunDayCategoryAggregate.create!(category: category, run_day: run_day)
     end
