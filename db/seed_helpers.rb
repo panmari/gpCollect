@@ -70,7 +70,7 @@ module SeedHelpers
         run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer,
                                            date: Date.new(2018, 5, 19),
                                            route: route_16km,
-                                           alpha_foto_id: '869') }
+                                           alpha_foto_id: '953') }
 
     ]
     scraped + scraped_new + modern
