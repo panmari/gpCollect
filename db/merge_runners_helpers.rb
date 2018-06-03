@@ -1,4 +1,4 @@
-# encoding: UTF-8
+
 module MergeRunnersHelpers
   def self.merge_runners(runner, to_be_merged_runner)
     runner.runs += to_be_merged_runner.runs
@@ -12,28 +12,29 @@ module MergeRunnersHelpers
     [a.age_min || 0, a.age_max || 0, a.sex] <=> [b.age_min || 0, b.age_max || 0, b.sex]
   end
 
-  # TODO: In 2005, categories changed. E. g. M35 doesn't exist anymore, moving runners from this category to M30 in the
-  # next year. This method will with it's current implementation return false for these cases.
+  # TODO: In 2005, categories changed. E. g. M35 doesn't exist anymore, moving
+  # runners from this category to M30 in the next year. This method will with
+  # it's current implementation return false for these cases.
   def self.check_runs_for_ascending_categories(runs)
     runs.sort_by(&:run_day).each_cons(2).all? do |previous_run, run|
-      self.compare_categories(previous_run.category, run.category) <= 0
+      compare_categories(previous_run.category, run.category) <= 0
     end
   end
 
-  def self.find_runners_only_differing_in(attr, additional_attributes_select=[], additional_attributes_group=[],
-      options={})
-    identifying_runner_attributes_select = [:first_name, :last_name, :nationality, :club_or_hometown, :sex]
-    identifying_runner_attributes_group = [:first_name, :last_name, :nationality, :club_or_hometown, :sex]
+  def self.find_runners_only_differing_in(attr, additional_attributes_select = [], additional_attributes_group = [],
+                                          options = {})
+    identifying_runner_attributes_select = %i[first_name last_name nationality club_or_hometown sex]
+    identifying_runner_attributes_group = %i[first_name last_name nationality club_or_hometown sex]
     removed_attributes = options.fetch(:removed_attributes, [])
     corpus = options.fetch(:corpus, Runner.all)
 
     r = corpus
-            .select(identifying_runner_attributes_select - removed_attributes - [attr].flatten +
+        .select(identifying_runner_attributes_select - removed_attributes - [attr].flatten +
                         additional_attributes_select + ['array_agg(id) AS ids'])
-            .group(identifying_runner_attributes_group - removed_attributes -[attr].flatten +
+        .group(identifying_runner_attributes_group - removed_attributes - [attr].flatten +
                        additional_attributes_group).having('count(*) > 1')
     # Each merge candidate consists of multiple runners, retrieve these runners from database here.
-    merge_candidates = r.map { |i| Runner.includes(:run_days, runs: [:run_day, :category]).find(i['ids']) }
+    merge_candidates = r.map { |i| Runner.includes(:run_days, runs: %i[run_day category]).find(i['ids']) }
     # Only select the runners as merge candidates that differ in the queried attribute.
 
     # TODO: possibly remove this.
@@ -42,7 +43,7 @@ module MergeRunnersHelpers
 
     # A runner can not suddenly get younger, so check if categories are ascending.
     merge_candidates.select! do |runners|
-      self.check_runs_for_ascending_categories(runners.map(&:runs).flatten)
+      check_runs_for_ascending_categories(runners.map(&:runs).flatten)
     end
 
     # Only select runners for merging that have no overlapping run days.
@@ -54,22 +55,22 @@ module MergeRunnersHelpers
     (string.scan(/[[:alpha:]]/) - string.scan(/\w/)).size
   end
 
-  MALE_FIRST_NAMES = %w(Jannick Candido Loïc Patrick Raffael Kazim Luca Manuel Patrice Eric Yannick Emanuil Mathieu Nicolo)
-  FEMALE_FIRST_NAMES = %w(Denise Tabea Capucine Lucienne Carole Dominique)
-  POSSIBLY_WRONGLY_ACCENTED_ATTRIBUTES = [:first_name, :last_name]
-  POSSIBLY_WRONGLY_CASED_ATTRIBUTES = [:club_or_hometown]
-  POSSIBLY_WRONGLY_SPACED_ATTRIBUTES = [:first_name, :last_name, :club_or_hometown]
-  POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES = [:first_name, :last_name, :club_or_hometown]
+  MALE_FIRST_NAMES = %w[Jannick Candido Loïc Patrick Raffael Kazim Luca Manuel Patrice Eric Yannick Emanuil Mathieu Nicolo].freeze
+  FEMALE_FIRST_NAMES = %w[Denise Tabea Capucine Lucienne Carole Dominique Yan].freeze
+  POSSIBLY_WRONGLY_ACCENTED_ATTRIBUTES = %i[first_name last_name].freeze
+  POSSIBLY_WRONGLY_CASED_ATTRIBUTES = %i[club_or_hometown].freeze
+  POSSIBLY_WRONGLY_SPACED_ATTRIBUTES = %i[first_name last_name club_or_hometown].freeze
+  POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES = %i[first_name last_name club_or_hometown].freeze
 
   def self.merge_duplicates
-    self.merge_duplicates_based_on_sex
-    self.merge_duplicates_based_on_nationality
-    self.merge_duplicates_based_on_accents
-    self.merge_duplicates_based_on_case
-    self.merge_duplicates_based_on_space
-    self.merge_duplicates_based_on_umlaute
-    self.merge_duplicates_based_on_msm_prefix
-    self.merge_duplicates_based_on_hometown_prefix
+    merge_duplicates_based_on_sex
+    merge_duplicates_based_on_nationality
+    merge_duplicates_based_on_accents
+    merge_duplicates_based_on_case
+    merge_duplicates_based_on_space
+    merge_duplicates_based_on_umlaute
+    merge_duplicates_based_on_msm_prefix
+    merge_duplicates_based_on_hometown_prefix
   end
 
   # Handle wrong sex, try to find correct sex using name list.
@@ -83,7 +84,7 @@ module MergeRunnersHelpers
                       'W'
                     else
                       puts "Could not match gender to #{entries}, please type M/W and extend names list."
-		      STDIN.gets.chomp.upcase
+                      STDIN.gets.chomp.upcase
                     end
       merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
         # TODO: Specify which one to pick if there are multiple runners with the correct sex.
@@ -161,7 +162,7 @@ module MergeRunnersHelpers
 
     merged_runners = 0
     find_runners_only_differing_in(POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES, select_statement,
-                                   group_attributes, {removed_attributes: [:nationality]}).each do |entries|
+                                   group_attributes, removed_attributes: [:nationality]).each do |entries|
       # assume the correct entry is the one with more Umlaute,
       # as there seemed to be no unicode support in earlier data.
       merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
@@ -230,8 +231,9 @@ module MergeRunnersHelpers
   end
 
   # Reduces the given entries to only one, chosen by the block passed.
-  # The one that evaluates to the maximum of the block passed will be retained, the others merged with it.
-  def self.reduce_to_one_runner_by_condition(entries, &block)
+  # The one that evaluates to the maximum of the block passed will be retained,
+  # the others merged with it.
+  def self.reduce_to_one_runner_by_condition(entries)
     correct_entry = entries.max_by { |entry| yield(entry) }
     wrong_entries = entries.reject { |entry| entry == correct_entry }
     wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
