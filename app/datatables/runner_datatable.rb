@@ -72,7 +72,9 @@ class RunnerDatatable < AjaxDatatablesRails::Base
   # Every word (separated by space) will be searched individually in all searchable columns. Only rows that satisfy all
   # words (in some column) are returned.
   def filter_records_with_gin(records)
-    if datatable.search.value
+    if datatable.search.value.blank?
+      records
+    else
       Rails.logger.debug(datatable.search.value)
       search_for = datatable.search.value.split(' ')
       # The index only works for terms of length 3 and longer, so shorter terms are filtered here.
@@ -90,8 +92,6 @@ class RunnerDatatable < AjaxDatatablesRails::Base
       end.reduce(:and)
       # Do filtered counts here instead of calling count again later.
       records.select('*, count(*) OVER() as filtered_count').where(where_clause)
-    else
-      records
     end
   end
 
