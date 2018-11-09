@@ -16,8 +16,8 @@ end
 
 FactoryBot.define do
   factory :category do
-    sex 'M'
-    age_min 30
+    sex { 'M' }
+    age_min { 30 }
   end
 
   factory :organizer do
@@ -67,7 +67,7 @@ FactoryBot.define do
 
     factory :runner_with_runs do
       transient do
-        runs_count 3
+        runs_count { 3 }
       end
 
       # the after(:create) yields two values; the user instance itself and the
@@ -81,7 +81,7 @@ FactoryBot.define do
   end
 
   factory :admin do
-    email 'test@tester.com'
-    password 'test1234'
+    email { 'test@tester.com' }
+    password { 'test1234' }
   end
 end
