@@ -1,4 +1,6 @@
-class RunnerDatatable < AjaxDatatablesRails::Base
+# Wrapper for runners to easily retrieve data for ajax datatable using the gem
+# ajax-datatables-rails
+class RunnerDatatable < ApplicationDatatable
   def_delegators :@view, :runner_path, :remember_runner_path, :link_to, :fa_icon, :content_tag
 
   def view_columns
