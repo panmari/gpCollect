@@ -4,7 +4,7 @@ ruby '2.5.1'
 gem 'dotenv-rails'
 
 gem 'composite_primary_keys'
-gem 'rails', '~>5.1.0'
+gem 'rails', '~>5.2.0'
 gem 'rails-i18n'
 # Use postgresql as the database for Active Record
 gem 'pg', '<1.0'
@@ -32,6 +32,8 @@ gem 'turbolinks'
 gem 'jquery-turbolinks'
 # Slick progressbar for turbolinks
 gem 'nprogress-rails'
+# Faster booting rails application.
+gem 'bootsnap', require: false
 
 # For charts
 gem 'lazy_high_charts'
