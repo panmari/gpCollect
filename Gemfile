@@ -32,8 +32,6 @@ gem 'turbolinks'
 gem 'jquery-turbolinks'
 # Slick progressbar for turbolinks
 gem 'nprogress-rails'
-# Faster booting rails application.
-gem 'bootsnap', require: false
 
 # For charts
 gem 'lazy_high_charts'
