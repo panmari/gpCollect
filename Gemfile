@@ -7,7 +7,7 @@ gem 'composite_primary_keys'
 gem 'rails', '~>5.2.0'
 gem 'rails-i18n'
 # Use postgresql as the database for Active Record
-gem 'pg', '<1.0'
+gem 'pg' 
 # Use SCSS for stylesheets
 gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
