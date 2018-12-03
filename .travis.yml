@@ -4,7 +4,7 @@ rvm:
 cache: bundler
 bundler_args: --without "production development"
 addons:
-  postgresql: "9.3"
+  postgresql: "9.6"
 before_script:
   - cp config/database.yml.travis config/database.yml
   - RAILS_ENV=test bundle exec rake db:create
