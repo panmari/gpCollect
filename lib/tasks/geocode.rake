@@ -51,7 +51,7 @@ namespace :db do
                               /Hindelb\z/i => 'Hindelbank',
                               /im Emmen?t?a?/i => 'im Emmental',
                               /I\. ?E\.\z/i => 'im Emmental',
-                              # an der Aare uses similar patterns, making it
+                              # 'an der Aare' uses similar patterns, making it
                               # hard to make this more generic.
                               /(?<=Affoltern|Langnau|Hausen|Kappel) A[.m]? ?A(\.|(lbis))\z/ => ' am Albis',
                               / (b\.|bei) /i => ' bei ' }
