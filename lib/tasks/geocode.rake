@@ -5,8 +5,8 @@ require_relative 'geocoder'
 namespace :db do
   desc 'Create geocode results for runners that have geocode results missing'
   task geocode: :environment do
-    geocoder = Geocoder.new('db/data/ignored_prefixes.csv',
-                            'db/data/non_geocodable_club_or_hometown.csv')
+    geocoder = Geocoder.new('db/geocoding_data/ignored_prefixes.csv',
+                            'db/geocoding_data/non_geocodable_club_or_hometown.csv')
     # Get non-geocoded raw addresses and process most often occurring ones first.
     Runner.where(geocode_result: nil)
           .where.not(club_or_hometown: nil)
