@@ -12,7 +12,7 @@ class Geocoder
       /^(#{f.readlines.map { |p| Regexp.escape(p.strip) }.join('|')})[ -]+/
     end
     @non_geocodable_club_or_hometowns = File.open(non_geocodable_club_or_hometown_file) do |f|
-      f.each_with_object(Set.new) { |l, a| a << l.strip.downcase }
+      f.each_with_object(Set.new) { |l, a| a << l.strip }
     end
   end
 
