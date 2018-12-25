@@ -49,6 +49,7 @@ namespace :db do
                               / ob /i => ' ob ', # Ob Gunten => ob Gunten.
                               / im Kande\z/i => ' im Kandertal',
                               / bei Aad\z/i => ' bei Aadorf',
+                              /Pre/i => 'Pré',
                               / bei Kall(na)?/i => ' bei Kalnach',
                               /Hasle bei \/?B\./i => 'Hasle bei Burgdorf',
                               / a\/Albis/i => 'am Albis',
@@ -88,6 +89,6 @@ namespace :db do
       updated_runners += Runner.where(club_or_hometown: old)
                                .update_all(club_or_hometown: new)
     end
-    puts "Updated club_or_hometown for #{update_runners} runners, normalizing #{substitutions_candidates.size} instances."
+    puts "Updated club_or_hometown for #{updated_runners} runners, normalizing #{substitutions_candidates.size} instances."
   end
 end
