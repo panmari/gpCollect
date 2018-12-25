@@ -22,8 +22,12 @@ namespace :db do
 
       geocode_result = GeocodeResult.find_by_address(address)
       unless geocode_result
-        response = geocoder.geocode(address)
-        geocode_result = GeocodeResult.create!(address: address, response: response)
+        most_prominent_nationality = Runner.where(club_or_hometown: raw_address)
+                                           .group(:nationality).count
+                                           .max_by(&:second).first
+        response = geocoder.geocode(address, most_prominent_nationality)
+        geocode_result = GeocodeResult.create!(address: address,
+                                               response: response)
       end
       Runner.where(club_or_hometown: raw_address).update_all(geocode_result_id: geocode_result.id)
     end
