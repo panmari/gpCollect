@@ -83,10 +83,11 @@ namespace :db do
       puts 'Missing confirmation for updating records, continuing..'
       next
     end
-
+    updated_runners = 0
     substitutions_candidates.each do |old, new|
-      Runner.where(club_or_hometown: old)
-            .update_all(club_or_hometown: new)
+      updated_runners += Runner.where(club_or_hometown: old)
+                               .update_all(club_or_hometown: new)
     end
+    puts "Updated club_or_hometown for #{update_runners} runners, normalizing #{substitutions_candidates.size} instances."
   end
 end
