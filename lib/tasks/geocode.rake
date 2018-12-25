@@ -42,6 +42,7 @@ namespace :db do
                               /St[. ]( )*/i => 'St. ',
                               /-s-/i => '-sur-', # e.g. Romanel-sur-Lausanne
                               / im /i => ' im ', # Im Emmental => im Emmental.
+                              / ob /i => ' ob ', # Ob Gunten => ob Gunten.
                               / im Kande\z/i => ' im Kandertal',
                               / bei Aad\z/i => ' bei Aadorf',
                               / bei Kall(na)?/i => ' bei Kalnach',
