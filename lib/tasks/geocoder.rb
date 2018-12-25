@@ -39,8 +39,9 @@ class Geocoder
   end
 
   # Geocodes the given address by making a call to the Google Maps geocoding API.
-  def geocode(address)
-    response = JSON.parse(Net::HTTP.get(to_uri(address)), symbolize_names: true)
+  def geocode(address, nationality)
+    response = JSON.parse(Net::HTTP.get(to_uri(address, nationality)),
+                          symbolize_names: true)
     raise 'Over query limit' if response[:status] == 'OVER_QUERY_LIMIT'
 
     response
