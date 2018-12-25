@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Geocode Results</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Response</th>
+      <th>Associated runners</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @geocode_results.each do |geocode_result| %>
+      <tr>
+        <td><%= geocode_result.address %></td>
+        <td><%= geocode_result.response %></td>
+        <td><%= geocode_result.runners.count %></td>
+        <td><%= link_to 'Show', geocode_result %></td>
+        <td><%= link_to 'Destroy', geocode_result, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

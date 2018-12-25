@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 # Monkey patch address class
 module Faker
   class Address
-
     def self.nationality
       %w[SUI NED USA AFG ALB AND].sample
     end
@@ -9,7 +10,7 @@ module Faker
 
   class Name
     def self.sex
-      %w(M W).sample
+      %w[M W].sample
     end
   end
 end
@@ -43,18 +44,25 @@ FactoryBot.define do
   factory :run_day_category_aggregate do
     category
     run_day
-    mean_duration { Faker::Number.between(4618000, 5366200) }
-    min_duration { Faker::Number.between(2618000, 4366200) }
+    mean_duration { Faker::Number.between(4_618_000, 5_366_200) }
+    min_duration { Faker::Number.between(2_618_000, 4_366_200) }
     runs_count { Faker::Number.between(100, 200) }
   end
 
   factory :run do
-    duration { Faker::Number.between(4618000, 5366200) }
-    interim_times { [Faker::Number.between(1618000, 2366200), Faker::Number.between(2618000, 3366200)] }
+    duration { Faker::Number.between(4_618_000, 5_366_200) }
+    interim_times do
+      [Faker::Number.between(1_618_000, 2_366_200),
+       Faker::Number.between(2_618_000, 3_366_200)]
+    end
     category
     run_day
     runner
     run_day_category_aggregate
+  end
+
+  factory :geocode_result do
+    address { Faker::Address.city }
   end
 
   factory :runner do

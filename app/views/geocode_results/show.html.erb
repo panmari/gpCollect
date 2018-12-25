@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @geocode_result.address %>
+</p>
+
+<p>
+  <strong>Response:</strong>
+  <%= @geocode_result.response %>
+</p>
+<p>
+  <strong>Raw addresses:</strong>
+  <%= @geocode_result.runners.group(:club_or_hometown).count.sort_by(&:second).reverse %>
+</p>
+<p>
+  <strong>Runners:</strong>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= Runner.human_attribute_name(:name) %></th>
+        <th><%= Runner.human_attribute_name(:club_or_hometown) %></th>
+        <th><%= Runner.human_attribute_name(:nationality).html_safe %></th>
+        <th><%= Runner.human_attribute_name(:runs_count).html_safe %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% RunnersDecorator.decorate(@geocode_result.runners).each do |runner| %>
+        <tr>
+          <td><%= link_to runner.name, runner %></td>
+          <td><%= runner.club_or_hometown %></td>
+          <td><%= runner.nationality %></td>
+          <td><%= runner.runs.first.run_day.year %> </td>
+          <td><%= runner.runs_count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</p>
+|
+<%= link_to 'Back', geocode_results_path %>

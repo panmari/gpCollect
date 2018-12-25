@@ -3,6 +3,7 @@ class Runner < ActiveRecord::Base
   has_many :categories, through: :runs
   has_many :run_days, through: :runs
   has_and_belongs_to_many :merge_runners_requests
+  belongs_to :geocode_result, optional: true
 
   def to_param
     "#{id}-#{first_name.parameterize}-#{last_name.parameterize}"

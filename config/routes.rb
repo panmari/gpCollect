@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :routes, only: :show
     resources :runs, only: %i[index show] # not actually in use.
     resources :feedbacks
+    resources :geocode_results, only: %i[index show destroy]
     resources :runners, only: %i[index show] do
       collection do
         get 'show_remembered'
