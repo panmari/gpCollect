@@ -23,6 +23,6 @@ class GeocodeResultsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_geocode_result
-    @geocode_result = GeocodeResult.find(params[:id])
+    @geocode_result = GeocodeResult.includes(runners: { runs: :run_day }).find(params[:id])
   end
 end
