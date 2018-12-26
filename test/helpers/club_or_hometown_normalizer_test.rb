@@ -5,6 +5,7 @@ require 'rspec/expectations'
 require_relative '../../lib/tasks/club_or_hometown_normalizer'
 
 class ClubOrHometownNormalizerTest < ActionController::TestCase
+  include RSpec::Matchers
   TOWNS = ['Koeniz', 'Köniz', 'Spiegel',
            'Spiegel b. bern', 'Spiegel b. Bern', 'Spiegel bei Bern',
            'Villars-sur-Glâne', 'Villars-sur-Glane',
@@ -17,7 +18,6 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
   setup do
     @normalizer = ClubOrHometownNormalizer.new(TOWNS)
   end
-  include RSpec::Matchers
 
   test 'should normalize umlaut' do
     expect(@normalizer.normalize('Koeniz')).to eq('Köniz')
@@ -31,7 +31,7 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
     expect(@normalizer.normalize('Spiegel')).to eq('Spiegel bei Bern')
   end
 
-  test 'should normalize french accents' do
+  test 'should normalize (some) french accents' do
     expect(@normalizer.normalize('Geneve')).to eq('Genève')
     expect(@normalizer.normalize('GenevE')).to eq('GenevE')
     expect(@normalizer.normalize('Villars-sur-Glane')).to eq('Villars-sur-Glâne')
