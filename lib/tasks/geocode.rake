@@ -52,7 +52,7 @@ namespace :db do
                               /Pre/i => 'Pré',
                               / bei Kall(na)?/i => ' bei Kalnach',
                               /Hasle bei \/?B\./i => 'Hasle bei Burgdorf',
-                              / a\/Albis/i => 'am Albis',
+                              / a\/Albis/i => ' am Albis',
                               /Hindelb\z/i => 'Hindelbank',
                               /im Emmen?t?a?/i => 'im Emmental',
                               /I\. ?E\.\z/i => 'im Emmental',
