@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'geocoder'
+require_relative 'club_or_hometown_normalizer'
 
 namespace :db do
   desc 'Create geocode results for runners that have geocode results missing'
@@ -39,43 +40,12 @@ namespace :db do
   2. The new name already occurs in the database.
   3. The substitutions are manually confirmed.'
   task normalize_club_or_hometown: :environment do
-    substitution_patterns = { /ae/ => 'ä', /ue/ => 'ü', /oe/ => 'ö',
-                              /[Gg]eneve/ => 'Genève', /Glane/i => 'Glâne',
-                              /(Thun)/i => ' (Thun)',
-                              /Lützelflüh-Goldb/i => 'Lützelflüh-Goldbach',
-                              /St[. ]( )*/i => 'St. ',
-                              /-s-/i => '-sur-', # e.g. Romanel-sur-Lausanne
-                              / im /i => ' im ', # Im Emmental => im Emmental.
-                              / ob /i => ' ob ', # Ob Gunten => ob Gunten.
-                              / im Kande\z/i => ' im Kandertal',
-                              / bei Aad\z/i => ' bei Aadorf',
-                              /Pre/i => 'Pré',
-                              / bei Kall(na)?/i => ' bei Kalnach',
-                              /Hasle bei \/?B\./i => 'Hasle bei Burgdorf',
-                              / a\/Albis/i => ' am Albis',
-                              /Hindelb\z/i => 'Hindelbank',
-                              /im Emmen?t?a?/i => 'im Emmental',
-                              /I\. ?E\.\z/i => 'im Emmental',
-                              # 'an der Aare' uses similar patterns, making it
-                              # hard to make this more generic.
-                              /(?<=Affoltern|Langnau|Hausen|Kappel) A[.m]? ?A(\.|(lbis))\z/ => ' am Albis',
-                              /\ASpiegel\z/i => 'Spiegel bei Bern',
-                              /[\- ](b\.|bei)[ \-]?/i => ' bei ' }
-    %w[BE FR GL NW SO SG VD ZH].each do |canton|
-      substitution_patterns[/( \/)? \(?#{canton}\)?\z/i] = " #{canton}"
-    end
     towns = Runner.group(:club_or_hometown).count
-                  .sort_by(&:second).reverse.map(&:first).to_set
+                  .sort_by(&:second).reverse.map(&:first)
+    normalizer = ClubOrHometownNormalizer.new(towns)
     substitutions_candidates = towns.each_with_object({}) do |town, h|
-      next if town.nil?
-      next unless substitution_patterns.any? { |before, _| before.match(town) }
-
-      new_town = +town # Fancy syntax to return mutable copy of frozen string.
-      substitution_patterns.each do |before, after|
-        new_town.gsub!(before, after)
-      end
+      new_town = normalizer.normalize(town)
       next if town == new_town
-      next unless towns.include?(new_town)
 
       h[town] = new_town
     end
