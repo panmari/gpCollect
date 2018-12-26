@@ -22,6 +22,7 @@ class ClubOrHometownNormalizer
                                    # hard to make this more generic.
                                    /(?<=Affoltern|Langnau|Hausen|Kappel) A[.m]? ?A(\.|(lbis))\z/ => ' am Albis',
                                    /\ASpiegel\z/i => 'Spiegel bei Bern',
+                                   /Zurich/i => 'Zürich',
                                    /[\- ](b\.|bei)[ \-]?/i => ' bei ' }.freeze
   CANTONS = %w[BE FR GL LU NW SG SO SZ VD ZH].freeze
 

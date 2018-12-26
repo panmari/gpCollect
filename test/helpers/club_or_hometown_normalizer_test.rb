@@ -6,7 +6,8 @@ require_relative '../../lib/tasks/club_or_hometown_normalizer'
 
 class ClubOrHometownNormalizerTest < ActionController::TestCase
   include RSpec::Matchers
-  TOWNS = ['Koeniz', 'Köniz', 'Spiegel',
+  TOWNS = ['Zurich', 'Zürich',
+           'Koeniz', 'Köniz', 'Spiegel',
            'Spiegel b. bern', 'Spiegel b. Bern', 'Spiegel bei Bern',
            'Villars-sur-Glâne', 'Villars-sur-Glane',
            'Geneve', 'GenevE', 'Genève',
@@ -19,8 +20,12 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
     @normalizer = ClubOrHometownNormalizer.new(TOWNS)
   end
 
-  test 'should normalize umlaut' do
+  test 'should normalize umlaut when written as ae/oe/ue' do
     expect(@normalizer.normalize('Koeniz')).to eq('Köniz')
+  end
+
+  test 'should normalize umlaut when written as a/o/u' do
+    expect(@normalizer.normalize('Zurich')).to eq('Zürich')
   end
 
   test 'should normalize b. to bei' do
