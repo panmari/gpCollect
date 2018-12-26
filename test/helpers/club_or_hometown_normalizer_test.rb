@@ -57,4 +57,7 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
     expect(@normalizer.normalize('Langnau im Emment')).to eq('Langnau im Emmental')
   end
 
+  test 'should not normalize to name that does not occur in TOWNS' do
+    expect(@normalizer.normalize('IM TALBODEN OB DER WEID')).to eq('IM TALBODEN OB DER WEID')
+  end
 end
