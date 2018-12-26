@@ -86,6 +86,7 @@ FactoryBot.define do
         create_list(:run, evaluator.runs_count, runner: runner)
       end
     end
+    geocode_result
   end
 
   factory :admin do
