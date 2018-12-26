@@ -65,7 +65,7 @@ namespace :db do
       substitution_patterns[/( \/)? \(?#{canton}\)?\z/i] = " #{canton}"
     end
     towns = Runner.group(:club_or_hometown).count
-                  .sort_by(&:second).reverse.map(&:first)
+                  .sort_by(&:second).reverse.map(&:first).to_set
     substitutions_candidates = towns.each_with_object({}) do |town, h|
       next if town.nil?
       next unless substitution_patterns.any? { |before, _| before.match(town) }
