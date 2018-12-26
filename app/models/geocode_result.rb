@@ -7,7 +7,7 @@ class GeocodeResult < ActiveRecord::Base
   scope :ambiguous, -> { where("JSON_ARRAY_LENGTH(response -> 'results') > ?", 1) }
 
   def canton
-    return nil if response['results'].empty?
+    return nil if response.nil? || response['results'].empty?
 
     canton_result = response['results'].first['address_components'].find do |c|
       c['types'].include?('administrative_area_level_1')
