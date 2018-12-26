@@ -39,7 +39,7 @@ namespace :db do
   2. The new name already occurs in the database.
   3. The substitutions are manually confirmed.'
   task normalize_club_or_hometown: :environment do
-    substitution_patterns = { /ae/ => 'ä', /ue/ => 'ü', /oe/ => 'ö',
+    substitution_patterns = { /ae?/ => 'ä', /ue?/ => 'ü', /oe?/ => 'ö',
                               /[Gg]eneve/ => 'Genève', /Glane/i => 'Glâne',
                               /(Thun)/i => ' (Thun)',
                               /Lützelflüh-Goldb/i => 'Lützelflüh-Goldbach',
