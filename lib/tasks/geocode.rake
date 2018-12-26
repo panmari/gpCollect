@@ -59,7 +59,8 @@ namespace :db do
                               # 'an der Aare' uses similar patterns, making it
                               # hard to make this more generic.
                               /(?<=Affoltern|Langnau|Hausen|Kappel) A[.m]? ?A(\.|(lbis))\z/ => ' am Albis',
-                              / (b\.|bei) /i => ' bei ' }
+                              /\ASpiegel\z/i => 'Spiegel bei Bern',
+                              /[\- ](b\.|bei)[ \-]?/i => ' bei ' }
     %w[BE FR GL NW SO SG VD ZH].each do |canton|
       substitution_patterns[/( \/)? \(?#{canton}\)?\z/i] = " #{canton}"
     end
