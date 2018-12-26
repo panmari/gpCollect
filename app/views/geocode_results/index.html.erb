@@ -8,6 +8,7 @@
   <thead>
     <tr>
       <th>Address</th>
+      <th>Canton</th>
       <th>Response</th>
       <th>Associated runners count</th>
       <th colspan="2"></th>
@@ -18,6 +19,7 @@
     <% @geocode_results.each do |geocode_result| %>
       <tr>
         <td><%= geocode_result.address %></td>
+        <td><%= geocode_result.canton %></td>
         <td><%= geocode_result.response %></td>
         <td><%= geocode_result.runners_count %></td>
         <td><%= link_to 'Show', geocode_result %></td>
