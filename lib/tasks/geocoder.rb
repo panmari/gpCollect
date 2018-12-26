@@ -52,7 +52,8 @@ class Geocoder
   def to_uri(address, nationality)
     url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{CGI.escape(address)}&key=#{ENV['GOOGLE_API_KEY']}"
     region = NATIONALITY_TO_REGION[nationality] || 'ch'
-    url += '&region=' + region
+    url << '&region=' + region
+    url << '&language=de'
     URI(url)
   end
 
