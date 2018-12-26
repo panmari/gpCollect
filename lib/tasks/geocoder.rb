@@ -33,7 +33,7 @@ class Geocoder
     !address.blank? &&
       address.length >= 2 &&
       address.length < 40 && # Very long things are usually full sentences.
-      !/\.(ch|de)$/.match(address) && # Swiss domain ending, eg freizeit.ch.
+      !/\.(ch|de)$/.match(address) && # Domain endings, eg freizeit.ch.
       !/^[A-Z]{1,3}$/.match(address) # Nationality-only string.
     # TODO(panmari):If club or hometown contains numbers, chances are high that it's a club and not geolocatable.
   end
