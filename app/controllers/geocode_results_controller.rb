@@ -8,6 +8,8 @@ class GeocodeResultsController < ApplicationController
   def index
     @geocode_results = GeocodeResult.left_joins(:runners).group(:id)
                                     .order(Arel.sql('COUNT(runners.id) DESC'))
+                                    .page(params[:page])
+    ActiveRecord::Precounter.new(@geocode_results).precount(:runners)
   end
 
   # GET /geocode_results/1

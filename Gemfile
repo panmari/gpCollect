@@ -7,7 +7,7 @@ gem 'composite_primary_keys'
 gem 'rails', '~>5.2.0'
 gem 'rails-i18n'
 # Use postgresql as the database for Active Record
-gem 'pg' 
+gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
@@ -25,6 +25,8 @@ gem 'jquery-datatables-rails'
 gem 'jquery-ui-rails'
 # Handling cookies easily in javascript
 gem 'js_cookie_rails'
+# For counting number of associated values eagerly.
+gem 'activerecord-precounter'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
