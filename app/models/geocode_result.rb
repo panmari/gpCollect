@@ -7,17 +7,30 @@ class GeocodeResult < ActiveRecord::Base
   scope :ambiguous, -> { where("JSON_ARRAY_LENGTH(response -> 'results') > ?", 1) }
 
   def canton
-    return nil if response.nil? || response['results'].empty?
+    component = address_component_for('administrative_area_level_1')
+    return nil if component.nil?
 
-    canton_result = response['results'].first['address_components'].find do |c|
-      c['types'].include?('administrative_area_level_1')
-    end
-    return nil if canton_result.nil?
+    component['long_name']
+  end
 
-    canton_result['long_name']
+  def country
+    component = address_component_for('country')
+    return nil if component.nil?
+
+    component['long_name']
   end
 
   private
+
+  # Type is a string as defined by the Geocode API, e.g.
+  # 'administrative_area_level_1' or 'country'.
+  def address_component_for(type)
+    return nil if response.nil? || response['results'].empty?
+
+    response['results'].first['address_components'].find do |c|
+      c['types'].include?(type)
+    end
+  end
 
   def remove_from_runners
     runners.update_all(geocode_result_id: nil)
