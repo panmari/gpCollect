@@ -9,6 +9,7 @@ class GeocodeResultsController < ApplicationController
     @geocode_results = GeocodeResult.left_joins(:runners).group(:id)
                                     .order(Arel.sql('COUNT(runners.id) DESC'))
                                     .page(params[:page])
+    @geocode_results = @geocode_results.ambiguous if params[:ambiguous]
     ActiveRecord::Precounter.new(@geocode_results).precount(:runners)
   end
 
