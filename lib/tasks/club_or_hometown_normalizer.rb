@@ -33,7 +33,7 @@ class ClubOrHometownNormalizer
   def initialize(towns)
     @substitution_patterns = STATIC_SUBSTITUTION_PATTERNS.dup
     CANTONS.each do |canton|
-      @substitution_patterns[/( \/ |[ \/])\(?#{canton}\)?\z/i] = " #{canton}"
+      @substitution_patterns[/( \/ |[ \/]|, )\(?#{canton}\)?\z/i] = " #{canton}"
     end
     @towns = towns.to_set
   end

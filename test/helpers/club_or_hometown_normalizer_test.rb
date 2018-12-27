@@ -51,6 +51,7 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
     expect(@normalizer.normalize('Schüpfheim (LU)')).to eq('Schüpfheim LU')
     expect(@normalizer.normalize('Schüpfheim Lu')).to eq('Schüpfheim LU')
     expect(@normalizer.normalize('Schüpfheim / LU')).to eq('Schüpfheim LU')
+    expect(@normalizer.normalize('Schüpfheim, LU')).to eq('Schüpfheim LU')
     expect(@normalizer.normalize('Schüpfheim/LU')).to eq('Schüpfheim LU')
     expect(@normalizer.normalize('Pfäffikon Sz')).to eq('Pfäffikon SZ')
   end
