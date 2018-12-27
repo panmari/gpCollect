@@ -50,11 +50,14 @@ class Geocoder
   private
 
   def to_uri(address, nationality)
-    url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{CGI.escape(address)}&key=#{ENV['GOOGLE_API_KEY']}"
-    region = NATIONALITY_TO_REGION[nationality] || 'ch'
-    url << '&region=' + region
-    url << '&language=de'
-    URI(url)
+    URI::HTTPS.build(host: 'maps.googleapis.com',
+                     path: '/maps/api/geocode/json',
+                     query: {
+                       address: CGI.escape(address),
+                       key: ENV['GOOGLE_API_KEY'],
+                       language: 'de',
+                       region: NATIONALITY_TO_REGION[nationality] || 'ch'
+                     }.to_query)
   end
 
   NATIONALITY_TO_REGION = { 'SUI' => 'ch',
