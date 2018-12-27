@@ -5,9 +5,9 @@ require 'json'
 
 # Helper class for geocoding entities using the Google geocoding API.
 # For quota available, see https://console.developers.google.com/apis/api/geocoding-backend.googleapis.com/quotas.
-# Expects 'GOOGLE_API_KEY' set in the environment.
 class Geocoder
-  def initialize(ignored_prefixes_file, non_geocodable_club_or_hometown_file)
+  def initialize(api_key, ignored_prefixes_file, non_geocodable_club_or_hometown_file)
+    @api_key = api_key
     @ignored_prefixes_regex = File.open(ignored_prefixes_file) do |f|
       /^(#{f.readlines.map { |p| Regexp.escape(p.strip) }.join('|')})[ -]+/
     end
@@ -47,14 +47,13 @@ class Geocoder
     response
   end
 
-  private
-
   def to_uri(address, nationality)
     URI::HTTPS.build(host: 'maps.googleapis.com',
                      path: '/maps/api/geocode/json',
+                     port: nil,
                      query: {
                        address: CGI.escape(address),
-                       key: ENV['GOOGLE_API_KEY'],
+                       key: @api_key,
                        language: 'de',
                        region: NATIONALITY_TO_REGION[nationality] || 'ch'
                      }.to_query)
