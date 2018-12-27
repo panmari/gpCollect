@@ -11,6 +11,8 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
            'Spiegel b. bern', 'Spiegel b. Bern', 'Spiegel bei Bern',
            'Villars-sur-Glâne', 'Villars-sur-Glane',
            'Geneve', 'GenevE', 'Genève',
+           'Neuchatel', 'Neuchâtel',
+           'Delemont', 'Delémont',
            'Schüpfheim (LU)', 'Schüpfheim Lu', 'Schüpfheim LU',
            'Pfäffikon Sz', 'Pfäffikon SZ',
            'St.Gallen', 'Sankt Gallen', 'St. Gallen',
@@ -40,6 +42,9 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
     expect(@normalizer.normalize('Geneve')).to eq('Genève')
     expect(@normalizer.normalize('GenevE')).to eq('GenevE')
     expect(@normalizer.normalize('Villars-sur-Glane')).to eq('Villars-sur-Glâne')
+    expect(@normalizer.normalize('Neuchatel')).to eq('Neuchâtel')
+    expect(@normalizer.normalize('Delemont')).to eq('Delémont')
+
   end
 
   test 'should normalize cantons suffix' do
