@@ -28,7 +28,7 @@ class ClubOrHometownNormalizer
                                    /(?<=Affoltern|Langnau|Hausen|Kappel) A[.m]? ?A(\.|(lbis))\z/ => ' am Albis',
                                    /\ASpiegel\z/i => 'Spiegel bei Bern',
                                    /[\- ](b\.|bei)[ \-]?/i => ' bei ' }.freeze
-  CANTONS = %w[BE FR GL LU NW SG SO SZ VD ZH].freeze
+  CANTONS = %w[AG AR BE FR GE GL LU NE NW OW SG SO SZ TG VD ZH].freeze
 
   def initialize(towns)
     @substitution_patterns = STATIC_SUBSTITUTION_PATTERNS.dup
