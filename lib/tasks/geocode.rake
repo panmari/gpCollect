@@ -3,9 +3,9 @@
 require_relative 'geocoder'
 require_relative 'club_or_hometown_normalizer'
 
-namespace :db do
+namespace :geocode do
   desc 'Create geocode results for runners that have geocode results missing'
-  task geocode: :environment do
+  task create: :environment do
     geocoder = Geocoder.new('db/geocoding_data/ignored_prefixes.csv',
                             'db/geocoding_data/non_geocodable_club_or_hometown.csv')
     # Get non-geocoded raw addresses and process most often occurring ones first.
@@ -32,6 +32,14 @@ namespace :db do
       end
       Runner.where(club_or_hometown: raw_address).update_all(geocode_result_id: geocode_result.id)
     end
+  end
+
+  desc 'Removes all geocode results and all associations to geocode results in
+  runners. This might run for a long time!'
+  task reset: :environment do
+    Runner.update_all(geocode_result_id: nil)
+    GeocodeResult.delete_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('geocode_results')
   end
 
   desc 'Normalizes club_or_hometown for known cases to their canonical form.
