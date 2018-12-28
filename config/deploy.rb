@@ -3,7 +3,7 @@
 set :application, 'gpCollect'
 set :repo_url, 'git@github.com:panmari/gpCollect'
 
-set :services, [:thin]
+set :services, [:puma]
 require 'capistrano/service'
 
 # Default branch is :master
@@ -75,7 +75,7 @@ namespace :deploy do
       #   execute :rake, 'tmp:clear'
       # end
       invoke 'deploy:compile_assets_locally'
-      invoke 'service:thin:restart'
+      invoke 'service:puma:restart'
     end
   end
 end
