@@ -10,6 +10,7 @@ class GeocodeResultsController < ApplicationController
                                     .order(Arel.sql('COUNT(runners.id) DESC'))
                                     .page(params[:page])
     @geocode_results = @geocode_results.ambiguous if params[:ambiguous]
+    @geocode_results = @geocode_results.failed if params[:failed]
     ActiveRecord::Precounter.new(@geocode_results).precount(:runners)
   end
 
