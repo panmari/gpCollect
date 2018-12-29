@@ -30,7 +30,8 @@ $nprogress-color: #fff;
 .navbar {
   margin-bottom: 20px;
 }
-
-dl.row dt {
-  text-align: right;
+@media (min-width: 768px) {
+  dl.row dt {
+    text-align: right;
+  }
 }
