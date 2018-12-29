@@ -24,3 +24,11 @@
 $nprogress-color: #fff;
 @import 'nprogress';
 @import 'nprogress-bootstrap';
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+dl.row dt {
+  text-align: right;
+}
