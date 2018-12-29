@@ -17,6 +17,8 @@
  *= require_self
  *= require_tree .
  */
+// Change default font size to be more similar to bootstrap 3.
+$font-size-base: 0.9rem;
 @import "bootswatch_cerulean/variables";
 @import "bootstrap";
 @import "bootswatch_cerulean/bootswatch";
