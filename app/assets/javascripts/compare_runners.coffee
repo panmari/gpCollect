@@ -10,6 +10,5 @@ $ ->
       { responsivePriority: 3, targets: [3] },
       { responsivePriority: 4, targets: [1] },
       { responsivePriority: 5, targets: [2] },
-
       ]
   })
