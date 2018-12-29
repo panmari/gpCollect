@@ -52,14 +52,14 @@ namespace :geocode do
   2. The new name already occurs in the database.
   3. The substitutions are manually confirmed.'
   task normalize_club_or_hometown: :environment do
-    towns = Runner.group(:club_or_hometown).count
-                  .sort_by(&:second).reverse.map(&:first)
-    normalizer = ClubOrHometownNormalizer.new(towns)
-    substitutions_candidates = towns.each_with_object({}) do |town, h|
+    towns_with_counts = Runner.group(:club_or_hometown).count
+    normalizer = ClubOrHometownNormalizer.new(towns_with_counts.map(&:first))
+    substitutions_candidates = towns_with_counts.each_with_object({}) do |town_with_count, h|
+      town = town_with_count.first
       new_town = normalizer.normalize(town)
       next if town == new_town
 
-      h[town] = new_town
+      h[town_with_count] = new_town
     end
     puts substitutions_candidates
     puts 'Confirm updating substitution candidates [y/N]'
@@ -68,8 +68,8 @@ namespace :geocode do
       next
     end
     updated_runners = 0
-    substitutions_candidates.each do |old, new|
-      updated_runners += Runner.where(club_or_hometown: old)
+    substitutions_candidates.each do |old_with_count, new|
+      updated_runners += Runner.where(club_or_hometown: old_with_count.first)
                                .update_all(club_or_hometown: new)
     end
     puts "Updated club_or_hometown for #{updated_runners} runners, normalizing #{substitutions_candidates.size} instances."
