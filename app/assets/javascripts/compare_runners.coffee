@@ -4,6 +4,7 @@ $ ->
     paging: false
     info: false,
     responsive: true,
+    autoWidth: false,
     columnDefs: [
       { responsivePriority: 1, targets: [0, 5] },
       { responsivePriority: 2, targets: [4] },
