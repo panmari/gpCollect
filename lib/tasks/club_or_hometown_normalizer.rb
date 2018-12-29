@@ -9,6 +9,7 @@ class ClubOrHometownNormalizer
                                    /Neuchatel/i => 'Neuchâtel',
                                    /Zurich/i => 'Zürich',
                                    /(Thun)/i => ' (Thun)',
+                                   /\ABiel[ \/-]+Bienne\z/i => 'Biel/Bienne',
                                    /Lützelflüh-Goldb/i => 'Lützelflüh-Goldbach',
                                    /St[. ]( )*/i => 'St. ',
                                    /-s-/i => '-sur-', # e.g. Romanel-sur-Lausanne
