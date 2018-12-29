@@ -87,9 +87,6 @@ SimpleForm.setup do |config|
   # CSS class to add for error notification helper.
   config.error_notification_class = 'error_notification'
 
-  # ID to add for error notification helper.
-  # config.error_notification_id = nil
-
   # Series of attempts to detect a default label method for collection.
   # config.collection_label_methods = [ :to_label, :name, :title, :to_s ]
 
@@ -133,7 +130,7 @@ SimpleForm.setup do |config|
   config.browser_validations = false
 
   # Collection of methods to detect if a file type was given.
-  # config.file_methods = [ :mounted_as, :file?, :public_filename :attached? ]
+  # config.file_methods = [ :mounted_as, :file?, :public_filename, :attached? ]
 
   # Custom mappings for input types. This should be a hash containing a regexp
   # to match as key, and the input type that will be used when the field name
