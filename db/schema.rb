@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_16_151409) do
+ActiveRecord::Schema.define(version: 2018_12_29_114139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2018_12_16_151409) do
 
   create_table "geocode_results", force: :cascade do |t|
     t.string "address"
-    t.json "response"
+    t.jsonb "response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 2018_12_16_151409) do
     t.string "nationality"
     t.integer "runs_count", default: 0
     t.bigint "geocode_result_id"
+    t.index "f_unaccent((((((first_name)::text || ';'::text) || (last_name)::text) || ';'::text) || (club_or_hometown)::text)) gin_trgm_ops", name: "runners_unaccent_concat_gin_idx", using: :gin
     t.index ["club_or_hometown"], name: "index_runners_on_club_or_hometown"
     t.index ["first_name"], name: "index_runners_on_first_name"
     t.index ["geocode_result_id"], name: "index_runners_on_geocode_result_id"
