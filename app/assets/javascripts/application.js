@@ -16,6 +16,7 @@
 //= require jquery.dataTables
 //= require dataTables.bootstrap4
 //= require dataTables.responsive
+//= require responsive.bootstrap4
 //= require date-de
 //= require js.cookie
 //= require popper
