@@ -17,8 +17,23 @@ end
 
 FactoryBot.define do
   factory :category do
-    sex { 'M' }
-    age_min { 30 }
+    sex { %w[M W].sample }
+    age_min { [20, 30, 40, 50, 60, 70].sample }
+
+    factory :category_M20 do
+      sex { 'M' }
+      age_min { 20 }
+    end
+
+    factory :category_W20 do
+      sex { 'W' }
+      age_min { 20 }
+    end
+
+    factory :category_M30 do
+      sex { 'M' }
+      age_min { 30 }
+    end
   end
 
   factory :organizer do
