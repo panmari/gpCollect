@@ -55,4 +55,17 @@ class MergeRunnersHelpersTest < ActionController::TestCase
     end
   end
 
+  test 'dont merge runners based on case if their categories descend' do
+    @hans = create(:hans) do |runner|
+      run_day = create(:run_day, date: 1.year.ago)
+      runner.runs.create(run_day: run_day, category: @category_M20)
+    end
+    create(:hans, club_or_hometown: @hans.club_or_hometown.downcase) do |runner|
+      run_day = create(:run_day, date: 2.years.ago)
+      runner.runs.create(run_day: run_day, category: @category_M30)
+    end
+    assert_no_difference('Runner.count') do
+      MergeRunnersHelpers.merge_duplicates
+    end
+  end
 end

@@ -17,7 +17,7 @@ module MergeRunnersHelpers
   # runners from this category to M30 in the next year. This method will with
   # it's current implementation return false for these cases.
   def self.check_runs_for_ascending_categories(runs)
-    runs.sort_by(&:run_day).each_cons(2).all? do |previous_run, run|
+    runs.sort_by { |r| r.run_day.date }.each_cons(2).all? do |previous_run, run|
       compare_categories(previous_run.category, run.category) <= 0
     end
   end
