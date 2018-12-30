@@ -36,8 +36,6 @@ module MergeRunnersHelpers
                        additional_attributes_group).having('count(*) > 1')
     # Each merge candidate consists of multiple runners, retrieve these runners from database here.
     merge_candidates = r.map { |i| Runner.includes(:run_days, runs: %i[run_day category]).find(i['ids']) }
-    # Only select the runners as merge candidates that differ in the queried attribute.
-
     # TODO: possibly remove this.
     # Only select runners that actually differ in the given attribute.
     merge_candidates.select! { |i| [attr].flatten.any? { |a| i.first[a] != i.second[a] } }
@@ -103,7 +101,7 @@ module MergeRunnersHelpers
     merged_runners = 0
     find_runners_only_differing_in(:nationality).each do |entries|
       # Use most recent non-blank nationality.
-      correct_entry = entries.reject { |entry| entry.nationality.blank? }.max_by { |entry| entry.run_days.max_by(&:date) }
+      correct_entry = entries.reject { |e| e.nationality.blank? }.max_by { |e| e.run_days.max_by(&:date).date }
       wrong_entries = entries.reject { |entry| entry == correct_entry }
       wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
       merged_runners += wrong_entries.size
@@ -131,12 +129,15 @@ module MergeRunnersHelpers
     POSSIBLY_WRONGLY_CASED_ATTRIBUTES.each do |attr|
       merged_runners = 0
       find_runners_only_differing_in(attr, ["f_unaccent(lower(#{attr})) as low"], ['low']).each do |entries|
-        # We take the one with more lowercase characters as he correct one. E. g. for
+        # We prefer the version with capital first letter and more lowercase
+        # characters. E. g. for
         # Reichenbach I. K.
+        # reichenbach i. K.
         # Reichenbach i. K.
         # the version at the bottom is preferred.
         merged_runners += reduce_to_one_runner_by_condition(entries) do |runner|
-          runner[attr].scan(/[[:lower:]]/).size
+          [runner[attr][0] == runner[attr][0].upcase ? 1 : 0,
+           runner[attr].scan(/[[:lower:]]/).size]
         end
       end
       puts "Merged #{merged_runners} entries based on case of #{attr}." unless Rails.env.test?

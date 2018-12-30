@@ -28,7 +28,7 @@ class MergeRunnersHelpersTest < ActionController::TestCase
     expect(MergeRunnersHelpers.compare_categories(@category_M20, @category_W20)).to eq -1
   end
 
-  test 'merge runners based on case' do
+  test 'merge runners based on case of club_or_hometown' do
     @hans = create(:hans) do |runner|
       run_day = create(:run_day, date: 1.year.ago)
       runner.runs.create(run_day: run_day, category: @category_M30)
@@ -40,6 +40,7 @@ class MergeRunnersHelpersTest < ActionController::TestCase
     assert_difference('Runner.count', -1) do
       MergeRunnersHelpers.merge_duplicates
     end
+    assert_equal 'Bern', Runner.first.club_or_hometown
   end
 
   test 'dont merge runners based on case if they have run on same day' do
@@ -67,5 +68,20 @@ class MergeRunnersHelpersTest < ActionController::TestCase
     assert_no_difference('Runner.count') do
       MergeRunnersHelpers.merge_duplicates
     end
+  end
+
+  test 'merge runners based on nationality' do
+    create(:hans) do |runner|
+      run_day = create(:run_day, date: 1.year.ago)
+      runner.runs.create(run_day: run_day, category: @category_M30)
+    end
+    create(:hans, nationality: 'DEU') do |runner|
+      run_day = create(:run_day, date: 2.years.ago)
+      runner.runs.create(run_day: run_day, category: @category_M30)
+    end
+    assert_difference('Runner.count', -1) do
+      MergeRunnersHelpers.merge_duplicates
+    end
+    assert_equal 'SUI', Runner.first.nationality
   end
 end
