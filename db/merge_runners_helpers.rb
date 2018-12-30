@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 module MergeRunnersHelpers
   def self.merge_runners(runner, to_be_merged_runner)
@@ -91,7 +92,7 @@ module MergeRunnersHelpers
         runner.sex == correct_sex ? 1 : 0
       end
     end
-    puts "Merged #{merged_runners} entries based on sex."
+    puts "Merged #{merged_runners} entries based on sex." unless Rails.env.test?
   end
 
   def self.merge_duplicates_based_on_nationality
@@ -103,7 +104,7 @@ module MergeRunnersHelpers
       wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
       merged_runners += wrong_entries.size
     end
-    puts "Merged #{merged_runners} entries based nationality"
+    puts "Merged #{merged_runners} entries based nationality" unless Rails.env.test?
   end
 
   def self.merge_duplicates_based_on_accents
@@ -115,13 +116,13 @@ module MergeRunnersHelpers
           count_accents(runner[attr])
         end
       end
-      puts "Merged #{merged_runners} entries based on accents of #{attr}."
+      puts "Merged #{merged_runners} entries based on accents of #{attr}." unless Rails.env.test?
     end
   end
 
   # Try to fix case sensitive duplicates in club_or_hometown, e. g. in
-  # Veronique	Plessis	Arc Et Senans
-  # Veronique	Plessis	Arc et Senans
+  # Veronique Plessis Arc Et Senans
+  # Veronique Plessis Arc et Senans
   def self.merge_duplicates_based_on_case
     POSSIBLY_WRONGLY_CASED_ATTRIBUTES.each do |attr|
       merged_runners = 0
@@ -134,7 +135,7 @@ module MergeRunnersHelpers
           runner[attr].scan(/[[:lower:]]/).size
         end
       end
-      puts "Merged #{merged_runners} entries based on case of #{attr}."
+      puts "Merged #{merged_runners} entries based on case of #{attr}." unless Rails.env.test?
     end
   end
 
@@ -149,7 +150,7 @@ module MergeRunnersHelpers
           [-runner[attr].scan(/[- ]{2,}/).size, runner[attr].scan(/[ -]/).size]
         end
       end
-      puts "Merged #{merged_runners} entries based on spaces of #{attr}."
+      puts "Merged #{merged_runners} entries based on spaces of #{attr}." unless Rails.env.test?
     end
   end
 
@@ -169,7 +170,7 @@ module MergeRunnersHelpers
         POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.inject(0) { |sum, attr| sum + runner[attr].count('äüöÄÜÖ') }
       end
     end
-    puts "Merged #{merged_runners} entries based on Umlaute in any of #{attr}"
+    puts "Merged #{merged_runners} entries based on Umlaute in any of #{attr}" unless Rails.env.test?
   end
 
   # A runner might appear with two similar hometowns, e. g. once with 'Muri b. Bern' and once with 'Muri'.
@@ -189,7 +190,7 @@ module MergeRunnersHelpers
         end
       end
     end
-    puts "Merged #{merged_runners} entries based on prefix of club or hometown"
+    puts "Merged #{merged_runners} entries based on prefix of club or hometown" unless Rails.env.test?
   end
 
   # A runner might appear with two similar clubs,
@@ -204,7 +205,7 @@ module MergeRunnersHelpers
         runner[:club_or_hometown].length
       end
     end
-    puts "Merged #{merged_runners} entries based on prefix MSM prefix"
+    puts "Merged #{merged_runners} entries based on prefix MSM prefix" unless Rails.env.test?
   end
 
   # A runner might appear with two similar clubs,
@@ -227,7 +228,7 @@ module MergeRunnersHelpers
         end
       end
     end
-    puts "Merged #{merged_runners} entries based on prefix of club or hometown"
+    puts "Merged #{merged_runners} entries based on prefix of club or hometown" unless Rails.env.test?
   end
 
   # Reduces the given entries to only one, chosen by the block passed.

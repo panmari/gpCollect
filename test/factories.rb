@@ -53,7 +53,11 @@ FactoryBot.define do
   factory :run_day do
     organizer
     route
-    date { 1.year.ago }
+    date { Faker::Date.between(18.years.ago, Date.today) }
+
+    factory :run_day_1y_ago do
+      date { 1.year.ago }
+    end
   end
 
   factory :run_day_category_aggregate do
@@ -102,6 +106,15 @@ FactoryBot.define do
       end
     end
     geocode_result
+
+    factory :hans do
+      first_name { 'Hans' }
+      last_name { 'Muster' }
+      club_or_hometown { 'Bern' }
+      birth_date { 50.years.ago }
+      nationality { 'SUI' }
+      sex { 'M' }
+    end
   end
 
   factory :admin do
