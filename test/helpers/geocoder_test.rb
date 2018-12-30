@@ -4,7 +4,7 @@ require 'test_helper'
 require 'rspec/expectations'
 require_relative '../../lib/tasks/geocoder'
 
-class CGeocoderTest < ActionController::TestCase
+class GeocoderTest < ActionController::TestCase
   include RSpec::Matchers
 
   TEST_API_KEY = 'some_test_key'
