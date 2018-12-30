@@ -48,7 +48,11 @@ module MergeRunnersHelpers
     end
 
     # Only select runners for merging that have no overlapping run days.
-    merge_candidates.select { |i| i.all? { |fixed_runner| (i - [fixed_runner]).all? { |other_runner| (fixed_runner.run_days & other_runner.run_days).empty? } } }
+    merge_candidates.select! do |runners|
+      # uniq! returns nil if no duplicates were found.
+      runners.map(&:run_days).flatten.uniq!.nil?
+    end
+    merge_candidates
   end
 
   def self.count_accents(string)
