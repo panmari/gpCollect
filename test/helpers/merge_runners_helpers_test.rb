@@ -71,6 +71,10 @@ class MergeRunnersHelpersTest < ActionController::TestCase
   end
 
   test 'merge runners based on nationality' do
+    create(:hans, nationality: nil) do |runner|
+      run_day = create(:run_day, date: 0.years.ago)
+      runner.runs.create(run_day: run_day, category: @category_M30)
+    end
     create(:hans) do |runner|
       run_day = create(:run_day, date: 1.year.ago)
       runner.runs.create(run_day: run_day, category: @category_M30)
@@ -79,9 +83,24 @@ class MergeRunnersHelpersTest < ActionController::TestCase
       run_day = create(:run_day, date: 2.years.ago)
       runner.runs.create(run_day: run_day, category: @category_M30)
     end
-    assert_difference('Runner.count', -1) do
+    assert_difference('Runner.count', -2) do
       MergeRunnersHelpers.merge_duplicates
     end
     assert_equal 'SUI', Runner.first.nationality
+  end
+
+  test 'merge runners based on umlaut' do
+    create(:hans) do |runner|
+      run_day = create(:run_day, date: 1.year.ago)
+      runner.runs.create(run_day: run_day, category: @category_M30)
+    end
+    create(:hans, first_name: 'Häns') do |runner|
+      run_day = create(:run_day, date: 2.years.ago)
+      runner.runs.create(run_day: run_day, category: @category_M30)
+    end
+    assert_difference('Runner.count', -1) do
+      MergeRunnersHelpers.merge_duplicates
+    end
+    assert_equal 'Häns', Runner.first.first_name
   end
 end

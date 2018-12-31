@@ -101,10 +101,13 @@ module MergeRunnersHelpers
     merged_runners = 0
     find_runners_only_differing_in(:nationality).each do |entries|
       # Use most recent non-blank nationality.
-      correct_entry = entries.reject { |e| e.nationality.blank? }.max_by { |e| e.run_days.max_by(&:date).date }
-      wrong_entries = entries.reject { |entry| entry == correct_entry }
-      wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
-      merged_runners += wrong_entries.size
+      merged_runners += reduce_to_one_runner_by_condition(entries) do |e|
+        if e.nationality.blank?
+          Time.at(0) # Start of unix epoch to guarantee this is last.
+        else
+          e.run_days.max_by(&:date).date
+        end
+      end
     end
     puts "Merged #{merged_runners} entries based nationality" unless Rails.env.test?
   end
@@ -242,7 +245,9 @@ module MergeRunnersHelpers
   def self.reduce_to_one_runner_by_condition(entries)
     correct_entry = entries.max_by { |entry| yield(entry) }
     wrong_entries = entries.reject { |entry| entry == correct_entry }
-    wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
+    ActiveRecord::Base.transaction do
+      wrong_entries.each { |entry| merge_runners(correct_entry, entry) }
+    end
     wrong_entries.size
   end
 end
