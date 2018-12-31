@@ -1,8 +1,8 @@
 <%= merge_candidates_table(@merge_runners_request.runners) %>
-<% if @merge_runners_request.errors[:runners].any? %>
-    <%= alert_box @merge_runners_request.errors[:runners].join(', '), context: :danger %>
-<% end %>
 <%= horizontal_simple_form_for(@merge_runners_request) do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.error(:runners) %>
+
     <% @merge_runners_request.runner_ids.each do |id| %>
         <%= f.hidden_field :runner_ids, multiple: true, value: id %>
     <% end %>
