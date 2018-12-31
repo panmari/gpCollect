@@ -1,6 +1,7 @@
 class MergeRunnersRequestsRunDaysValidator < ActiveModel::Validator
   def validate(record)
-    unless record.runners.all? { |fixed_runner| (record.runners - [fixed_runner]).all? { |other_runner| (fixed_runner.run_days & other_runner.run_days).empty? } }
+    # uniq! returns nil if no duplicates were found.
+    unless record.runners.map(&:run_days).flatten.uniq!.nil?
       # TODO: Make more useful error message.
       record.errors[:runners] << 'At least two runners have runs on the same day.'
     end
