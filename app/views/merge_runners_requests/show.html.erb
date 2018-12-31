@@ -23,9 +23,10 @@
   <%= @merge_runners_request.merged_sex %>
 </p>
 
+
 <p>
   <strong>Merge candidates:</strong>
-  <%= @merge_runners_request.runners %>
+  <%= merge_candidates_table(@merge_runners_request.runners) %>
 </p>
 
 <%= link_to 'Edit', edit_merge_runners_request_path(@merge_runners_request) %> |

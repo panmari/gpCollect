@@ -71,7 +71,7 @@ class MergeRunnersRequestsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_merge_runner_request
-    @merge_runners_request = MergeRunnersRequest.find(params[:id])
+    @merge_runners_request = MergeRunnersRequest.includes(:runners).find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
