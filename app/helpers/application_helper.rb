@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   # Override kaminari paginate method to always use bootstrap theme.
   def paginate(objects, options = {})
@@ -25,11 +27,28 @@ module ApplicationHelper
     content_tag(:li, link_to(label, link, link_options), class: nav_classes)
   end
 
+  def bootstrap_class_for_flash(flash_type)
+    case flash_type
+    when 'success'
+      'alert-success'
+    when 'error'
+      'alert-danger'
+    when 'alert'
+      'alert-warning'
+    when 'notice'
+      'alert-info'
+    else
+      flash_type.to_s
+    end
+  end
+
   def flash_messages
-    flash.map do |style, msg|
-      context = 'danger' if style.to_sym == :error
-      context = 'info' if style.to_sym == :notice
-      alert_box(msg, context: context, dismissible: true)
+    flash.map do |flash_type, msg|
+      classes = 'alert alert-dismissable fade show ' + bootstrap_class_for_flash(flash_type)
+      content_tag(:div, class: classes) do
+        concat msg
+        concat content_tag(:button, '&times;'.html_safe, 'data-dismiss': 'alert', class: 'close')
+      end
     end.join.html_safe
   end
 end
