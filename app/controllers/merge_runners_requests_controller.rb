@@ -17,10 +17,10 @@ class MergeRunnersRequestsController < ApplicationController
     merge_candidates = Runner.includes(:run_days).find(JSON.parse(cookies[:remembered_runners] || '{}').keys)
     @merge_runners_request = MergeRunnersRequest.new_from(merge_candidates)
     @merge_runners_request.validate
-    if @merge_runners_request.errors[:runners].any?
+    if !admin_signed_in? && @merge_runners_request.errors[:runners].any?
       # Runners can not be merged, show them instead.
       flash[:error] = @merge_runners_request.errors[:runners]
-      redirect_to show_remembered_runners_path
+      redirect_to show_remembered_runners_path(ids: merge_candidates.map(&:id).join(','))
     end
   end
 
