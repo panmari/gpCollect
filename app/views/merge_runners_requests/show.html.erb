@@ -1,4 +1,9 @@
 <p>
+  <strong>Merge candidates:</strong>
+  <%= merge_candidates_table(@merge_runners_request.runners) %>
+</p>
+
+<p>
   <strong>Merged first name:</strong>
   <%= @merge_runners_request.merged_first_name %>
 </p>
@@ -21,12 +26,6 @@
 <p>
   <strong>Merged sex:</strong>
   <%= @merge_runners_request.merged_sex %>
-</p>
-
-
-<p>
-  <strong>Merge candidates:</strong>
-  <%= merge_candidates_table(@merge_runners_request.runners) %>
 </p>
 
 <%= link_to 'Edit', edit_merge_runners_request_path(@merge_runners_request) %> |
