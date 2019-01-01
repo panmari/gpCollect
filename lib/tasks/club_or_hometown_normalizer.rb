@@ -5,6 +5,7 @@ class ClubOrHometownNormalizer
                                    # Accent fixes surfaced using query:
                                    # Runner.group(["f_unaccent(club_or_hometown)", :club_or_hometown])
                                    /[Gg]eneve/ => 'Genève', /Glane/i => 'Glâne',
+                                   /(Club )?Panards? Migros Gen[eè]ve/i => 'Club des Panards Migros Genève',
                                    /Delemont/i => 'Delémont',
                                    /Neuchatel/i => 'Neuchâtel',
                                    /Zurich/i => 'Zürich',

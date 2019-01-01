@@ -11,6 +11,7 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
            'Spiegel b. bern', 'Spiegel b. Bern', 'Spiegel bei Bern',
            'Villars-sur-Glâne', 'Villars-sur-Glane',
            'Geneve', 'GenevE', 'Genève',
+           'Club des Panards Migros Genève',
            'Neuchatel', 'Neuchâtel',
            'Delemont', 'Delémont',
            'Schüpfheim (LU)', 'Schüpfheim Lu', 'Schüpfheim LU',
@@ -71,4 +72,11 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
   test 'should not normalize to name that does not occur in TOWNS' do
     expect(@normalizer.normalize('IM TALBODEN OB DER WEID')).to eq('IM TALBODEN OB DER WEID')
   end
+
+  test 'should panards varients' do
+    expect(@normalizer.normalize('PANARD MIGROS GENEVE')).to eq('Club des Panards Migros Genève')
+    expect(@normalizer.normalize('CLUB PANARDS MIGROS GENEVE')).to eq('Club des Panards Migros Genève')
+    expect(@normalizer.normalize('Club Panards Migros Genève')).to eq('Club des Panards Migros Genève')
+  end
+
 end
