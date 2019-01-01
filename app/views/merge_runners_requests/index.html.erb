@@ -24,8 +24,8 @@
         <td><%= merge_runners_request.runners_formatted %></td>
         <td><%= link_to 'Show', merge_runners_request_path(merge_runners_request) %></td>
         <td><%= link_to 'Edit', edit_merge_runners_request_path(merge_runners_request) %></td>
-        <td><%= link_to 'Accept', accept_merge_runners_request_path(merge_runners_request),
-                        data: { confirm: 'Are you sure you want to accept?' } %></td>
+        <td><%= link_to 'Approve', approve_merge_runners_request_path(merge_runners_request),
+                        data: { confirm: 'Are you sure you want to approve?' } %></td>
         <td><%= link_to 'Destroy', merge_runners_request_path(merge_runners_request),
                         method: :delete, data: { confirm: 'Are you sure you want delete?' } %></td>
       </tr>

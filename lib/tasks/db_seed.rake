@@ -5,7 +5,7 @@ namespace :db do
   desc 'Try to merge runners that are most probably the same person'
   task merge_runners: :environment do
     require_relative '../../db/merge_runners_helpers'
-    MergeRunnersHelpers.merge_duplicates
+    MergeRunnersHelpers.new(false).merge_duplicates
   end
 
   desc 'Seeds data from the most recent entry in '\

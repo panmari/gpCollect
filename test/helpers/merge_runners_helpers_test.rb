@@ -11,21 +11,8 @@ class MergeRunnersHelpersTest < ActionController::TestCase
     @category_W20 = create(:category_W20)
     @category_M20 = create(:category_M20)
     @category_M30 = create(:category_M30)
-  end
 
-  test 'should compare categories with same sex' do
-    expect(MergeRunnersHelpers.compare_categories(@category_M20, @category_M30)).to eq -1
-    expect(MergeRunnersHelpers.compare_categories(@category_M30, @category_M20)).to eq 1
-  end
-
-  test 'should compare categories with different sex' do
-    expect(MergeRunnersHelpers.compare_categories(@category_W20, @category_M30)).to eq -1
-    expect(MergeRunnersHelpers.compare_categories(@category_M30, @category_W20)).to eq 1
-  end
-
-  test 'should compare categories with different sex and same age' do
-    expect(MergeRunnersHelpers.compare_categories(@category_W20, @category_M20)).to eq 1
-    expect(MergeRunnersHelpers.compare_categories(@category_M20, @category_W20)).to eq -1
+    @helper = MergeRunnersHelpers.new(true)
   end
 
   test 'merge runners based on case of club_or_hometown' do
@@ -38,7 +25,7 @@ class MergeRunnersHelpersTest < ActionController::TestCase
       runner.runs.create(run_day: run_day, category: @category_M30)
     end
     assert_difference('Runner.count', -1) do
-      MergeRunnersHelpers.merge_duplicates
+      @helper.merge_duplicates
     end
     assert_equal 'Bern', Runner.first.club_or_hometown
   end
@@ -52,7 +39,7 @@ class MergeRunnersHelpersTest < ActionController::TestCase
       runner.runs.create(run_day: run_day, category: @category_M30)
     end
     assert_no_difference('Runner.count') do
-      MergeRunnersHelpers.merge_duplicates
+      @helper.merge_duplicates
     end
   end
 
@@ -66,7 +53,7 @@ class MergeRunnersHelpersTest < ActionController::TestCase
       runner.runs.create(run_day: run_day, category: @category_M30)
     end
     assert_no_difference('Runner.count') do
-      MergeRunnersHelpers.merge_duplicates
+      @helper.merge_duplicates
     end
   end
 
@@ -84,7 +71,7 @@ class MergeRunnersHelpersTest < ActionController::TestCase
       runner.runs.create(run_day: run_day, category: @category_M30)
     end
     assert_difference('Runner.count', -2) do
-      MergeRunnersHelpers.merge_duplicates
+      @helper.merge_duplicates
     end
     assert_equal 'SUI', Runner.first.nationality
   end
@@ -99,7 +86,7 @@ class MergeRunnersHelpersTest < ActionController::TestCase
       runner.runs.create(run_day: run_day, category: @category_M30)
     end
     assert_difference('Runner.count', -1) do
-      MergeRunnersHelpers.merge_duplicates
+      @helper.merge_duplicates
     end
     assert_equal 'Häns', Runner.first.first_name
   end

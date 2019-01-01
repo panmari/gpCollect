@@ -1,5 +1,5 @@
 class MergeRunnersRequestsController < ApplicationController
-  before_action :set_merge_runner_request, only: %i[show edit update destroy accept]
+  before_action :set_merge_runner_request, only: %i[show edit update destroy approve]
   before_action :authenticate_admin!, except: %i[new create]
 
   # GET /merge_runner_requests
@@ -56,15 +56,15 @@ class MergeRunnersRequestsController < ApplicationController
     redirect_to merge_runners_requests_url, notice: 'Merge runner request was successfully destroyed.'
   end
 
-  def accept
-    new_runner = @merge_runners_request.to_new_runner
-    if new_runner.save!
-      @merge_runners_request.runners.each &:destroy!
-      flash[:info] = 'Successfully merged runner'
-      redirect_to runner_path(new_runner)
+  def approve
+    # TODO(panmar): This actually needs exception handling.
+    merged_runner = @merge_runners_request.approve!
+    if merged_runner
+      flash[:success] = 'Successfully merged runner'
+      redirect_to runner_path(merged_runner)
     else
-      flash[:error] = 'Could not create new runner: ' + new_runner.errors
-      redirect_to merge_runners_requests_path
+      flash[:error] = 'Failed to execute merge. Errors of merged runner: ' + merged_runner.errors
+      redirect_to @merge_runners_request
     end
   end
 

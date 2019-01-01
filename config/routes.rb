@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     devise_for :admins
     resources :merge_runners_requests do
       member do
-        get 'accept'
+        get 'approve'
       end
     end
     resources :categories, only: %i[index show]
