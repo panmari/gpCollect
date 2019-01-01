@@ -1,35 +1,7 @@
-<p>
-  <strong>Merge candidates:</strong>
-  <%= merge_candidates_table(@merge_runners_request.runners) %>
-</p>
+<%= merged_attributes_table(@merge_runners_request) %>
 
 <div id="runs_chart" style="width:100%; height:300px;"></div>
 <%= high_chart("runs_chart", @chart)  %>
-
-<p>
-  <strong>Merged first name:</strong>
-  <%= @merge_runners_request.merged_first_name %>
-</p>
-
-<p>
-  <strong>Merged last name:</strong>
-  <%= @merge_runners_request.merged_last_name %>
-</p>
-
-<p>
-  <strong>Merged club or hometown:</strong>
-  <%= @merge_runners_request.merged_club_or_hometown %>
-</p>
-
-<p>
-  <strong>Merged nationality:</strong>
-  <%= @merge_runners_request.merged_nationality %>
-</p>
-
-<p>
-  <strong>Merged sex:</strong>
-  <%= @merge_runners_request.merged_sex %>
-</p>
 
 <%= link_to 'Edit', edit_merge_runners_request_path(@merge_runners_request) %> |
 <%= link_to 'Back', merge_runners_requests_path %>

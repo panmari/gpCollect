@@ -1,4 +1,4 @@
-<%= merge_candidates_table(@merge_runners_request.runners) %>
+<%= merged_attributes_table(@merge_runners_request, false) %>
 <%= horizontal_simple_form_for(@merge_runners_request) do |f| %>
     <%= f.error_notification %>
     <%= f.error_notification message: f.error(:runners) %>
