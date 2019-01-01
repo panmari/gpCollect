@@ -43,12 +43,12 @@ module ApplicationHelper
   end
 
   def flash_messages
-    flash.map do |flash_type, msg|
+    safe_join(flash.map do |flash_type, msg|
       classes = 'alert alert-dismissable fade show ' + bootstrap_class_for_flash(flash_type)
       content_tag(:div, class: classes) do
         concat msg
         concat content_tag(:button, '&times;'.html_safe, 'data-dismiss': 'alert', class: 'close')
       end
-    end.join.html_safe
+    end)
   end
 end
