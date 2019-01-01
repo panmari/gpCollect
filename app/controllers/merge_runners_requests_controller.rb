@@ -10,6 +10,7 @@ class MergeRunnersRequestsController < ApplicationController
   # GET /merge_runner_requests/1
   def show
     @merge_runners_request = @merge_runners_request.decorate
+    @chart = CompareRunnersChart.new(@merge_runners_request.runners)
   end
 
   # GET /merge_runner_requests/new

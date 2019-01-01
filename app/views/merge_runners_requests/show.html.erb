@@ -3,6 +3,9 @@
   <%= merge_candidates_table(@merge_runners_request.runners) %>
 </p>
 
+<div id="runs_chart" style="width:100%; height:300px;"></div>
+<%= high_chart("runs_chart", @chart)  %>
+
 <p>
   <strong>Merged first name:</strong>
   <%= @merge_runners_request.merged_first_name %>
