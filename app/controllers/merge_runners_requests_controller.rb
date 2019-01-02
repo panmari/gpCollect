@@ -61,7 +61,7 @@ class MergeRunnersRequestsController < ApplicationController
     merged_runner = @merge_runners_request.approve!
     if merged_runner
       flash[:success] = 'Successfully merged runner'
-      redirect_to runner_path(merged_runner)
+      redirect_back(fallback_location: runner_path(merged_runner))
     else
       flash[:error] = 'Failed to execute merge. Errors of merged runner: ' + merged_runner.errors
       redirect_to @merge_runners_request
