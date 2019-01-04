@@ -52,7 +52,7 @@ class Geocoder
                      path: '/maps/api/geocode/json',
                      port: nil,
                      query: {
-                       address: CGI.escape(address),
+                       address: address,
                        key: @api_key,
                        language: 'de',
                        region: NATIONALITY_TO_REGION[nationality] || 'ch'

@@ -16,8 +16,8 @@ class GeocoderTest < ActionController::TestCase
   end
 
   test 'should create expected url for geocoding API' do
-    expect(@geocoder.to_uri('Bern', 'SUI').to_s)
-      .to eq("https://maps.googleapis.com/maps/api/geocode/json?address=Bern&key=#{TEST_API_KEY}&language=de&region=ch")
+    expect(@geocoder.to_uri('Münsingen bei Bern', 'SUI').to_s)
+      .to eq("https://maps.googleapis.com/maps/api/geocode/json?address=M%C3%BCnsingen+bei+Bern&key=#{TEST_API_KEY}&language=de&region=ch")
   end
 
   test 'should return invalid address for url' do
