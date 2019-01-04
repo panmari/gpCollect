@@ -4,7 +4,7 @@ class GeocodeResult < ActiveRecord::Base
   has_many :runners
   before_destroy :remove_from_runners
   scope :failed, -> { where("response ->> 'status' != 'OK'") }
-  scope :ambiguous, -> { where("JSON_ARRAY_LENGTH(response -> 'results') > ?", 1) }
+  scope :ambiguous, -> { where("JSONB_ARRAY_LENGTH(response -> 'results') > ?", 1) }
 
   def canton
     component = address_component_for('administrative_area_level_1')
