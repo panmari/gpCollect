@@ -19,4 +19,18 @@ class GeocoderTest < ActionController::TestCase
     expect(@geocoder.to_uri('Bern', 'SUI').to_s)
       .to eq("https://maps.googleapis.com/maps/api/geocode/json?address=Bern&key=#{TEST_API_KEY}&language=de&region=ch")
   end
+
+  test 'should return invalid address for url' do
+    expect(@geocoder.valid_address?('memler.de')).to be(false)
+  end
+
+  test 'should return invalid address for blacklisted addresses' do
+    expect(@geocoder.valid_address?('Kapo')).to be(false)
+    expect(@geocoder.valid_address?('Laufteam')).to be(false)
+  end
+
+  test 'should return valid address for city' do
+    expect(@geocoder.valid_address?('Bern')).to be(true)
+    expect(@geocoder.valid_address?('Zürich')).to be(true)
+  end
 end
