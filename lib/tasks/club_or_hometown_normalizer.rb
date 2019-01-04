@@ -27,6 +27,7 @@ class ClubOrHometownNormalizer
                                    /Hindelb\z/i => 'Hindelbank',
                                    /im Emmen?t?a?/i => 'im Emmental',
                                    /I\. ?E\.?\z/i => 'im Emmental',
+                                   /(?<=Büren|Wangen) (An Der Aare|a\. ?Aare|a\.[ \/]?a\.?|a\/a)/i => ' an der Aare',
                                    # 'an der Aare' uses similar patterns, making it
                                    # hard to make this more generic.
                                    /(?<=Affoltern|Langnau|Hausen|Kappel) A[.m]? ?A(\.|(lbis))\z/ => ' am Albis',
