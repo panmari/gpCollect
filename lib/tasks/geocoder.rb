@@ -6,6 +6,8 @@ require 'json'
 # Helper class for geocoding entities using the Google geocoding API.
 # For quota available, see https://console.developers.google.com/apis/api/geocoding-backend.googleapis.com/quotas.
 class Geocoder
+  attr_reader :non_geocodable_club_or_hometowns
+
   def initialize(api_key, ignored_prefixes_file, non_geocodable_club_or_hometown_file)
     @api_key = api_key
     @ignored_prefixes_regex = File.open(ignored_prefixes_file) do |f|
@@ -15,6 +17,7 @@ class Geocoder
       f.each_with_object(Set.new) { |l, a| a << l.strip }
     end
   end
+
 
   def clean_address(address)
     s = address.gsub('bei /B.', 'bei Burgdorf')

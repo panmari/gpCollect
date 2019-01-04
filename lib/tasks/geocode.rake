@@ -10,6 +10,11 @@ namespace :geocode do
 
   desc 'Create geocode results for runners that have geocode results missing'
   task create: :environment do
+    # Clean up all non-geocodable results.
+    d = GeocodeResult.where(address: GEOCODER.non_geocodable_club_or_hometowns)
+                     .destroy_all
+    puts "Deleted #{d.size} geocode results that were identified as non-geocodable."
+
     # Get non-geocoded raw addresses and process most often occurring ones first.
     Runner.where(geocode_result: nil)
           .where.not(club_or_hometown: nil)
