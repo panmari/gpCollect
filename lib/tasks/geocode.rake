@@ -4,18 +4,19 @@ require_relative 'geocoder'
 require_relative 'club_or_hometown_normalizer'
 
 namespace :geocode do
+  GEOCODER = Geocoder.new(ENV['GOOGLE_API_KEY'],
+                          'db/geocoding_data/ignored_prefixes.csv',
+                          'db/geocoding_data/non_geocodable_club_or_hometown.csv')
+
   desc 'Create geocode results for runners that have geocode results missing'
   task create: :environment do
-    geocoder = Geocoder.new(ENV['GOOGLE_API_KEY'],
-                            'db/geocoding_data/ignored_prefixes.csv',
-                            'db/geocoding_data/non_geocodable_club_or_hometown.csv')
     # Get non-geocoded raw addresses and process most often occurring ones first.
     Runner.where(geocode_result: nil)
           .where.not(club_or_hometown: nil)
           .group(:club_or_hometown).count
           .sort_by(&:second).reverse_each do |raw_address, _|
-      address = geocoder.clean_address(raw_address)
-      unless geocoder.valid_address?(address)
+      address = GEOCODER.clean_address(raw_address)
+      unless GEOCODER.valid_address?(address)
         # Delete association with previous geocoding result.
         Runner.where(club_or_hometown: raw_address)
               .update_all(geocode_result_id: nil)
@@ -28,13 +29,29 @@ namespace :geocode do
           most_prominent_nationality = Runner.where(club_or_hometown: raw_address)
                                              .group(:nationality).count
                                              .max_by(&:second).first
-          response = geocoder.geocode(address, most_prominent_nationality)
+          response = GEOCODER.geocode(address, most_prominent_nationality)
           geocode_result = GeocodeResult.create!(address: address,
                                                  response: response)
         end
         Runner.where(club_or_hometown: raw_address)
               .update_all(geocode_result_id: geocode_result.id)
       end
+    end
+  end
+
+  desc 'Retries geocoding for all geocode results that are in the scope
+  "failed". If the geocoding result\'s address is not valid, it is destroyed.'
+  task retry: :environment do
+    GeocodeResult.includes(:runners).failed.each do |gr|
+      unless GEOCODER.valid_address?(gr.address)
+        # Not a valid address, destroy this result.
+        gr.destroy!
+        next
+      end
+      most_prominent_nationality = gr.runners.group(:nationality).count
+                                     .max_by(&:second).first
+      response = GEOCODER.geocode(gr.address, most_prominent_nationality)
+      gr.update_attributes!(response: response)
     end
   end
 
