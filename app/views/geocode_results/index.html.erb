@@ -2,6 +2,10 @@
 
 <h1>Geocode Results</h1>
 
+<%= link_to "All", geocode_results_path %>
+<%= link_to "Ambiguous", geocode_results_path(ambiguous: true) %>
+<%= link_to "Failed", geocode_results_path(failed: true) %>
+
 <%= paginate @geocode_results %>
 
 <table class="table table-striped">
