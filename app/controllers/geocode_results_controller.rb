@@ -11,6 +11,7 @@ class GeocodeResultsController < ApplicationController
                                     .page(params[:page])
     @geocode_results = @geocode_results.ambiguous if params[:ambiguous]
     @geocode_results = @geocode_results.failed if params[:failed]
+    @geocode_results = @geocode_results.non_political if params[:non_political]
     ActiveRecord::Precounter.new(@geocode_results).precount(:runners)
   end
 

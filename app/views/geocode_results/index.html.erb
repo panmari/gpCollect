@@ -5,6 +5,7 @@
 <%= link_to "All", geocode_results_path %>
 <%= link_to "Ambiguous", geocode_results_path(ambiguous: true) %>
 <%= link_to "Failed", geocode_results_path(failed: true) %>
+<%= link_to "Non Political", geocode_results_path(non_political: true) %>
 
 <%= paginate @geocode_results %>
 
