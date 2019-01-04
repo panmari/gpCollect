@@ -87,7 +87,8 @@ namespace :geocode do
     updated_runners = 0
     substitutions_candidates.each do |old_with_count, new|
       updated_runners += Runner.where(club_or_hometown: old_with_count.first)
-                               .update_all(club_or_hometown: new)
+                               .update_all(club_or_hometown: new,
+                                           geocode_result_id: nil)
     end
     puts "Updated club_or_hometown for #{updated_runners} runners, normalizing #{substitutions_candidates.size} instances."
   end
