@@ -17,7 +17,8 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
            'Schüpfheim (LU)', 'Schüpfheim Lu', 'Schüpfheim LU',
            'Pfäffikon Sz', 'Pfäffikon SZ',
            'St.Gallen', 'Sankt Gallen', 'St. Gallen',
-           'Langnau i.E.', 'Langnau im Emmental'].freeze
+           'Langnau i.E.', 'Langnau im Emmental',
+           'Reichenbach im Kandertal'].freeze
 
   setup do
     @normalizer = ClubOrHometownNormalizer.new(TOWNS)
@@ -67,6 +68,13 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
     expect(@normalizer.normalize('Langnau i. E.')).to eq('Langnau im Emmental')
     expect(@normalizer.normalize('Langnau I.E')).to eq('Langnau im Emmental')
     expect(@normalizer.normalize('Langnau im Emment')).to eq('Langnau im Emmental')
+  end
+
+  test 'should normalize "im Kandertal" suffix' do
+    expect(@normalizer.normalize('Reichenbach i.K.')).to eq('Reichenbach im Kandertal')
+    expect(@normalizer.normalize('Reichenbach i. K.')).to eq('Reichenbach im Kandertal')
+    expect(@normalizer.normalize('Reichenbach I. K.')).to eq('Reichenbach im Kandertal')
+    expect(@normalizer.normalize('Reichenbach im Kande')).to eq('Reichenbach im Kandertal')
   end
 
   test 'should not normalize to name that does not occur in TOWNS' do

@@ -17,6 +17,7 @@ class ClubOrHometownNormalizer
                                    / im /i => ' im ', # Im Emmental => im Emmental.
                                    / ob /i => ' ob ', # Ob Gunten => ob Gunten.
                                    / im Kande\z/i => ' im Kandertal',
+                                   / I\. ?K\.?\z/i => ' im Kandertal',
                                    / bei Aad\z/i => ' bei Aadorf',
                                    /Pre/i => 'Pré',
                                    / bei Kall(na)?/i => ' bei Kalnach',
