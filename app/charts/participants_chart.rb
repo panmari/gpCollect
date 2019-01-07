@@ -16,7 +16,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
                  .order(:date)
     unless category.nil?
       # Sum still works even if we constrain to only one category.
-      join = join.where('run_day_category_aggregates.category_id = ?', category.id)
+      join = join.where(run_day_category_aggregates: { category_id: category })
     end
     agg = join.sum(:runs_count)
     series(data: agg.map { |date, count| [date_to_miliseconds(date), count] })
