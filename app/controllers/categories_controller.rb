@@ -10,13 +10,13 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = @categories.includes(:run_days)
-    @participant_chart = ParticipantsChart.new(@categories)
+    @participant_chart = ParticipantsChart.new(nil)
     highlighted_run = Run.find_by_id(params[:highlighted_run_id])
     @hist = if runner_constraint.blank?
               RuntimeHistogram.new(highlighted_run: highlighted_run)
             else
-              RuntimeHistogram.new(runner_constraint: runner_constraint, highlighted_run: highlighted_run)
+              RuntimeHistogram.new(runner_constraint: runner_constraint,
+                                   highlighted_run: highlighted_run)
             end
   end
 

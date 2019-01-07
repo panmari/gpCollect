@@ -1,17 +1,27 @@
+# frozen_string_literal: false
+
 class ParticipantsChart < LazyHighCharts::HighChart
   include ChartHelpers
 
-  def initialize(categories)
+  # Creates a chart visualizing number of participants over time, filtered to
+  # the given category.
+  # If category is nil, participants over all categories are summed up.
+  def initialize(category)
     super('graph')
-    categories = Array.wrap(categories)
     chart(type: 'area')
-    plot_options(area: {
-                   stacking: 'normal'
-                 })
-    legend(layout: 'horizontal')
-    tooltip(shared: true)
+    legend(enabled: false)
 
-    x_axis_ticks = RunDay.all.ordered_by_date.map { |run_day| date_to_miliseconds(run_day.date) }
+    join = RunDay.left_outer_joins(:run_day_category_aggregates)
+                 .group(:date)
+                 .order(:date)
+    unless category.nil?
+      # Sum still works even if we constrain to only one category.
+      join = join.where('run_day_category_aggregates.category_id = ?', category.id)
+    end
+    agg = join.sum(:runs_count)
+    series(data: agg.map { |date, count| [date_to_miliseconds(date), count] })
+
+    x_axis_ticks = agg.map { |date, _| date_to_miliseconds(date) }
     yAxis(title: { text: I18n.t('participiants_chart.x_axis_label') })
     xAxis(type: 'datetime',
           tickPositioner: "function() {
@@ -19,20 +29,16 @@ class ParticipantsChart < LazyHighCharts::HighChart
                     //dates.info defines what to show in labels
                     //apparently dateTimeLabelFormats is always ignored when specifying tickPosistioner
                     ticks.info = {
-                   unitName: 'year', //unitName: 'day',
+                       unitName: 'year', //unitName: 'day',
                        higherRanks: {} // Omitting this would break things
                     };
                     return ticks;
                 }".js_code)
-
-    ## Fill with data
-    categories.each do |category|
-      data = category.run_day_category_aggregates.map do |agg|
-        count = agg.runs_count
-        [date_to_miliseconds(agg.run_day.date), count]
-      end
-      series(name: I18n.t('participiants_chart.category_label_prefix', category: category.name),
-             data: data)
-    end
+    tooltip(
+      useHTML: true,
+      formatter: "function() {
+        return Highcharts.dateFormat('%e. %b. %Y', new Date(this.x)) + '<br/>' + this.y;
+      }".js_code
+    )
   end
 end
