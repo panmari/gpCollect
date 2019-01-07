@@ -25,11 +25,14 @@ class RuntimeHistogram < LazyHighCharts::HighChart
                                           rescue StandardError
                                             'all'
                                           end}") do
-      runs.where.not(duration: nil).group("duration / #{@grouping_factor}").count
+      runs.where.not(duration: nil)
+          .group("duration / #{@grouping_factor}")
+          .order("duration_#{@grouping_factor}")
+          .count
     end
 
-    # Sort and bring back to correct range.
-    data_series = data.sort_by { |k, _| k }.map do |a|
+    # Bring back to correct range and highlight if necessary.
+    data_series = data.map do |a|
       if a[0] == highlighted_key
         { x: a[0] * @grouping_factor, y: a[1], color: 'red', marker: {} }
       else
