@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Represents an aggregate over all runs of a given day and category.
+# Used for caching the expensive aggregate queries.
 class RunDayCategoryAggregate < ActiveRecord::Base
   self.primary_keys = :run_day_id, :category_id
   belongs_to :run_day
@@ -8,9 +12,9 @@ class RunDayCategoryAggregate < ActiveRecord::Base
 
   def update_aggregate_attributes
     # self.runs somehow does not work until record is saved.
-    aggregated_runs = Run.where(run_day: run_day, category: category)
-    self.mean_duration = aggregated_runs.average(:duration)
-    self.min_duration = aggregated_runs.minimum(:duration)
-    self.runs_count = aggregated_runs.count
+    # Doing multiple aggregations at once is only possible with 'pluck'.
+    res = Run.where(run_day: run_day, category: category)
+             .pluck(Arel.sql('AVG(duration), MIN(duration), COUNT(*)')).first
+    self.mean_duration, self.min_duration, self.runs_count = *res
   end
 end
