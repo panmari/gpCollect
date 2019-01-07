@@ -11,7 +11,7 @@ module SeedHelpers
     scraped = (1999..2006).map do |year|
       { file: "db/data/gp_bern_10m_#{year}.csv",
         run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer,
-                                           date: Date.new(year),
+                                           date: Date.new(year, 5),
                                            route: route_16km) }
     end
     scraped_new = [Date.new(2007, 0o5, 12),
