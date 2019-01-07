@@ -30,7 +30,7 @@ namespace :db do
     ActiveRecord::Base.connection.reset_pk_sequence!(RunDayCategoryAggregate.table_name)
 
     Category.all.each do |category|
-      RunDay.all.each do |run_day|
+      RunDay.ordered_by_date.each do |run_day|
         # Attributes are computed with hooks.
         RunDayCategoryAggregate.create!(category: category, run_day: run_day)
       end
