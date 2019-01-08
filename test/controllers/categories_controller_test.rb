@@ -13,7 +13,6 @@ class CategoriesControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:categories)
-    assert_not_nil assigns(:participant_chart)
   end
 
   test "should show category" do
