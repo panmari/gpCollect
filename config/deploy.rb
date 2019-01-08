@@ -31,8 +31,7 @@ set :log_level, :info
 
 # Default value for :linked_files is []
 append :linked_files, '.env'
-sitemap_files = ['public/sitemap.xml.gz'] + [1, 2, 3].map { |i| "public/sitemap#{i}.xml.gz" }
-append :linked_files, *sitemap_files
+append :linked_files, 'public/sitemap.xml.gz'
 
 # Default value for linked_dirs is []
 append :linked_dirs, 'public/assets', 'log', 'db/data', '.bundle'
