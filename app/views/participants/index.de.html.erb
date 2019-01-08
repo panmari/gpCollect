@@ -1,0 +1,18 @@
+<h1>Zeitreihe der Anzahl Teilnehmer</h1>
+Hier sehen Sie die Veränderungen der Anzahl Teilnehmer über die letzten Jahre.
+
+<div id="participant_chart" style="width:100%; height:300px;"></div>
+<%= high_chart("participant_chart", @chart) %>
+
+<h2>Anzahl Teilnehmer aufgeteilt in Altersklassen</h2>
+
+Teilt man die Teilnehmer nach Altersklasse fällt auf, dass einige Klassen einen
+grossen Wandel vollzogen haben. Für einige Jahre, die
+Mehrheit der Teilnehmer war zwischen 40-60 Jahre alt. Heute machen die
+20-40 Jährigen wieder den Grossteil der Teilnehmer aus.
+
+Die einzige Altersklasse mit einem konstanten Aufwärtstrend sind die 60-80
+Jährigen.
+
+<div id="participants_by_age_chart" style="width:100%; height:400px;"></div>
+<%= high_chart("participants_by_age_chart", @participants_by_age_chart) %>

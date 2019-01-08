@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       end
     end
     resources :categories, only: %i[index show]
+    resources :participants, only: :index
     resources :routes, only: :show
     resources :runs, only: %i[index show] # not actually in use.
     resources :feedbacks

@@ -35,6 +35,7 @@ en:
       title: "Runtimes of the GP Bern"
       runners: "Search runners"
       categories: "Categories overview"
+      participants: "Participant numbers"
       route: "Course"
       home: "GP Collect"
       about: "About"
@@ -82,9 +83,11 @@ en:
     at_5_km: "At 5 km"
     at_2_2_km: "At 2.2 km"
     mean_category: "Mean goal time of category"
-  participiants_chart:
+  participants_chart:
     title: "Number of participants per category"
+    participants: "Participants"
     x_axis_label: "Number participants"
+    age_bucket: "Age in %{age_bucket}"
     category_label_prefix: "Participants category %{category}"
   compare_categories_chart:
     title:

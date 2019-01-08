@@ -13,4 +13,6 @@ SitemapGenerator::Sitemap.create do
     add(route_path(route, locale: I18n.default_locale),
         alternates: OTHER_LOCALES.map { |l| { lang: l, href: route_url(route, locale: l) } })
   end
+  add(participants_path(locale: I18n.default_locale),
+      alternates: OTHER_LOCALES.map { |l| { lang: l, href: participants_path(locale: l) } })
 end

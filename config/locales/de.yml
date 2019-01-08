@@ -3,6 +3,7 @@ de:
     application:
       runners: "Läufersuche"
       categories: "Kategorienübersicht"
+      participants: "Teilnehmerzahlen"
       route: "Laufstrecke"
       title: "Laufzeiten des GP Bern"
       title_with_runner: "Laufzeiten von %{runner}"
@@ -57,11 +58,13 @@ de:
     at_5_km: "Am 5. km"
     at_2_2_km: "Am 2.2. km"
     mean_category: "Mittlere Zielzeit der Kategorie"
-  participiants_chart:
+  participants_chart:
     title: "Anzahl Teilnehmende pro Jahr pro Kategorie"
     title_single: "Anzahl Teilnehmende der Kategorie %{category} über die Jahre"
     category_label_prefix: "Teilnehmende Kategorie %{category}"
-    x_axis_label: "Anzahl Teilnehmende"
+    age_bucket: "Altersklasse %{age_bucket}"
+    x_axis_label: "Anzahl Teilnehmer"
+    participants: "Teilnehmer"
   compare_categories_chart:
     title:
       min: Bestzeit pro Kategorie über die Jahre

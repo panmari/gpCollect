@@ -10,7 +10,6 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @participant_chart = ParticipantsChart.new(nil)
     highlighted_run = Run.find_by_id(params[:highlighted_run_id])
     @hist = if runner_constraint.blank?
               RuntimeHistogram.new(highlighted_run: highlighted_run)
@@ -23,7 +22,6 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   def show
     @chart = CompareCategoriesChart.new(@category)
-    @participant_chart = ParticipantsChart.new(@category)
     highlighted_run = Run.find_by_id(params[:highlighted_run_id])
     @hist = if runner_constraint.blank?
               RuntimeHistogram.new(category: @category, highlighted_run: highlighted_run)

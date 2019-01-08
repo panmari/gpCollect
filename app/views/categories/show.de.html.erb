@@ -16,9 +16,3 @@ Veränderungen der Laufzeiten der Kategorie <%= @category.name %> über die letz
 Sind Läufer bzw. Läuferinnen eher schneller oder eher langsamer geworden? Schauen Sie nach!
 <div id="duration_chart" style="width:100%; height:500px;"></div>
 <%= high_chart("duration_chart", @chart) %>
-
-<h3>Anzahl Teilnehmende</h3>
-Veränderungen der Anzahl Teilnehmenden der Kategorie <%= @category.name %> über die letzten Jahre.
-
-<div id="participant_chart" style="width:100%; height:500px;"></div>
-<%= high_chart("participant_chart", @participant_chart) %>
