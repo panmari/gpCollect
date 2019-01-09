@@ -7,7 +7,7 @@ class RunnersController < ApplicationController
     @search_term = params[:search]
     respond_to do |format|
       format.html
-      format.json { render json: RunnerDatatable.new(params, view_context: view_context) }
+      format.json { render json: RunnerDatatable.new(params) }
     end
   end
 

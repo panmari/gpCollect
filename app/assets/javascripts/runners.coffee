@@ -14,11 +14,26 @@ $ ->
       {searchable: false, orderable: true, data: 'nationality'},
       {searchable: false, orderable: true, data: 'runs_count'},
       {searchable: false, orderable: false, data: 'fastest_run_duration' },
-      {searchable: false, orderable: false, data: 'links' },
+      {searchable: false, orderable: false, data: 'runner_id' },
     ]
     "language": {
       "url": "/datatables." + window.locale + ".lang"
     }
+    "createdRow": (row, data, index) ->
+      runner_id = data['runner_id']
+      # TODO(panmari): Add title attributes with hover hints.
+      show_link = $('<a>', {class: 'btn btn-primary btn-sm', href: '/' + locale + '/runners/' + runner_id})
+      show_link.html($('<i>', {class: 'fa fa-eye fa-lg'}))
+
+      remember_link = $('<a>', {class: 'btn btn-info btn-sm', href: '#'})
+      remember_link.attr('data-remember-runner', runner_id)
+      remember_link.attr('data-remember-runner-name', data['first_name'] + ' ' + data['last_name'])
+      remember_link.html($('<i>', {class: 'fa fa-lg'}))
+
+      cell = $('td', row).eq(7)
+      cell.empty()
+      cell.append(show_link, remember_link)
+
     "aoColumnDefs": [
       # Add special class to buttons column.
       { "sClass": "buttons-column", "aTargets": [ 7 ] }
@@ -79,7 +94,7 @@ $ ->
     )
     for id in runner_ids_sorted
       name = runner_hash[parseInt(id)]
-      link = $('<a>', {text: name, href: locale + '/runners/' + id})
+      link = $('<a>', {text: name, href: '/' + locale + '/runners/' + id})
       div = $('<div>', class: 'runner-alert alert alert-primary alert-dismissable')
       .append(link)
       .append(dismiss_button)

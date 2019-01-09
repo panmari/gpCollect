@@ -3,8 +3,6 @@
 # Wrapper for runners to easily retrieve data for ajax datatable using the gem
 # ajax-datatables-rails
 class RunnerDatatable < ApplicationDatatable
-  def_delegators :@view, :runner_path, :remember_runner_path, :link_to, :fa_icon, :content_tag
-
   def view_columns
     @view_columns ||= {
       first_name: { source: 'Runner.first_name', searchable: true },
@@ -14,7 +12,7 @@ class RunnerDatatable < ApplicationDatatable
       nationality: { source: 'Runner.nationality', searchable: false },
       runs_count: { source: 'Runner.runs_count', searchable: false },
       fastest_run_duration: { searchable: false, orderable: false },
-      links: { searchable: false, orderable: false }
+      runner_id: { searchable: false, orderable: false }
     }
   end
 
@@ -47,12 +45,7 @@ class RunnerDatatable < ApplicationDatatable
         nationality: record.nationality,
         runs_count: record.runs_count,
         fastest_run_duration: record.fastest_run_duration,
-        # TODO: only send id and name, then generate links in javascript.
-        links: link_to(fa_icon('eye lg'), runner_path(record), class: 'btn btn-primary',
-                                                               title: I18n.t('runner_datatable.show_hint')) + ' ' +
-          link_to(content_tag(:i, '', class: 'fa fa-lg'), '#', title: I18n.t('runner_datatable.remember_runner'),
-                                                               data: { remember_runner: record.id,
-                                                                       remember_runner_name: record.name }, class: 'btn btn-info')
+        runner_id: record.id
       }
     end
   end
