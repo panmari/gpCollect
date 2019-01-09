@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RunnerDecorator < Draper::Decorator
   delegate_all
   decorates_association :runs
@@ -7,6 +9,8 @@ class RunnerDecorator < Draper::Decorator
   end
 
   def fastest_run_duration
+    return '-' if object.fastest_run.nil?
+
     h.format_duration(object.fastest_run.duration)
   end
 
