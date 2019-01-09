@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Wrapper for runners to easily retrieve data for ajax datatable using the gem
 # ajax-datatables-rails
 class RunnerDatatable < ApplicationDatatable
@@ -59,21 +61,11 @@ class RunnerDatatable < ApplicationDatatable
     Runner.all.includes(:runs)
   end
 
-  def retrieve_records
-    records = fetch_records
-    # TODO: Solve more elegantly once issue in gem is resolved:
-    # https://github.com/jbox-web/ajax-datatables-rails/issues/228
-    records = filter_records_with_gin(records)
-    records = sort_records(records)     if datatable.orderable?
-    records = paginate_records(records) if datatable.paginate?
-    records
-  end
-
   # Overrides the filter method defined from the gem. When searching, we ignore all accents, so a search for 'théo'
   # will also return 'theo' (and vice-versa).
   # Every word (separated by space) will be searched individually in all searchable columns. Only rows that satisfy all
   # words (in some column) are returned.
-  def filter_records_with_gin(records)
+  def filter_records(records)
     if datatable.search.value.blank?
       records
     else
