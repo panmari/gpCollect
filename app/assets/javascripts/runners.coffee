@@ -1,9 +1,8 @@
 $ ->
-  source = $('#runners-datatable').data('source')
   dt = $('#runners-datatable').DataTable({
     processing: true,
     serverSide: true,
-    ajax: source,
+    ajax: $('#runners-datatable').data('source'),
     paging: true,
     pagingType: 'full_numbers'
     columns: [
@@ -22,7 +21,7 @@ $ ->
     "createdRow": (row, data, index) ->
       runner_id = data['runner_id']
       # TODO(panmari): Add title attributes with hover hints.
-      show_link = $('<a>', {class: 'btn btn-primary btn-sm', href: '/' + locale + '/runners/' + runner_id})
+      show_link = $('<a>', {class: 'btn btn-primary btn-sm', href: '/' + window.locale + '/runners/' + runner_id})
       show_link.html($('<i>', {class: 'fa fa-eye fa-lg'}))
 
       remember_link = $('<a>', {class: 'btn btn-info btn-sm', href: '#'})
@@ -94,7 +93,7 @@ $ ->
     )
     for id in runner_ids_sorted
       name = runner_hash[parseInt(id)]
-      link = $('<a>', {text: name, href: '/' + locale + '/runners/' + id})
+      link = $('<a>', {text: name, href: '/' + window.locale + '/runners/' + id})
       div = $('<div>', class: 'runner-alert alert alert-primary alert-dismissable')
       .append(link)
       .append(dismiss_button)
@@ -107,7 +106,7 @@ $ ->
     runner_ids = []
     for id, _ of runner_hash
       runner_ids.push(id)
-    new_link = '/' + locale + '/runners/show_remembered?ids=' + runner_ids.join()
+    new_link = '/' + window.locale + '/runners/show_remembered?ids=' + runner_ids.join()
     $('#remembered-runners-link').attr('href', new_link)
     if runner_ids.length > 0
       $('.remembered-runners-interactible').removeClass('disabled')
@@ -133,7 +132,7 @@ $ ->
               searchTerm = $(item).val()
               dt.search(searchTerm).draw()
               # TODO(panmari): Also push order of sorting (move this code to own function for that).
-              history.pushState({"search": searchTerm}, '', '?locale=' + locale + '&search=' + searchTerm)
+              history.pushState({"search": searchTerm}, '', '?locale=' + window.locale + '&search=' + searchTerm)
               searchWait = 0
             searchWait++
           ,200);
@@ -151,6 +150,7 @@ $ ->
   update_remembered_runner_panel(get_remembered_runners())
   update_remember_runner_link(get_remembered_runners())
 
+  # Going back one page pops the search state.
   $(window).bind('popstate', (event) ->
     if event.originalEvent.state
       searchTerm = event.originalEvent.state["search"]
