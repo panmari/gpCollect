@@ -7,7 +7,7 @@ class ParticipantsChart < LazyHighCharts::HighChart
 
   def initialize
     super('graph')
-    yAxis(title: { text: I18n.t('participants_chart.x_axis_label') })
+    yAxis(title: { text: I18n.t('participants_chart.x_axis_label') }, min: 0)
     xAxis(type: 'datetime')
     tooltip(dateTimeLabelFormats: { hour: '%Y' })
   end
