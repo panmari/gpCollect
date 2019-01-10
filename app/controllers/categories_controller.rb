@@ -38,7 +38,7 @@ class CategoriesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_category
-    @category = Category.includes(run_day_category_aggregates: :run_day).find_by_name(params[:id])
+    @category = Category.includes(ordered_run_day_category_aggregates: :run_day).find_by_name(params[:id])
   end
 
   ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES = { first_name: :titleize, last_name: :titleize,

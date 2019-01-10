@@ -1,6 +1,9 @@
 class Category < ActiveRecord::Base
   has_many :runs
   has_many :run_day_category_aggregates
+  has_many :ordered_run_day_category_aggregates,
+           -> { joins(:run_day).order('date') },
+           class_name: 'RunDayCategoryAggregate'
   has_many :run_days, through: :run_day_category_aggregates
 
   scope :ordered, -> { order(:age_max, :age_min, :sex) }
