@@ -26,15 +26,6 @@ class RunnerDatatable < ApplicationDatatable
     (records.blank? ? 0 : records.first['filtered_count']) || records_total_count
   end
 
-  def records
-    @records ||= ActiveRecord::Base.transaction do
-      # Disable index scan in case a search filter is given. This makes sql
-      # choose the 'gin' index for these queries, returning results much faster.
-      ActiveRecord::Base.connection.execute('SET LOCAL enable_indexscan = off;') if datatable.search.value
-      retrieve_records.load
-    end
-  end
-
   def data
     RunnerDecorator.decorate_collection(records).map do |record|
       {
