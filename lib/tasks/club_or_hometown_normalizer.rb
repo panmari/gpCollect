@@ -19,6 +19,8 @@ class ClubOrHometownNormalizer
                                    / im Kande\z/i => ' im Kandertal',
                                    / I\. ?K\.?\z/i => ' im Kandertal',
                                    / bei Aad\z/i => ' bei Aadorf',
+                                   / (b|bei)[. ]+(I\.|Interl(ake)?)/i => ' bei Interlaken',
+                                   /\/interlaken/i => ' bei Interlaken',
                                    /Pre/i => 'Pré',
                                    / bei Kall(na)?/i => ' bei Kalnach',
                                    /Hasle bei \/?B\./i => 'Hasle bei Burgdorf',
