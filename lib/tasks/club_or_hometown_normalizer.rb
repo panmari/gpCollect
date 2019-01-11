@@ -47,14 +47,12 @@ class ClubOrHometownNormalizer
 
   def normalize(town)
     return town if town.nil?
-    return town unless @substitution_patterns.any? do |before, _|
-      before.match(town)
-    end
 
     new_town = +town # Fancy syntax to return mutable copy of frozen string.
     @substitution_patterns.each do |before, after|
       new_town.gsub!(before, after)
     end
+    new_town[0] = new_town[0].upcase
     return town unless @towns.include?(new_town)
 
     new_town
