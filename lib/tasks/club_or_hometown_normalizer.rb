@@ -32,7 +32,7 @@ class ClubOrHometownNormalizer
                                    /(?<=Büren|Wangen) (An Der Aare|a\. ?Aare|a\.[ \/]?a\.?|a\/a)/i => ' an der Aare',
                                    # 'an der Aare' uses similar patterns, making it
                                    # hard to make this more generic.
-                                   /(?<=Affoltern|Langnau|Hausen|Kappel) A[.m]? ?A(\.|(lbis))\z/ => ' am Albis',
+                                   /(?<=Affoltern|Langnau|Hausen|Kappel) [Aa][.m]?[ \/]?A(\.|lbis)?\z/ => ' am Albis',
                                    /\ASpiegel\z/i => 'Spiegel bei Bern',
                                    /[\- ](b\.|bei)[ \-]?/i => ' bei ' }.freeze
   CANTONS = %w[AG AI AR BE BL BS FR GE GL GR JU LU NE NW OW SG SH SO SZ TG TI UR VD VS ZG ZH].freeze
