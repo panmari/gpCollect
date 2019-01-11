@@ -19,7 +19,7 @@ class RunnersController < ApplicationController
 
   def show_remembered
     runner_ids = (params[:ids] || '').split(',')
-    @runners = RunnersDecorator.decorate(Runner.includes(:runs, :run_days).find(runner_ids))
+    @runners = RunnersDecorator.decorate(Runner.includes(:runs).find(runner_ids))
     @chart = CompareRunnersChart.new(@runners)
   end
 

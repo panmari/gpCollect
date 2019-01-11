@@ -15,7 +15,7 @@ class RuntimeChart < LazyHighCharts::HighChart
 
   def make_runs_data(runner)
     @all_run_days.map do |rd|
-      run = runner.runs.find { |r| r.run_day == rd }
+      run = runner.runs.find { |r| r.run_day_id == rd.id }
       duration = (yield(run) if run)
       [date_to_miliseconds(rd.date), duration]
     end
