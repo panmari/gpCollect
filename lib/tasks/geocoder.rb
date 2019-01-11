@@ -18,12 +18,17 @@ class Geocoder
     end
   end
 
-
   def clean_address(address)
-    s = address.gsub('bei /B.', 'bei Burgdorf')
+    s = +address # Make a mutable copy.
     s.gsub!('Deisswil Mbuchsee', 'Deisswil bei Münchenbuchsee')
     s.gsub!('Bärn', 'Bern')
     s.gsub!('Berm', 'Bern')
+    s << ', Frankreich' if s.gsub!(/\AF-/, '')
+    s << ', Deutschland' if s.gsub!(/\AD-/, '')
+    s << ', Italien' if s.gsub!(/\AI-/, '')
+    s << ', Österreich' if s.gsub!(/\AA-/, '')
+    s << ', Spanien' if s.gsub!(/\AE-/, '')
+    s << ', Luxemburg' if s.gsub!(/\AL-/, '')
     s.gsub!(@ignored_prefixes_regex, '')
     # TODO: Harden for strings that only consist of '//////' or '/ asdf' (currently throws exception).
     s = s.split('/')[0].strip

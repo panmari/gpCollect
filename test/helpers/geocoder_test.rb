@@ -33,4 +33,10 @@ class GeocoderTest < ActionController::TestCase
     expect(@geocoder.valid_address?('Bern')).to be(true)
     expect(@geocoder.valid_address?('Zürich')).to be(true)
   end
+
+  test 'should normalize single letter country prefix' do
+    expect(@geocoder.clean_address('D-Murr')).to eq('Murr, Deutschland')
+    expect(@geocoder.clean_address('F-Colmar')).to eq('Colmar, Frankreich')
+  end
+
 end
