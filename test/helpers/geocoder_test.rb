@@ -29,6 +29,11 @@ class GeocoderTest < ActionController::TestCase
     expect(@geocoder.valid_address?('Laufteam')).to be(false)
   end
 
+  test 'should return invalid for obvious bad cases' do
+    expect(@geocoder.valid_address?('----')).to be(false)
+    expect(@geocoder.valid_address?('--')).to be(false)
+  end
+
   test 'should return valid address for city' do
     expect(@geocoder.valid_address?('Bern')).to be(true)
     expect(@geocoder.valid_address?('Zürich')).to be(true)

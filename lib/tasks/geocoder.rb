@@ -37,6 +37,7 @@ class Geocoder
 
   def valid_address?(address)
     return false if @non_geocodable_club_or_hometowns.include?(address)
+    return false if /\A-+\z/ =~ address
 
     !address.blank? &&
       address.length >= 2 &&
