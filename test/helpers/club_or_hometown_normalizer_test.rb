@@ -32,6 +32,10 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
     expect(@normalizer.normalize('Zurich')).to eq('Zürich')
   end
 
+  test 'should upcase first letter' do
+    expect(@normalizer.normalize('zürich')).to eq('Zürich')
+  end
+
   test 'should normalize b. to bei' do
     expect(@normalizer.normalize('Spiegel b. Bern')).to eq('Spiegel bei Bern')
   end
