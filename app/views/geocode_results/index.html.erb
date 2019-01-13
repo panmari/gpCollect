@@ -1,6 +1,10 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Geocode Results</h1>
+
+<%= form_tag("", method: "get") do %>
+  <%= label_tag(:q, "Search for (regex):") %>
+  <%= text_field_tag(:q, @q) %>
+  <%= submit_tag("Search") %>
+<% end %>
 
 <%= link_to "All", geocode_results_path %>
 <%= link_to "Ambiguous", geocode_results_path(ambiguous: true) %>

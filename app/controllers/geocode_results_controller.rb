@@ -9,6 +9,8 @@ class GeocodeResultsController < ApplicationController
     @geocode_results = GeocodeResult.left_joins(:runners).group(:id)
                                     .order(Arel.sql('COUNT(runners.id) DESC'))
                                     .page(params[:page])
+    @q =  params[:q]
+    @geocode_results = @geocode_results.where('address ~* ?', @q) if @q
     @geocode_results = @geocode_results.ambiguous if params[:ambiguous]
     @geocode_results = @geocode_results.failed if params[:failed]
     @geocode_results = @geocode_results.non_political if params[:non_political]
