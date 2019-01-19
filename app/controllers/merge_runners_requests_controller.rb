@@ -1,15 +1,22 @@
+# frozen_string_literal: true
+
 class MergeRunnersRequestsController < ApplicationController
   before_action :set_merge_runner_request, only: %i[show edit update destroy approve]
   before_action :authenticate_admin!, except: %i[new create]
 
   # GET /merge_runner_requests
   def index
-    @merge_runners_requests = MergeRunnersRequest.all.includes(:runners).decorate
+    @merge_runners_requests = MergeRunnersRequestDecorator
+                              .decorate_collection(MergeRunnersRequest
+                                                   .page(params[:page])
+                                                   .includes(:runners))
   end
 
   # GET /merge_runner_requests/1
   def show
     @merge_runners_request = @merge_runners_request.decorate
+    @next = MergeRunnersRequest.where('id > ?', @merge_runners_request.id)
+                               .order(id: :asc).first
     @chart = CompareRunnersChart.new(@merge_runners_request.runners)
   end
 

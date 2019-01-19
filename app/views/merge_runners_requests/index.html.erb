@@ -1,5 +1,7 @@
 <h1>Listing Merge Runner Requests</h1>
 
+<%= paginate @merge_runners_requests %>
+
 <table class="table table-hover">
   <thead>
     <tr>
@@ -33,6 +35,6 @@
   </tbody>
 </table>
 
-<br>
+<%= paginate @merge_runners_requests %>
 
 <%= link_to 'New Merge runner request', new_merge_runners_request_path %>

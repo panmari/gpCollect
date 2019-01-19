@@ -5,4 +5,6 @@
 
 <%= link_to 'Edit', edit_merge_runners_request_path(@merge_runners_request) %> |
 <%= link_to 'Approve', approve_merge_runners_request_path(@merge_runners_request) %> |
-<%= link_to 'Back', merge_runners_requests_path %>
+<%= link_to 'Next', merge_runners_request_path(@next) if @next %> |
+
+<%= link_to 'All', merge_runners_requests_path %>
