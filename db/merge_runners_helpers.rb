@@ -19,7 +19,9 @@ class MergeRunnersHelpers
         .group(identifying_runner_attributes_group - removed_attributes - [attr].flatten +
                        additional_attributes_group).having('count(*) > 1')
     # Each merge candidate consists of multiple runners, retrieve these runners from database here.
-    merge_candidates = r.map { |i| Runner.includes(:run_days, runs: %i[run_day category]).find(i['ids']) }
+    merge_candidates = r.map do |i|
+      Runner.includes(:run_days, runs: %i[run_day category]).find(i['ids'])
+    end
     # TODO: possibly remove this.
     # Only select runners that actually differ in the given attribute.
     merge_candidates.select! { |i| [attr].flatten.any? { |a| i.first[a] != i.second[a] } }
@@ -31,8 +33,8 @@ class MergeRunnersHelpers
     (string.scan(/[[:alpha:]]/) - string.scan(/\w/)).size
   end
 
-  MALE_FIRST_NAMES = %w[Jannick Candido Loïc Patrick Raffael Kazim Luca Manuel Patrice Eric Yannick Emanuil Mathieu Nicolo].freeze
-  FEMALE_FIRST_NAMES = %w[Denise Tabea Capucine Lucienne Carole Dominique Yan].freeze
+  MALE_FIRST_NAMES = Set.new(%w[Jannick Candido Loïc Patrick Raffael Kazim Luca Manuel Patrice Eric Yannick Emanuil Mathieu Nicolo] + ['Mirade Omeri'])
+  FEMALE_FIRST_NAMES = Set.new(%w[Denise Esther Tabea Capucine Lucienne Inci Carole Dominique Yan])
   POSSIBLY_WRONGLY_ACCENTED_ATTRIBUTES = %i[first_name last_name].freeze
   POSSIBLY_WRONGLY_CASED_ATTRIBUTES = %i[club_or_hometown].freeze
   POSSIBLY_WRONGLY_SPACED_ATTRIBUTES = %i[first_name last_name club_or_hometown].freeze
@@ -151,7 +153,7 @@ class MergeRunnersHelpers
         POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES.inject(0) { |sum, attr| sum + runner[attr].count('äüöÄÜÖ') }
       end
     end
-    puts "Merged #{merged_runners} entries based on Umlaute in any of #{attr}" unless Rails.env.test?
+    puts "Merged #{merged_runners} entries based on Umlaute in any of #{POSSIBLY_CONTAINING_UMLAUTE_ATTRIBUTES}" unless Rails.env.test?
   end
 
   # A runner might appear with two similar hometowns, e. g. once with 'Muri b. Bern' and once with 'Muri'.
@@ -217,6 +219,9 @@ class MergeRunnersHelpers
   # the others merged with it.
   def reduce_to_one_runner_by_condition(entries)
     correct_entry = entries.max_by { |entry| yield(entry) }
+    # Return early if already associated with a merge runner request.
+    return 0 if entries.any? { |e| !e.merge_runners_requests.empty? }
+
     request = MergeRunnersRequest.new_from(entries, correct_entry)
     if request.save
       request.approve! if @auto_approve
