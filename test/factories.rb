@@ -20,6 +20,12 @@ FactoryBot.define do
     sex { %w[M W].sample }
     age_min { [20, 30, 40, 50, 60, 70].sample }
 
+    factory :category_MU20 do
+      sex { 'M' }
+      age_min { nil }
+      age_max { 20 }
+    end
+
     factory :category_M20 do
       sex { 'M' }
       age_min { 20 }

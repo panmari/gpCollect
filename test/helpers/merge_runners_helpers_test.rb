@@ -90,4 +90,19 @@ class MergeRunnersHelpersTest < ActionController::TestCase
     end
     assert_equal 'Häns', Runner.first.first_name
   end
+
+  test 'merge runners based on sex' do
+    create(:hans, first_name: 'Eric') do |runner|
+      run_day = create(:run_day, date: 1.year.ago)
+      runner.runs.create(run_day: run_day, category: @category_M20)
+    end
+    create(:hans, first_name: 'Eric', sex: 'W') do |runner|
+      run_day = create(:run_day, date: 2.years.ago)
+      runner.runs.create(run_day: run_day, category: @category_W20)
+    end
+    assert_difference('Runner.count', -1) do
+      @helper.merge_duplicates
+    end
+    assert_equal 'M', Runner.first.sex
+  end
 end

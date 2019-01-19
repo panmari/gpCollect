@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class MergeRunnersRequestsRunCategoriesValidator < ActiveModel::Validator
-
   def self.compare_categories(a, b)
-    [a.age_min || 0, a.age_max || 0, a.sex] <=> [b.age_min || 0, b.age_max || 0, b.sex]
+    age_a = a.age_min || a.age_max
+    age_b = b.age_min || b.age_max
+    # If age is equal, the category that has it as age_max is smaller.
+    [age_a, a.age_max || Float::INFINITY] <=> [age_b, b.age_max || Float::INFINITY]
   end
 
   def validate(record)
