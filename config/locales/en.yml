@@ -80,6 +80,7 @@ en:
     goal: "Goal"
     at_12_5_km: "At 12.5 km"
     at_10_km: "At 10 km"
+    at_5_miles: "At 5 miles"
     at_5_km: "At 5 km"
     at_2_2_km: "At 2.2 km"
     mean_category: "Mean goal time of category"

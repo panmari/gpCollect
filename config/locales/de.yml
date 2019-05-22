@@ -55,6 +55,7 @@ de:
     goal: "Zielzeit"
     at_12_5_km: "Am 12.5. km"
     at_10_km: "Am 10. km"
+    at_5_miles: "An Meile 5"
     at_5_km: "Am 5. km"
     at_2_2_km: "Am 2.2. km"
     mean_category: "Mittlere Zielzeit der Kategorie"

@@ -18,7 +18,8 @@ class Run < ActiveRecord::Base
     "https://www.alphafoto.com/images.php?runID=#{run_day.alpha_foto_id}&sn=#{start_number}"
   end
 
-  # If 4 times are available, they correspond to [2.2, 5, 10, 12.8] km
+  # If 5 times are available, they correspond to [2.2, 5, 5 miles, 10, 12.8] km
+  # If 4: [2.2, 5, 10, 12.8] km
   # If 3: [5, 10, 12.5] km
   # If 2: [5, 10] km
   # This method pads all arrays available to size 4.
@@ -26,10 +27,12 @@ class Run < ActiveRecord::Base
   def interim_times
     t = self[:interim_times]
     case t.size
+    when 4
+      return [t[0], t[1], nil, t[2], t[3]]
     when 3
-      return [nil] + t
+      return [nil, t[0], nil, t[1], t[2]]
     when 2
-      return [nil] + t + [nil]
+      return [nil, t[0], nil, t[1], nil]
     else
       return t
     end

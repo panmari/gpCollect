@@ -7,18 +7,28 @@ class ShowRunnerChart < RuntimeChart
     series(name: I18n.t('show_runner_chart.goal'), data: data, color: '#5596DE')
 
     data = make_runs_data(runner) do |run|
-      run.interim_times[3]
+      run.interim_times[4]
     end
     unless data.map(&:second).compact.empty?
       series(name: I18n.t('show_runner_chart.at_12_5_km'), data: data, color: '#3884D9')
     end
 
     data = make_runs_data(runner) do |run|
-      run.interim_times[2]
+      run.interim_times[3]
     end
     unless data.map(&:second).compact.empty?
       series(name: I18n.t('show_runner_chart.at_10_km'), data: data, color: '#0968D2')
     end
+
+    # TODO(panmari): Consider also showing curve for interim time at 5 miles.
+    # In the current view, it makes the chart too crowded.
+
+    # data = make_runs_data(runner) do |run|
+    #   run.interim_times[2]
+    # end
+    # unless data.map(&:second).compact.empty?
+    #   series(name: I18n.t('show_runner_chart.at_5_miles'), data: data, color: '#0968D2')
+    # end
 
     data = make_runs_data(runner) do |run|
       run.interim_times[1]

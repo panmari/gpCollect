@@ -70,8 +70,15 @@ module SeedHelpers
         run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer,
                                            date: Date.new(2018, 5, 19),
                                            route: route_16km,
-                                           alpha_foto_id: '953') }
-
+                                           alpha_foto_id: '953') },
+      { file: 'db/data/gp_bern_10m_2019.csv', col_sep: ',', interim_col: 9,
+        interim_times_count: 5, duration_col: 15, category_col: 5,
+        club_or_hometown_col: 6,
+        run_day: RunDay.find_or_create_by!(organizer: gp_bern_organizer,
+                                           date: Date.new(2019, 5, 11),
+                                           route: route_16km,
+                                           alpha_foto_id: '1119') }
+                                   
     ]
     scraped + scraped_new + modern
   end
