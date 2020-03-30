@@ -6,6 +6,9 @@ gem 'dotenv-rails'
 gem 'composite_primary_keys'
 gem 'rails', '~>5.2.0'
 gem 'rails-i18n'
+# Faster start times
+gem 'bootsnap', require: false
+# Sprockets v4 breaks some assumptions currently.
 gem 'sprockets', '~>3.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -73,7 +76,6 @@ gem 'ruby-progressbar'
 gem 'stackprof'
 
 group :development do
-  gem 'bootsnap'
   # For easier deployment
   gem 'capistrano-conditional', git: 'https://github.com/deviantech/capistrano-conditional.git', require: false
   gem 'capistrano-rails', require: false
