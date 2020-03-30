@@ -43,23 +43,23 @@ FactoryBot.define do
   end
 
   factory :organizer do
-    name { Faker::Lorem.words(3) }
+    name { Faker::Lorem.words(number: 3) }
   end
 
   factory :route do
-    length { Faker::Number.between(1, 42) }
+    length { Faker::Number.between(from: 1, to: 42) }
   end
 
   factory :feedback do
     email { Faker::Internet.email }
-    text { Faker::Lorem.words(300) }
+    text { Faker::Lorem.words(number: 300) }
     ip { Faker::Internet.ip_v4_address }
   end
 
   factory :run_day do
     organizer
     route
-    date { Faker::Date.between(18.years.ago, Date.today) }
+    date { Faker::Date.between(from: 18.years.ago, to: Date.today) }
 
     factory :run_day_1y_ago do
       date { 1.year.ago }
@@ -69,16 +69,16 @@ FactoryBot.define do
   factory :run_day_category_aggregate do
     category
     run_day
-    mean_duration { Faker::Number.between(4_618_000, 5_366_200) }
-    min_duration { Faker::Number.between(2_618_000, 4_366_200) }
-    runs_count { Faker::Number.between(100, 200) }
+    mean_duration { Faker::Number.between(from: 4_618_000, to: 5_366_200) }
+    min_duration { Faker::Number.between(from: 2_618_000, to: 4_366_200) }
+    runs_count { Faker::Number.between(from: 100, to: 200) }
   end
 
   factory :run do
-    duration { Faker::Number.between(4_618_000, 5_366_200) }
+    duration { Faker::Number.between(from: 4_618_000, to: 5_366_200) }
     interim_times do
-      [Faker::Number.between(1_618_000, 2_366_200),
-       Faker::Number.between(2_618_000, 3_366_200)]
+      [Faker::Number.between(from: 1_618_000, to: 2_366_200),
+       Faker::Number.between(from: 2_618_000, to: 3_366_200)]
     end
     category
     run_day
@@ -94,7 +94,7 @@ FactoryBot.define do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     club_or_hometown { Faker::Address.city }
-    birth_date { Faker::Date.between(50.years.ago, 20.years.ago) }
+    birth_date { Faker::Date.between(from: 50.years.ago, to: 20.years.ago) }
     nationality { Faker::Address.nationality }
     sex { Faker::Name.sex }
 
