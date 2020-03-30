@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
-ruby '2.5.3'
+ruby '2.6.5'
 
 gem 'dotenv-rails'
 
 gem 'composite_primary_keys'
 gem 'rails', '~>5.2.0'
 gem 'rails-i18n'
+gem 'sprockets', '~>3.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -72,8 +73,7 @@ gem 'ruby-progressbar'
 gem 'stackprof'
 
 group :development do
-  # For tracking progress when seeding
-
+  gem 'bootsnap'
   # For easier deployment
   gem 'capistrano-conditional', git: 'https://github.com/deviantech/capistrano-conditional.git', require: false
   gem 'capistrano-rails', require: false
