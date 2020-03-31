@@ -14,9 +14,9 @@ set :deploy_to, '/opt/webapps/gpCollect'
 
 # Don't add --deployment and bundle path, we need to share gems along all
 # projects to save resources
+# Also don't add --quet, installing gems takes a very long time.
 set :bundle_path, nil
-# Installing gems takes a very long time, don't add 'quiet' flag.
-# set :bundle_flags, '--quiet'
+set :bundle_flags, nil
 
 # Default value for :scm is :git
 # set :scm, :git
