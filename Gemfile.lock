@@ -317,7 +317,6 @@ GEM
     sshkit (1.21.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    stackprof (0.2.12)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -393,7 +392,6 @@ DEPENDENCIES
   sitemap_generator
   spring
   sprockets (~> 3.0)
-  stackprof (= 0.2.12)
   turbolinks
   uglifier
   web-console
