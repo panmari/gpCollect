@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_29_114139) do
+ActiveRecord::Schema.define(version: 2020_04_18_192010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(version: 2018_12_29_114139) do
     t.datetime "updated_at", null: false
     t.integer "min_duration"
     t.index ["category_id", "run_day_id"], name: "index_run_day_category_aggregates_on_category_id_and_run_day_id"
-    t.index ["run_day_id", "category_id"], name: "index_run_day_category_aggregates_on_run_day_id_and_category_id"
   end
 
   create_table "run_days", id: :serial, force: :cascade do |t|
