@@ -19,9 +19,7 @@ class UpdateGinIndexes < ActiveRecord::Migration[5.2]
                 $func$
                 SELECT public.immutable_unaccent(regdictionary 'public.unaccent', $1)
                 $func$;")
-        # Drop potentially existing index.
-        remove_index :runners, name: 'runners_unaccent_concat_gin_idx'
-        concatenated_attributes = AddIndexToRunners::TEXT_SEARCH_ATTRIBUTES.map{|attr| '"runners"."' + attr + '"'}.join(" || ';' || ")
+        concatenated_attributes = TEXT_SEARCH_ATTRIBUTES.map{|attr| '"runners"."' + attr + '"'}.join(" || ';' || ")
         execute("CREATE INDEX runners_unaccent_concat_gin_idx ON runners USING gin
                 (f_unaccent(#{concatenated_attributes}) gin_trgm_ops);")
       end
