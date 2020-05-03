@@ -69,7 +69,16 @@ class RunnerDatatable < ApplicationDatatable
         unaccented_concatenated.matches(::Arel::Nodes::NamedFunction.new('public.f_unaccent', [::Arel::Nodes.build_quoted(term)]))
       end.reduce(:and)
       # Do filtered counts here instead of calling count again later.
-      records.select('*, count(*) OVER() as filtered_count').where(where_clause)
+      records.select('*, count(*) OVER() as filtered_count').where(where_clause) 
+    end
+  end
+
+  def records
+    @records ||= ActiveRecord::Base.transaction do
+      # Disable index scan in case a search filter is given. This makes sql
+      # choose the 'gin' index for these queries, returning results much faster.
+      ActiveRecord::Base.connection.execute('SET LOCAL enable_indexscan = off;') unless datatable.search.value.blank?
+      retrieve_records.load
     end
   end
 
