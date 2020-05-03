@@ -64,9 +64,9 @@ class RunnerDatatable < ApplicationDatatable
           arel_field = c.table[c.field]
           concated.concat(::Arel::Nodes.build_quoted(';')).concat(arel_field)
         end
-        unaccented_concatenated = ::Arel::Nodes::NamedFunction.new('f_unaccent', [concatenated])
+        unaccented_concatenated = ::Arel::Nodes::NamedFunction.new('public.f_unaccent', [concatenated])
         term = "%#{sanitize_sql_like(unescaped_term)}%"
-        unaccented_concatenated.matches(::Arel::Nodes::NamedFunction.new('f_unaccent', [::Arel::Nodes.build_quoted(term)]))
+        unaccented_concatenated.matches(::Arel::Nodes::NamedFunction.new('public.f_unaccent', [::Arel::Nodes.build_quoted(term)]))
       end.reduce(:and)
       # Do filtered counts here instead of calling count again later.
       records.select('*, count(*) OVER() as filtered_count').where(where_clause)
