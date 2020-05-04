@@ -137,7 +137,6 @@ GEM
       railties (>= 4.2.0)
     faker (2.11.0)
       i18n (>= 1.6, < 2)
-    fast_stack (0.2.0)
     ffi (1.12.2)
     flamegraph (0.9.5)
     font-awesome-rails (4.7.0.5)
@@ -319,6 +318,7 @@ GEM
     sshkit (1.21.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    stackprof (0.2.15)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -369,7 +369,6 @@ DEPENDENCIES
   draper
   factory_bot_rails
   faker
-  fast_stack
   flamegraph
   font-awesome-rails
   jquery-rails
@@ -396,6 +395,7 @@ DEPENDENCIES
   sitemap_generator
   spring
   sprockets (~> 3.0)
+  stackprof
   turbolinks
   uglifier
   web-console

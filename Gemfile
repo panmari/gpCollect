@@ -74,7 +74,7 @@ gem 'recaptcha', require: 'recaptcha/rails'
 gem 'flamegraph'
 gem 'rack-mini-profiler'
 gem 'ruby-progressbar'
-gem 'fast_stack'
+gem 'stackprof'
 
 group :development do
   # For easier deployment
