@@ -4,7 +4,7 @@ ruby '2.6.5'
 gem 'dotenv-rails'
 
 gem 'composite_primary_keys'
-gem 'rails', '~>5.2'
+gem 'rails'
 gem 'rails-i18n'
 # Faster start times
 gem 'bootsnap', require: false
