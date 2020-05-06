@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RunnersController < ApplicationController
   before_action :set_runner, only: [:show]
 
@@ -15,6 +17,16 @@ class RunnersController < ApplicationController
   # GET /runners/1.json
   def show
     @chart = ShowRunnerChart.new(@runner)
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: @runner.to_json(only: %i[first_name last_name],
+                                     include: [runs: { only: %i[duration interim_times alpha_foto_id],
+                                                       include: {
+                                                         run_day: { only: %i[date alpha_foto_id] }
+                                                       } }])
+      end
+    end
   end
 
   def show_remembered
