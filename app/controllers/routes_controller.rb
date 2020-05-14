@@ -6,6 +6,6 @@ class RoutesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_route
-    @runner = Route.find(params[:id])
+    @route = Route.find(params[:id])
   end
 end
