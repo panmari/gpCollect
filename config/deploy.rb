@@ -44,6 +44,8 @@ append :linked_dirs, 'public/assets', 'log', 'db/data', '.bundle'
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+set :keep_assets, 2
+
 ConditionalDeploy.configure(self) do |conditional|
   conditional.register :skip_migrations, none_match: ['db/migrate'], default: true do |c|
     c.skip_task 'deploy:migrate'
@@ -51,20 +53,13 @@ ConditionalDeploy.configure(self) do |conditional|
 end
 
 namespace :deploy do
-  # Clear existing task so we can replace it rather than "add" to it.
-  # Rake::Task["deploy:compile_assets"].clear
-
-  desc 'Precompile assets locally and then rsync to web servers'
-  task :compile_assets_locally do
-    on roles(:app) do |host|
-      execute "mkdir -p #{shared_path}/public/"
-      run_locally do
-        with rails_env: :production do ## Set your env accordingly.
-          execute 'bundle exec rails assets:precompile', "RAILS_ENV=#{fetch :rails_env}"
+  # Update highcharts.
+  before :starting, :compile_assets_and_restart do 
+    on roles(:all) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "highcharts:update"
         end
-        execute "rsync -av --delete ./public/assets/ #{host.user}@#{host}:#{shared_path}/public/assets/"
-        execute 'rm -rf public/assets'
-        # execute "rm -rf tmp/cache/assets" # in case you are not seeing changes
       end
     end
   end
@@ -74,7 +69,6 @@ namespace :deploy do
       # within release_path do
       #   execute :rake, 'tmp:clear'
       # end
-      invoke 'deploy:compile_assets_locally'
       invoke 'service:puma:restart'
     end
   end
