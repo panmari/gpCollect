@@ -53,17 +53,6 @@ ConditionalDeploy.configure(self) do |conditional|
 end
 
 namespace :deploy do
-  # Update highcharts.
-  before :starting, :compile_assets_and_restart do 
-    on roles(:all) do
-      within release_path do
-        with rails_env: fetch(:rails_env) do
-          execute :rake, "highcharts:update"
-        end
-      end
-    end
-  end
-
   after :finished, :compile_assets_and_restart do
     on roles(:all) do
       # within release_path do
