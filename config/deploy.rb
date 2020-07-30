@@ -60,7 +60,7 @@ namespace :deploy do
       execute "mkdir -p #{shared_path}/public/"
       run_locally do
         with rails_env: :production do ## Set your env accordingly.
-          execute 'bundle exec rake assets:precompile'
+          execute 'bundle exec rails assets:precompile', "RAILS_ENV=#{fetch :rails_env}"
         end
         execute "rsync -av --delete ./public/assets/ #{host.user}@#{host}:#{shared_path}/public/assets/"
         execute 'rm -rf public/assets'
