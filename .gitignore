@@ -64,3 +64,5 @@ db/data
 .rspec
 
 coverage/
+
+/config/master.key
