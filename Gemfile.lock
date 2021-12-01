@@ -195,6 +195,7 @@ GEM
     kaminari-core (1.2.1)
     lazy_high_charts (1.6.1)
       hash-deep-merge
+    libv8-node (16.10.0.0-x86_64-linux)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -221,6 +222,8 @@ GEM
     mime-types-data (3.2021.1115)
     mini_mime (1.1.2)
     mini_portile2 (2.6.1)
+    mini_racer (0.5.0)
+      libv8-node (~> 16.10.0.0)
     minitest (5.14.4)
     msgpack (1.4.2)
     net-http-digest_auth (1.4.1)
@@ -404,6 +407,7 @@ DEPENDENCIES
   lazy_high_charts
   listen
   mechanize
+  mini_racer
   nprogress-rails
   pg
   puma
@@ -426,7 +430,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 2.6.5p114
+   ruby 3.1.0p-1
 
 BUNDLED WITH
-   1.17.3
+   2.3.0.dev

@@ -14,6 +14,6 @@ class MergeRunnersRequestsRunCategoriesValidator < ActiveModel::Validator
     end
     return if ascending
 
-    record.errors[:runners] << 'Runs associated with these runners do not have ascending categories.'
+    record.errors.add(:runners, 'Runs associated with these runners do not have ascending categories.')
   end
 end
