@@ -4,7 +4,7 @@ module ApplicationHelper
   # Override kaminari paginate method to always use bootstrap theme.
   def paginate(objects, options = {})
     options.reverse_merge!(theme: 'twitter-bootstrap-4')
-    super(objects, options)
+    super(objects)
   end
 
   # Creates a horizontal, twitter bootstrap styled simple form.
