@@ -83,6 +83,7 @@ group :development do
   gem 'capistrano-rails-tail-log', require: false
   gem 'capistrano-service', require: false
   gem 'rvm1-capistrano3', require: false
+  gem 'sshkit-sudo', require: false
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'

@@ -343,6 +343,8 @@ GEM
     sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    sshkit-sudo (0.1.0)
+      sshkit (~> 1.8)
     stackprof (0.2.17)
     thor (1.1.0)
     tilt (2.0.10)
@@ -420,6 +422,7 @@ DEPENDENCIES
   sitemap_generator
   spring
   sprockets (~> 3.0)
+  sshkit-sudo
   stackprof
   turbolinks
   uglifier
