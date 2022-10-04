@@ -10,7 +10,7 @@ gem 'rails-i18n'
 gem 'bootsnap', require: false
 # Sprockets v4 breaks some assumptions currently.
 gem 'sprockets', '~>3.0'
-gem 'bcrypt', '3.1.12' # 3.1.13 is broken on ARM, see https://github.com/rapid7/metasploit-framework/issues/11959
+gem 'bcrypt'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
