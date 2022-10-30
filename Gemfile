@@ -8,7 +8,7 @@ gem 'rails-i18n'
 # Faster start times
 gem 'bootsnap', require: false
 # Sprockets v4 breaks some assumptions currently.
-gem 'sprockets', '~>3.0'
+gem 'sprockets', '~>4.1'
 gem 'bcrypt'
 # Use postgresql as the database for Active Record
 gem 'pg'
