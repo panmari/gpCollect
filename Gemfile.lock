@@ -92,9 +92,9 @@ GEM
     bindex (0.8.1)
     bootsnap (1.13.0)
       msgpack (~> 1.2)
-    bootstrap (4.4.1)
+    bootstrap (5.2.2)
       autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
+      popper_js (>= 2.11.6, < 3)
       sassc-rails (>= 2.0.0)
     bootstrap4-kaminari-views (1.0.1)
       kaminari (>= 0.13)
@@ -254,7 +254,7 @@ GEM
     nprogress-rails (0.2.0.2)
     orm_adapter (0.5.0)
     pg (1.4.4)
-    popper_js (1.16.1)
+    popper_js (2.11.6)
     public_suffix (5.0.0)
     puma (6.0.0)
       nio4r (~> 2.0)
@@ -399,7 +399,7 @@ DEPENDENCIES
   ajax-datatables-rails
   bcrypt
   bootsnap
-  bootstrap (~> 4.4.0)
+  bootstrap (~> 5.2.2)
   bootstrap4-kaminari-views
   bundler-audit
   byebug
