@@ -1,3 +1,6 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
 AllCops:
   RSpec:
     Patterns:
