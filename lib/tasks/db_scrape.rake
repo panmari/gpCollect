@@ -53,7 +53,7 @@ namespace :db do
   task scrape_old_data: :environment do
     require 'open-uri'
     COMPATIBLE_YEARS = (1999..2006)
-    STOP_WORDS = ['Total', 'Grand Prix', 'Kategorie', '-------', 'Stand', 'Rangliste']
+    STOP_WORDS = ['Total', 'Grand Prix', 'Kategorie', '-------', 'Stand', 'Rangliste'].freeze
     COMPATIBLE_YEARS.each do |year|
       progressbar = ProgressBar.create(title: "Scraping #{year}", total: 26,
                                        format: '%t %B %R pages/s, %a', :throttle_rate => 0.1)

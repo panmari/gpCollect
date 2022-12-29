@@ -1,5 +1,5 @@
 class UpdateGinIndexes < ActiveRecord::Migration[5.2]
-  TEXT_SEARCH_ATTRIBUTES = %w(first_name last_name club_or_hometown)
+  TEXT_SEARCH_ATTRIBUTES = %w(first_name last_name club_or_hometown).freeze
   def change
     enable_extension :pg_trgm
     enable_extension :unaccent
