@@ -93,7 +93,9 @@ group :development do
   gem 'listen'
   gem 'spring'
 
-  gem 'bundler-audit'
+  gem 'brakeman', require: false
+  gem 'bundler-audit', require: false
+  gem 'rubocop', require: false
 end
 
 group :test do
