@@ -5,7 +5,7 @@ module CategoriesHelper
                             button_class = 'btn-default')
     content_tag :div, class: 'row' do
       split_index = categories.size / 2
-      [categories[0...split_index], categories[split_index..-1]].map do |category_slice|
+      [categories[0...split_index], categories[split_index..]].map do |category_slice|
         content_tag :div, class: 'col-sm-6' do
           content_tag :div, class: 'btn-group d-flex', role: 'group' do
             basic_css_class = 'btn w-100 ' + button_class

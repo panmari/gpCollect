@@ -60,7 +60,7 @@ class RunnerDatatable < ApplicationDatatable
       where_clause = search_for.map do |unescaped_term|
         first_column = searchable_columns.first
         first_arel_field = first_column.table[first_column.field]
-        concatenated = searchable_columns[1..-1].inject(first_arel_field) do |concated, c|
+        concatenated = searchable_columns[1..].inject(first_arel_field) do |concated, c|
           arel_field = c.table[c.field]
           concated.concat(::Arel::Nodes.build_quoted(';')).concat(arel_field)
         end

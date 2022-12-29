@@ -99,7 +99,7 @@ module ScrapeHelpers
                          else
                            name_array.size/2 - 1
                        end
-      [name_array[0..split_position].join(' '), name_array[split_position+1..-1].join(' ')]
+      [name_array[0..split_position].join(' '), name_array[split_position+1..].join(' ')]
     end
   end
 
