@@ -43,5 +43,4 @@ class GeocoderTest < ActionController::TestCase
     expect(@geocoder.clean_address('D-Murr')).to eq('Murr, Deutschland')
     expect(@geocoder.clean_address('F-Colmar')).to eq('Colmar, Frankreich')
   end
-
 end

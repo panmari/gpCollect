@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'test_helper'
-require "rspec/expectations"
+require 'rspec/expectations'
 require_relative '../../lib/tasks/scrape_helpers'
 
 class ScrapeHelpersTest < ActionController::TestCase
@@ -53,43 +55,43 @@ class ScrapeHelpersTest < ActionController::TestCase
   end
 
   test 'should spltest names with two strings into last_name and first_name' do
-    last_name, first_name = ScrapeHelpers::split_name('Meier Helen')
+    last_name, first_name = ScrapeHelpers.split_name('Meier Helen')
     expect(first_name).to eq('Helen')
     expect(last_name).to eq('Meier')
   end
 
   test 'should spltest names with last_name = "van/von der"  ' do
-    last_name, first_name = ScrapeHelpers::split_name('von der Heide Helen')
+    last_name, first_name = ScrapeHelpers.split_name('von der Heide Helen')
     expect(first_name).to eq('Helen')
     expect(last_name).to eq('von der Heide')
 
-    last_name, first_name = ScrapeHelpers::split_name('Van der Sluis Jan')
+    last_name, first_name = ScrapeHelpers.split_name('Van der Sluis Jan')
     expect(first_name).to eq('Jan')
     expect(last_name).to eq('Van der Sluis')
   end
 
   test 'should spltest names with last_name = "van/von/di/de/... "  ' do
-    last_name, first_name = ScrapeHelpers::split_name('van Empden Carsten')
+    last_name, first_name = ScrapeHelpers.split_name('van Empden Carsten')
     expect(first_name).to eq('Carsten')
     expect(last_name).to eq('van Empden')
 
-    last_name, first_name = ScrapeHelpers::split_name('von Niederhäusern Marianne')
+    last_name, first_name = ScrapeHelpers.split_name('von Niederhäusern Marianne')
     expect(first_name).to eq('Marianne')
     expect(last_name).to eq('von Niederhäusern')
   end
 
   test 'should spltest names with more than one last_name and/or first_name in the middle  ' do
-    last_name, first_name = ScrapeHelpers::split_name('Aridi Rudolf Ameline')
+    last_name, first_name = ScrapeHelpers.split_name('Aridi Rudolf Ameline')
     expect(first_name).to eq('Rudolf Ameline') # in this case, test doesn't work correcty
     expect(last_name).to eq('Aridi')
 
-    last_name, first_name = ScrapeHelpers::split_name('Alder Pascal Janik')
+    last_name, first_name = ScrapeHelpers.split_name('Alder Pascal Janik')
     expect(first_name).to eq('Pascal Janik')
     expect(last_name).to eq('Alder')
   end
 
   test 'should spltest names with van der only if there is still a first name left.' do
-    last_name, first_name = ScrapeHelpers::split_name('Van Der Lee')
+    last_name, first_name = ScrapeHelpers.split_name('Van Der Lee')
     expect(first_name).to eq('Lee')
     expect(last_name).to eq('Van Der')
   end

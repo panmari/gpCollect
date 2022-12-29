@@ -50,7 +50,6 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
     expect(@normalizer.normalize('Villars-sur-Glane')).to eq('Villars-sur-Glâne')
     expect(@normalizer.normalize('Neuchatel')).to eq('Neuchâtel')
     expect(@normalizer.normalize('Delemont')).to eq('Delémont')
-
   end
 
   test 'should normalize cantons suffix' do
@@ -90,5 +89,4 @@ class ClubOrHometownNormalizerTest < ActionController::TestCase
     expect(@normalizer.normalize('CLUB PANARDS MIGROS GENEVE')).to eq('Club des Panards Migros Genève')
     expect(@normalizer.normalize('Club Panards Migros Genève')).to eq('Club des Panards Migros Genève')
   end
-
 end
