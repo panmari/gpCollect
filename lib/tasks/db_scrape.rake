@@ -78,8 +78,8 @@ namespace :db do
             options.merge!(with_interim_times: true) if year >= 2004
             rows.each do |row|
               # skip header, filler rows, disqualified
-              next if row.size == 0 or
-                  STOP_WORDS.any? { |stop_word| row[0].include?(stop_word) } or
+              next if (row.empty?) ||
+                  STOP_WORDS.any? { |stop_word| row[0].include?(stop_word) } ||
                   %w(DNF DSQ ---).any? { |disq_marker| row[1] == disq_marker }
 
               begin
