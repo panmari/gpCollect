@@ -4,3 +4,10 @@ require:
 
 AllCops:
   NewCops: enable
+  Exclude:
+  - 'db/**/*'
+  - 'config/**/*'
+  - 'script/**/*'
+  - 'bin/*'
+  - 'sbin/*'
+

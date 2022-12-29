@@ -41,7 +41,7 @@ class Run < ActiveRecord::Base
   end
 
   def rank
-    result = ActiveRecord::Base.connection.execute(<<-SQL
+    result = ActiveRecord::Base.connection.execute(<<-SQL.squish
       SELECT rank
       FROM (
         SELECT runs.id AS id, rank() OVER (ORDER BY duration)
@@ -55,7 +55,7 @@ class Run < ActiveRecord::Base
   end
 
   def category_rank
-    result = ActiveRecord::Base.connection.execute(<<-SQL
+    result = ActiveRecord::Base.connection.execute(<<-SQL.squish
       SELECT rank
       FROM (
         SELECT runs.id AS id, rank() OVER (ORDER BY duration)
