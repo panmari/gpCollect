@@ -6,7 +6,7 @@ class MergeRunnersRequest < ActiveRecord::Base
   INHERITED_ATTRIBUTES = %i[first_name last_name nationality sex club_or_hometown birth_date].freeze
   VALID_SEXES = %w[M W].freeze
 
-  validates_presence_of *INHERITED_ATTRIBUTES.map { |attr| "merged_#{attr}" }
+  validates_presence_of(*INHERITED_ATTRIBUTES.map { |attr| "merged_#{attr}" })
   # TODO: Add possibly validation for edit-distance between merged and inherited attribute name.
   validates :merged_nationality, format: /\A[A-Z]{3}\z/
   validates :merged_sex, inclusion: { in: VALID_SEXES }

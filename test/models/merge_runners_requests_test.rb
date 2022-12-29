@@ -12,17 +12,17 @@ class MergeRunnersRequestsTest < ActiveSupport::TestCase
   end
 
   test 'should compare categories with age min' do
-    expect(MergeRunnersRequestsRunCategoriesValidator.compare_categories(@category_M20, @category_M30)).to eq -1
+    expect(MergeRunnersRequestsRunCategoriesValidator.compare_categories(@category_M20, @category_M30)).to eq(-1)
     expect(MergeRunnersRequestsRunCategoriesValidator.compare_categories(@category_M30, @category_M20)).to eq 1
   end
 
   test 'should compare categories with age min and age max' do
-    expect(MergeRunnersRequestsRunCategoriesValidator.compare_categories(@category_MU20, @category_M20)).to eq -1
+    expect(MergeRunnersRequestsRunCategoriesValidator.compare_categories(@category_MU20, @category_M20)).to eq(-1)
     expect(MergeRunnersRequestsRunCategoriesValidator.compare_categories(@category_M20, @category_MU20)).to eq 1
   end
 
   test 'should compare categories with different sex and different age' do
-    expect(MergeRunnersRequestsRunCategoriesValidator.compare_categories(@category_W20, @category_M30)).to eq -1
+    expect(MergeRunnersRequestsRunCategoriesValidator.compare_categories(@category_W20, @category_M30)).to eq(-1)
     expect(MergeRunnersRequestsRunCategoriesValidator.compare_categories(@category_M30, @category_W20)).to eq 1
   end
 
