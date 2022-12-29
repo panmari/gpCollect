@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ParticipantsByAgeChart < ParticipantsChart
   AGE_BUCKET_SIZE = 20
 

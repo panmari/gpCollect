@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class MergeRunnersRequestsRunDaysValidator < ActiveModel::Validator
   def validate(record)
     # uniq! returns nil if no duplicates were found.

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RunDay < ActiveRecord::Base
   belongs_to :organizer
   belongs_to :route

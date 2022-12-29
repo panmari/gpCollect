@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RunDecorator < Draper::Decorator
   delegate_all
   decorates_association :runner

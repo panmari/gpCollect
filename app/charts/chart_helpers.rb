@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ChartHelpers
   def date_to_miliseconds(date)
     date.to_time.to_i * 1000

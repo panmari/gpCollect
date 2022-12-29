@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RuntimeHistogram < LazyHighCharts::HighChart
   def initialize(options = {})
     super(type: 'column')

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module MergeRunnersRequestsHelper
   MERGE_CANDIDATES_SHOWN_ATTRIBUTES = %i[first_name last_name club_or_hometown sex nationality].freeze
 

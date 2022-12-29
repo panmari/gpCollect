@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FeedbackDecorator < Draper::Decorator
   delegate_all
 

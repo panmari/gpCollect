@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FeedbacksController < ApplicationController
   before_action :authenticate_admin!, except: %i[new create]
   before_action :set_feedback, only: %i[show edit update destroy]

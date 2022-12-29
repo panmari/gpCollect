@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ShowRunnerChart < RuntimeChart
   def initialize(runner)
     super('area')

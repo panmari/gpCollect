@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RoutesController < ApplicationController
   before_action :set_route, only: [:show]
   def show; end
