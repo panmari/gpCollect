@@ -1,5 +1,5 @@
 namespace :logs do
-  desc "tail rails logs"
+  desc 'tail rails logs'
   task :tail_rails do
     SSHKit.config.output_verbosity = Logger::DEBUG
     on roles(:app) do

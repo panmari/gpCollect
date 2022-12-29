@@ -7,13 +7,13 @@ class RunsControllerTest < ActionController::TestCase
     @run = create(:run)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:runs)
   end
 
-  test "should show run" do
+  test 'should show run' do
     get :show, params: { id: @run.id }
     assert_response :success
   end

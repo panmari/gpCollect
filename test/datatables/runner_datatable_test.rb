@@ -12,7 +12,7 @@ class RunnerDatatableTest < ActionController::TestCase
 
   test 'should find hans' do
     params = ActionController::Parameters.new(search: { value: 'hans' },
-                                              columns: {"0"=>{"data"=>"first_name"}})
+                                              columns: {'0'=>{'data'=>'first_name'}})
     dt = RunnerDatatable.new(params)
     assert_equal 1, dt.records_filtered_count
     assert_equal 'Hans', dt.data.first[:first_name]

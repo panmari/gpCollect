@@ -3,7 +3,7 @@ require 'csv'
 require_relative 'scrape_helpers'
 
 namespace :db do
-  desc "Scrapes data from the public website and writes it to a csv file (2007-2012)"
+  desc 'Scrapes data from the public website and writes it to a csv file (2007-2012)'
   task scrape_data: :environment do
     COMPATIBLE_YEARS = (2007..2012)
     COMPATIBLE_YEARS.each do |year|
@@ -49,7 +49,7 @@ namespace :db do
     end
   end
 
-  desc "Scrapes data from the public website and writes it to a csv file (1999-2006)."
+  desc 'Scrapes data from the public website and writes it to a csv file (1999-2006).'
   task scrape_old_data: :environment do
     require 'open-uri'
     COMPATIBLE_YEARS = (1999..2006)

@@ -6,7 +6,7 @@ class GeocodeResultTest < ActiveSupport::TestCase
     @runner = create(:runner_with_runs)
   end
 
-  test "should remove association but not destroy runner" do
+  test 'should remove association but not destroy runner' do
     assert_difference('GeocodeResult.count', -1) do
       @runner.geocode_result.destroy
     end

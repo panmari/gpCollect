@@ -7,20 +7,20 @@ class GeocodeResultsControllerTest < ActionController::TestCase
     @geocode_result = create(:geocode_result)
   end
 
-  test "should get index" do
+  test 'should get index' do
     sign_in @admin
     get :index
     assert_response :success
     assert_not_nil assigns(:geocode_results)
   end
 
-  test "should show geocode_result" do
+  test 'should show geocode_result' do
     sign_in @admin
     get :show, params: { id: @geocode_result.id }
     assert_response :success
   end
 
-  test "should destroy geocode_result" do
+  test 'should destroy geocode_result' do
     sign_in @admin
     assert_difference('GeocodeResult.count', -1) do
       delete :destroy, params: { id: @geocode_result.id }

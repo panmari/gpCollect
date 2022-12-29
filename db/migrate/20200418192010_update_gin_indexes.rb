@@ -20,8 +20,8 @@ class UpdateGinIndexes < ActiveRecord::Migration[5.2]
         concatenated_attributes = TEXT_SEARCH_ATTRIBUTES.map{|attr| '"runners"."' + attr + '"'}.join(" || ';' || ")
         execute("CREATE INDEX runners_unaccent_concat_gin_idx ON runners USING gin
                 (public.f_unaccent(#{concatenated_attributes}) gin_trgm_ops);")
-        execute("ALTER TABLE runners_unaccent_concat_gin_idx ALTER COLUMN f_unaccent SET STATISTICS 5000;")
-        execute("ANALYZE runners;")
+        execute('ALTER TABLE runners_unaccent_concat_gin_idx ALTER COLUMN f_unaccent SET STATISTICS 5000;')
+        execute('ANALYZE runners;')
       end
       dir.down do
         remove_index :runners, name: 'runners_unaccent_concat_gin_idx'

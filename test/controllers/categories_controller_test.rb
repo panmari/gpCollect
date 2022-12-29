@@ -10,13 +10,13 @@ class CategoriesControllerTest < ActionController::TestCase
     create(:run_day_category_aggregate, category: categoryW)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:categories)
   end
 
-  test "should show category" do
+  test 'should show category' do
     get :show, params: { id: @category.name }
     assert_response :success
   end

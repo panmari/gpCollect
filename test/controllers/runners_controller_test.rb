@@ -14,12 +14,12 @@ class RunnersControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
   end
 
-  test "should show runner" do
+  test 'should show runner' do
     get :show, params: { id: @runner.id }
     assert_response :success
   end
