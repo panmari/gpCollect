@@ -10,7 +10,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    highlighted_run = Run.find_by_id(params[:highlighted_run_id]) unless params[:highlighted_run_id].blank?
+    highlighted_run = Run.find_by(id: params[:highlighted_run_id]) unless params[:highlighted_run_id].blank?
     @hist = if runner_constraint.blank?
               RuntimeHistogram.new(highlighted_run: highlighted_run)
             else
@@ -22,7 +22,7 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   def show
     @chart = CompareCategoriesChart.new(@category)
-    highlighted_run = Run.find_by_id(params[:highlighted_run_id]) unless params[:highlighted_run_id].blank?
+    highlighted_run = Run.find_by(id: params[:highlighted_run_id]) unless params[:highlighted_run_id].blank?
     @hist = if runner_constraint.blank?
               RuntimeHistogram.new(category: @category, highlighted_run: highlighted_run)
             else
@@ -38,7 +38,7 @@ class CategoriesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_category
-    @category = Category.includes(ordered_run_day_category_aggregates: :run_day).find_by_name(params[:id])
+    @category = Category.includes(ordered_run_day_category_aggregates: :run_day).find_by(name: params[:id])
   end
 
   ALLOWED_RUNNER_CONSTRAINT_ATTRIBUTES = { first_name: :titleize, last_name: :titleize,

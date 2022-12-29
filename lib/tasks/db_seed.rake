@@ -89,7 +89,7 @@ namespace :db do
       2012 => '352',
       2011 => '260',
       2010 => '202' }.each do |year, alpha_foto_id|
-      rd = RunDay.find_by_year!(year)
+      rd = RunDay.find_by!(year: year)
       rd.update_attributes!(alpha_foto_id: alpha_foto_id)
     end
   end

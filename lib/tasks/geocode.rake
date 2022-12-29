@@ -29,7 +29,7 @@ namespace :geocode do
       end
 
       ActiveRecord::Base.transaction do
-        geocode_result = GeocodeResult.find_by_address(address)
+        geocode_result = GeocodeResult.find_by(address: address)
         unless geocode_result
           most_prominent_nationality = Runner.where(club_or_hometown: raw_address)
                                              .group(:nationality).count
