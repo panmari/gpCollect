@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ParticipantDecorator < Draper::Decorator
   delegate_all
 

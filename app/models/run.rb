@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Run < ActiveRecord::Base
   belongs_to :runner, counter_cache: true
   belongs_to :category

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module RunsHelper
   def format_duration(duration)
     return 'disqualified' if duration.nil?

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Category < ActiveRecord::Base
   has_many :runs
   has_many :run_day_category_aggregates

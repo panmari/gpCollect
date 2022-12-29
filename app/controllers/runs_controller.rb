@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RunsController < ApplicationController
   before_action :set_run, only: [:show]
 

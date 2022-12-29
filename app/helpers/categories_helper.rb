@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module CategoriesHelper
   def category_button_group(categories, active_category,
                             button_class = 'btn-default')
