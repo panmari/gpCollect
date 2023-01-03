@@ -1,8 +1,9 @@
 require_relative '../../db/seed_helpers'
 require_relative '../../app/helpers/runs_helper'
-include RunsHelper
 
+# Helpers for parsing a CSV-like scrape.
 module ScrapeHelpers
+  include RunsHelper
   NAME_LOCATION_REGEXP = /^(?<rank_category>\d+). (?<name>[^,]+)(?:, (?<location>.+))?$/
   RUN_TYPE_OVERALL_RANK_REGEXP = /^[A-Z]+\/(?<rank>\d+).$/
 

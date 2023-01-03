@@ -6,9 +6,9 @@ class CategoriesControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
   setup do
     @category = create(:category)
-    categoryW = create(:category, sex: 'W')
+    category_w = create(:category, sex: 'W')
     create(:run_day_category_aggregate, category: @category)
-    create(:run_day_category_aggregate, category: categoryW)
+    create(:run_day_category_aggregate, category: category_w)
   end
 
   test 'should get index' do
