@@ -98,9 +98,9 @@ module ScrapeHelpers
                          when name.downcase.start_with?(*COMPOSED_LAST_NAME_STARTERS)
                            name_array.size > 2 ? 1 : 0
                          else
-                           name_array.size/2 - 1
+                           name_array.size / 2 - 1
                        end
-      [name_array[0..split_position].join(' '), name_array[split_position+1..].join(' ')]
+      [name_array[0..split_position].join(' '), name_array[split_position + 1..].join(' ')]
     end
   end
 
