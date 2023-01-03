@@ -81,7 +81,7 @@ module ScrapeHelpers
     [rank, rank_category, nil, start_number, csv_name, category, club_or_hometown, nil, km5, km10, time, birth_year]
   end
 
-  COMPOSED_LAST_NAME_STARTERS = ['van ', 'von ', 'di ', 'de ', 'el ' 'le ', 'del ', 'du ', 'des ', 'le ', 'la ',
+  COMPOSED_LAST_NAME_STARTERS = ['van ', 'von ', 'di ', 'de ', 'el ', 'del ', 'du ', 'des ', 'le ', 'la ',
                                  'della ', 'dalla ', 'mc '].freeze
   # A name consists of a last_name and a first_name. Each can contain multiple words, e.g.
   # e.g. Van Der Sluis Jan --> [Van Der Sluis, Jan]
