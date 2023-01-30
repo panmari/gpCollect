@@ -131,7 +131,7 @@ GEM
     coffee-script-source (1.12.2)
     composite_primary_keys (14.0.4)
       activerecord (~> 7.0.2)
-    concurrent-ruby (1.1.10)
+    concurrent-ruby (1.2.0)
     connection_pool (2.3.0)
     crass (1.0.6)
     date (3.3.3)
@@ -373,7 +373,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    simple_form (5.1.0)
+    simple_form (5.2.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
     simplecov (0.22.0)
@@ -406,7 +406,7 @@ GEM
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    tzinfo (2.0.5)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unf (0.1.4)
       unf_ext
