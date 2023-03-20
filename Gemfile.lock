@@ -398,7 +398,7 @@ GEM
     sshkit-sudo (0.1.0)
       sshkit (~> 1.8)
     stackprof (0.2.23)
-    terser (1.1.13)
+    terser (1.1.14)
       execjs (>= 0.3.0, < 3)
     thor (1.2.1)
     tilt (2.0.11)
