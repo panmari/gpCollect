@@ -95,9 +95,9 @@ GEM
     bindex (0.8.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
-    bootstrap (4.4.1)
+    bootstrap (5.3.1)
       autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
+      popper_js (>= 2.11.8, < 3)
       sassc-rails (>= 2.0.0)
     bootstrap4-kaminari-views (1.0.1)
       kaminari (>= 0.13)
@@ -266,7 +266,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.4)
-    popper_js (1.16.1)
+    popper_js (2.11.8)
     public_suffix (5.0.1)
     puma (6.2.2)
       nio4r (~> 2.0)
@@ -410,7 +410,7 @@ GEM
     terser (1.1.17)
       execjs (>= 0.3.0, < 3)
     thor (1.2.2)
-    tilt (2.1.0)
+    tilt (2.2.0)
     timeout (0.4.0)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
@@ -443,7 +443,7 @@ DEPENDENCIES
   ajax-datatables-rails
   bcrypt
   bootsnap
-  bootstrap (~> 4.4.0)
+  bootstrap (~> 5.3.1)
   bootstrap4-kaminari-views
   brakeman
   bundler-audit
